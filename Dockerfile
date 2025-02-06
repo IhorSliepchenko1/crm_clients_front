@@ -1,11 +1,21 @@
+# Stage 1: Build React Application
+FROM node:20 AS build
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN yarn
+
+COPY . .
+
+RUN yarn build
+
+# Stage 2: Serve React Application with Nginx
 FROM nginx:stable-alpine
 
-WORKDIR /usr/share/nginx/html
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-# Копируем заранее собранные файлы (локальная папка build)
-COPY ./build ./
-
-# Настраиваем Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8000

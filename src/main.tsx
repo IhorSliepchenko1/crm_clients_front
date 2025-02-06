@@ -1,32 +1,27 @@
-import './index.scss'
+import './index.css'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { AuthGuard } from './features/authGuard'
-import { NextUIProvider } from '@nextui-org/react'
-import { Layout } from './app/components/layout/layout'
-import { ComponentProvider } from './context-provider'
-import { Auth } from './pages/auth'
-import { Registration } from './pages/registration'
 
 const container = document.getElementById("root")
 
 const router = createBrowserRouter([
   {
-    path: "/auth",
-    element: <Auth />,
-  },
-  {
     path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/registration",
-        element: <Registration />,
-      },
-    ],
+    element: <>fgfg</>
   },
+  // {
+  //   path: "/",
+  //   element: <Layout />,
+  //   children: [
+  //     {
+  //       path: "/registration",
+  //       element: <Registration />,
+  //     },
+  //   ],
+  // },
 ])
 
 if (container) {
@@ -34,13 +29,9 @@ if (container) {
 
   root.render(
     <Provider store={store}>
-      <NextUIProvider>
-        <ComponentProvider>
-          <AuthGuard>
-            <RouterProvider router={router} />
-          </AuthGuard>
-        </ComponentProvider>
-      </NextUIProvider>
+      <AuthGuard>
+        <RouterProvider router={router} />
+      </AuthGuard>
     </Provider>,
   )
 } else {
