@@ -1,4 +1,6 @@
 import './index.css'
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -30,7 +32,9 @@ if (container) {
   root.render(
     <Provider store={store}>
       <AuthGuard>
-        <RouterProvider router={router} />
+        <MantineProvider>
+          <RouterProvider router={router} />
+        </MantineProvider>
       </AuthGuard>
     </Provider>,
   )
