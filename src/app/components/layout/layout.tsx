@@ -5,6 +5,8 @@ import {
      selectIsAuthenticated,
 } from "../../../features/user/userSlice"
 import { useEffect } from "react"
+import { NavbarNested } from "./navbar-nested/navbar-nested"
+import { MainPage } from "../../../pages/main-page"
 
 export const Layout = () => {
 
@@ -20,9 +22,10 @@ export const Layout = () => {
 
      return (
           <Container>
-               <div className="flex-1 p-4">
+               <NavbarNested />
+               <section className="w-[100%] p-1">
                     <Outlet />
-               </div>
+               </section>
           </Container>
      )
 }
