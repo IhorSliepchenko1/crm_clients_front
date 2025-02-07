@@ -1,10 +1,19 @@
 export type User = {
-     id: number
+     id?: number
      login: string
      password: string
-     role: "USER" | "ADMIN"
-     createdAt: Date
-     updatedAt: Date
+     role?: "USER" | "ADMIN"
+     createdAt?: Date
+     updatedAt?: Date
+}
+
+export type UpdateUser = {
+     data: {
+          login: string
+          newPassword: string
+          oldPassword: string
+          role: string
+     }; id: number
 }
 
 export type City = {
@@ -134,3 +143,4 @@ export type DeleteHistory = {
 
 export type PageLimit = { limit: number, page: number }
 
+export type Children = { children: React.ReactElement[] | React.ReactElement }

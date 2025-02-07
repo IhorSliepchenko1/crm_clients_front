@@ -3,14 +3,13 @@ import { api } from "./api"
 
 export const numberApi = api.injectEndpoints({
      endpoints: (builder) => ({
-          addNumber: builder.mutation<NumberAdd, { data: FormData }>(
-               {
-                    query: ({ data }) => ({
-                         url: "number",
-                         method: "POST",
-                         body: data,
-                    }),
+          addNumber: builder.mutation<NumberAdd, { data: FormData }>({
+               query: ({ data }) => ({
+                    url: "number",
+                    method: "POST",
+                    body: data,
                }),
+          }),
           deleteNumber: builder.mutation<NumberDelete, { data: FormData }>({
                query: ({ data }) => ({
                     url: "number/delete",

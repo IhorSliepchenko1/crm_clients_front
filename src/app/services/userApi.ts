@@ -1,12 +1,9 @@
-import { User } from "../types";
+import { User, UpdateUser } from "../types";
 import { api } from "./api"
 
 export const userApi = api.injectEndpoints({
      endpoints: (builder) => ({
-          login: builder.mutation<
-               { token: string },
-               { login: string; password: string }
-          >({
+          login: builder.mutation<{ token: string }, User>({
                query: (userData) => ({
                     url: "user/login",
                     method: "POST",
@@ -14,18 +11,7 @@ export const userApi = api.injectEndpoints({
                }),
           }),
 
-          register: builder.mutation<
-               {
-                    login: string
-                    password: string
-                    role: string
-               },
-               {
-                    login: string
-                    password: string
-                    role: string
-               }
-          >({
+          register: builder.mutation<User, User>({
                query: (data) => ({
                     url: "user/registration",
                     method: "POST",
@@ -33,23 +19,14 @@ export const userApi = api.injectEndpoints({
                }),
           }),
 
-          check: builder.query<{
-               token: string
-          }, void>({
+          check: builder.query<{ token: string }, void>({
                query: () => ({
                     url: "user/check",
                     method: "GET",
                }),
           }),
 
-          updateUser: builder.mutation<User, {
-               data: {
-                    login: string
-                    newPassword: string
-                    oldPassword: string
-                    role: string
-               }; id: number
-          }>({
+          updateUser: builder.mutation<User, UpdateUser>({
                query: ({ data, id }) => ({
                     url: `/user/${id}`,
                     method: "PUT",

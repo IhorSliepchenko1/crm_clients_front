@@ -1,41 +1,43 @@
-import './index.css'
+import { createRoot } from 'react-dom/client'
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
-import { createRoot } from 'react-dom/client'
+import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { AuthGuard } from './features/authGuard'
+import { Layout } from './app/components/layout/layout';
+import { Auth } from './pages/auth';
 
 const container = document.getElementById("root")
-
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <>fgfg</>
+    path: "/auth",
+    element: <Auth />
   },
-  // {
-  //   path: "/",
-  //   element: <Layout />,
-  //   children: [
-  //     {
-  //       path: "/registration",
-  //       element: <Registration />,
-  //     },
-  //   ],
-  // },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/registration",
+        element: <>dfd</>
+      },
+    ],
+  },
 ])
+
 
 if (container) {
   const root = createRoot(container)
 
   root.render(
     <Provider store={store}>
-      <AuthGuard>
-        <MantineProvider>
+      <MantineProvider >
+        <AuthGuard>
           <RouterProvider router={router} />
-        </MantineProvider>
-      </AuthGuard>
+        </AuthGuard>
+      </MantineProvider>
     </Provider>,
   )
 } else {
