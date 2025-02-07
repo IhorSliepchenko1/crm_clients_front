@@ -21,8 +21,6 @@ export type Result = {
      updatedAt: Date
 }
 
-
-
 export type TypeNumber = {
      id: number
      name: string
@@ -30,17 +28,17 @@ export type TypeNumber = {
      updatedAt: Date
 }
 
-export type Number = {
-     id: number
-     number: string
-     full_name: string
-     dob: string
-     blocking_period: string
-     city_id: number
-     type_number_id: number
-     createdAt: Date
-     updatedAt: Date
-}
+// export type Number = {
+//      id: number
+//      number: string
+//      full_name: string
+//      dob: string
+//      blocking_period: string
+//      city_id: number
+//      type_number_id: number
+//      createdAt: Date
+//      updatedAt: Date
+// }
 
 export type NumberAdd = {
      dublicate: {
@@ -58,7 +56,6 @@ export type NumberDelete = {
      user_id: number;
 }
 
-
 export type ParamlList = {
      city?: string,
      result?: string,
@@ -72,43 +69,48 @@ export type ParamlList = {
      last_call_date?: string,
 }
 
-export type CopyNumber = {
-     id: number
-     number: string
-     full_name: string
-     dob: string
-     blocking_period: string
-     name_import_result_file: string
-     name_import_guest_file: string
-     createdAt: Date
-     updatedAt: Date
+export type RaportImport = {
+     import: number;
+     incorrect: number;
 }
 
-export type ResultHistories = {
-     id: number
-     operator: string
-     note: string
-     call_date: string
-     number_id: number
-     result_id: number
-     name_import_result_file: string
-     createdAt: Date
-     updatedAt: Date
-}
+// export type CopyNumber = {
+//      id: number
+//      number: string
+//      full_name: string
+//      dob: string
+//      blocking_period: string
+//      name_import_result_file: string
+//      name_import_guest_file: string
+//      createdAt: Date
+//      updatedAt: Date
+// }
 
-type TimeString = `${number}:${number}:${number}`;
+// export type ResultHistories = {
+//      id: number
+//      operator: string
+//      note: string
+//      call_date: string
+//      number_id: number
+//      result_id: number
+//      name_import_result_file: string
+//      createdAt: Date
+//      updatedAt: Date
+// }
 
-export type Guest = {
-     id: number
-     date: string
-     time: TimeString
-     guests: number
-     pairs: number
-     name_import_guest_file: string
-     number_id: number
-     createdAt: Date
-     updatedAt: Date
-}
+// type TimeString = `${number}:${number}:${number}`;
+
+// export type Guest = {
+//      id: number
+//      date: string
+//      time: TimeString
+//      guests: number
+//      pairs: number
+//      name_import_guest_file: string
+//      number_id: number
+//      createdAt: Date
+//      updatedAt: Date
+// }
 
 export type ImportHistory = {
      id: number
@@ -129,4 +131,6 @@ export type DeleteHistory = {
      createdAt: Date
      updatedAt: Date
 }
+
+export type PageLimit = { limit: number, page: number }
 
