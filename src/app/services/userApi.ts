@@ -1,4 +1,4 @@
-import { User, UpdateUser } from "../types";
+import { User, UpdateUser, Register } from "../types";
 import { api } from "./api"
 
 export const userApi = api.injectEndpoints({
@@ -11,7 +11,7 @@ export const userApi = api.injectEndpoints({
                }),
           }),
 
-          register: builder.mutation<User, User>({
+          register: builder.mutation<User, Register>({
                query: (data) => ({
                     url: "user/registration",
                     method: "POST",

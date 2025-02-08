@@ -37,17 +37,7 @@ export type TypeNumber = {
      updatedAt: Date
 }
 
-// export type Number = {
-//      id: number
-//      number: string
-//      full_name: string
-//      dob: string
-//      blocking_period: string
-//      city_id: number
-//      type_number_id: number
-//      createdAt: Date
-//      updatedAt: Date
-// }
+export type Register = { login: string, password: string, role: "ADMIN" | "USER" }
 
 export type NumberAdd = {
      dublicate: {

@@ -23,7 +23,7 @@ export const Layout = () => {
      return (
           <Container>
                <NavbarNested />
-               <section className="w-[100%] p-1">
+               <section className="w-[100%] p-2">
                     <Outlet />
                </section>
           </Container>
