@@ -1,11 +1,7 @@
-import {
-     IconHistory,
-     IconDatabasePlus,
-     IconLogout,
-     IconSquarePlus,
-     IconPresentationAnalytics,
-     IconDatabaseSearch,
-} from '@tabler/icons-react';
+import { TbReportAnalytics, TbHistory } from "react-icons/tb";
+import { BsDatabaseFillDown, BsDatabaseAdd } from "react-icons/bs";
+import { FiPlusSquare } from "react-icons/fi";
+
 import { Button, Group, ScrollArea } from '@mantine/core';
 import classes from './navbar-nested.module.css';
 import { LinksGroup } from '../../links-group/links-group';
@@ -14,11 +10,19 @@ import { useAppDispatch } from '../../../hooks';
 import { logout } from '../../../../features/user/userSlice';
 
 const mockdata = [
-     { label: 'Отчет', icon: IconPresentationAnalytics, link: '/' },
-     { label: 'Фильтр баз', icon: IconDatabaseSearch, link: '/filter-database' },
+     {
+          label: 'Отчет',
+          icon: TbReportAnalytics,
+          link: '/'
+     },
+     {
+          label: 'Скачать базу',
+          icon: BsDatabaseFillDown,
+          link: '/filter-database'
+     },
      {
           label: 'Добавить',
-          icon: IconSquarePlus,
+          icon: FiPlusSquare,
           initiallyOpened: true,
           links: [
                { label: 'Пользователя', link: '/registration' },
@@ -29,7 +33,7 @@ const mockdata = [
      },
      {
           label: 'Импорт базы',
-          icon: IconDatabasePlus,
+          icon: BsDatabaseAdd,
           links: [
                { label: 'Новая база', link: '/add-numbers' },
                { label: 'База пришедших', link: '/add-guest' },
@@ -38,7 +42,7 @@ const mockdata = [
      },
      {
           label: 'История',
-          icon: IconHistory,
+          icon: TbHistory,
           links: [
                { label: 'История удаления', link: '/histories-delete' },
                { label: 'История импортов', link: '/histories-import' },
@@ -61,7 +65,7 @@ export const NavbarNested = () => {
                     <Group justify="space-between">
                          <Button
                               variant="outline"
-                              rightSection={<IconLogout size={14} />}
+                              // rightSection={<IconLogout size={14} />}
                               onClick={logoutSession}
                          >
                               выйти

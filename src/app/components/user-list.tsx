@@ -9,15 +9,17 @@ export const UserList = () => {
           <div className="flex flex-col gap-3">
                {
                     isLoading
-                         ? <LoaderComponent />
+                         ? <LoaderComponent styles="h-[50vh]" />
                          : data?.map((item) => (
                               <User
-                                   role={item.role as "USER" | "ADMIN"}
+                                   key={item.id}
+                                   role={item.role}
                                    login={item.login}
-                                   id={item.id as number}
+                                   id={item.id}
                               />
                          ))
                }
+
           </div>
      )
 }

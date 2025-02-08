@@ -4,6 +4,5 @@ import { LoaderComponent } from "../app/components/loader"
 
 export const AuthGuard: React.FC<Children> = ({ children }) => {
      const { isLoading } = useCheckQuery()
-
-     return isLoading ? <LoaderComponent /> : <>{children}</>
+     return isLoading ? <LoaderComponent styles={"h-[100vh] w-[100vw]"} /> : <>{children}</>
 }

@@ -1,12 +1,19 @@
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "../hooks";
 import { useMemo } from "react";
-import { DecodeToken } from "../types";
+
+type DecodedToken = {
+     exp: number;
+     iat: number;
+     id: number;
+     login: string;
+     role: string;
+}
 
 export const useCheckValidToken = () => {
      const { token } = useAppSelector((state) => state.auth)
 
-     const decoded: DecodeToken = useMemo(() => {
+     const decoded: DecodedToken = useMemo(() => {
           if (typeof token === `string`) {
                return jwtDecode(token);
           } else {

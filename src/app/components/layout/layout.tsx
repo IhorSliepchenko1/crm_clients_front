@@ -6,7 +6,6 @@ import {
 } from "../../../features/user/userSlice"
 import { useEffect } from "react"
 import { NavbarNested } from "./navbar-nested/navbar-nested"
-import { MainPage } from "../../../pages/main-page"
 
 export const Layout = () => {
 

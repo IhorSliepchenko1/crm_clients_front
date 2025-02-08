@@ -2,9 +2,8 @@ import { useForm } from '@mantine/form';
 import { TextInput, Button, PasswordInput } from '@mantine/core';
 import { useLazyCheckQuery, useLoginMutation } from '../../app/services/userApi';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { hasErrorField } from '../../utils/has-error-field';
-import { ErrorMessage } from '../../app/components/error-message';
+import { useNotification } from '../../app/hooks/useNotification';
 
 export const Login = () => {
      const form = useForm({
@@ -18,17 +17,28 @@ export const Login = () => {
 
      const [login, { isLoading }] = useLoginMutation()
      const navigate = useNavigate()
-     const [error, setError] = useState("")
      const [triggerCurrentQuery] = useLazyCheckQuery()
+
+     const { notificationMessage } = useNotification()
 
      const onSubmit = async (data: { login: string, password: string }) => {
           try {
                await login(data).unwrap()
                await triggerCurrentQuery().unwrap()
+               form.reset()
+
+               notificationMessage({
+                    message: "Вы вошли в систему!",
+                    type: 'succeed'
+               })
+
                navigate("/")
           } catch (err) {
                if (hasErrorField(err)) {
-                    setError(err.data.message)
+                    notificationMessage({
+                         message: err.data.message,
+                         type: 'error'
+                    })
                }
           }
      }
@@ -51,7 +61,6 @@ export const Login = () => {
                <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: 'dots' }}>
                     Войти
                </Button>
-               <ErrorMessage error={error} setError={setError} />
           </form>
      )
 }

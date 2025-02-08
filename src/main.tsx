@@ -1,10 +1,15 @@
 import { createRoot } from 'react-dom/client'
-import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
 import './index.css'
+
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
+import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
+
 import { AuthGuard } from './features/authGuard'
 import { Layout } from './app/components/layout/layout';
 
@@ -87,6 +92,7 @@ if (container) {
     <Provider store={store}>
       <MantineProvider >
         <AuthGuard>
+          <Notifications />
           <RouterProvider router={router} />
         </AuthGuard>
       </MantineProvider>

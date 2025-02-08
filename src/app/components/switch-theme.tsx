@@ -1,5 +1,5 @@
 import { ActionIcon, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
-import { IconSun, IconMoon } from '@tabler/icons-react';
+import { IoMoonSharp, IoSunny } from "react-icons/io5";
 
 export const SwitchTheme = () => {
      const { setColorScheme } = useMantineColorScheme();
@@ -12,7 +12,7 @@ export const SwitchTheme = () => {
                size="xl"
                aria-label="Toggle color scheme"
           >
-               {computedColorScheme === 'light' ? <IconSun stroke={1.5} /> : <IconMoon stroke={1.5} />}
+               {computedColorScheme === 'light' ? <IoSunny /> : <IoMoonSharp />}
           </ActionIcon>
      );
 }

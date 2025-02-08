@@ -1,8 +1,8 @@
 export type User = {
-     id?: number
+     id: number
      login: string
      password: string
-     role?: "USER" | "ADMIN"
+     role: "USER" | "ADMIN"
      createdAt?: Date
      updatedAt?: Date
 }
@@ -116,7 +116,7 @@ export type ImportHistory = {
      dublicate: number
      unique: number
      incorrect: number
-     user_id: number
+     login: string
      createdAt: Date
      updatedAt: Date
 }
@@ -126,7 +126,7 @@ export type DeleteHistory = {
      deleteNumber: number
      notFoundNumber: number
      incorrect: number
-     user_id: number
+     login: string
      createdAt: Date
      updatedAt: Date
 }

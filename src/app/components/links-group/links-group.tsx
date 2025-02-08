@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { IconChevronRight } from '@tabler/icons-react';
-import { Box, Collapse, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
+import { FaChevronRight } from "react-icons/fa";
+import { Box, Collapse, Group, ThemeIcon, UnstyledButton } from '@mantine/core';
 import classes from './links-group.module.css';
 import { NavLink } from 'react-router-dom';
 import { HasNavLink } from '../has-nav-link';
@@ -12,7 +12,7 @@ interface LinksGroupProps {
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }
-
+// icon: Icon,
 export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link, initiallyOpened, links }) => {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -36,11 +36,10 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link,
                 <Icon size={18} />
               </ThemeIcon>
               <Box ml="md">{label}</Box>
-            </Box>  
+            </Box>
             {hasLinks && (
-              <IconChevronRight
+              <FaChevronRight
                 className={classes.chevron}
-                stroke={1.5}
                 size={16}
                 style={{ transform: opened ? 'rotate(-90deg)' : 'none' }}
               />
