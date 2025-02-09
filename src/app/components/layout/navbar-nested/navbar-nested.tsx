@@ -1,13 +1,15 @@
 import { TbReportAnalytics, TbHistory } from "react-icons/tb";
 import { BsDatabaseFillDown, BsDatabaseAdd } from "react-icons/bs";
 import { FiPlusSquare } from "react-icons/fi";
+import { CiLogout } from "react-icons/ci";
 
-import { Button, Group, ScrollArea } from '@mantine/core';
+import { Button, ScrollArea } from '@mantine/core';
 import classes from './navbar-nested.module.css';
 import { LinksGroup } from '../../links-group/links-group';
 import { SwitchTheme } from '../../switch-theme';
 import { useAppDispatch } from '../../../hooks';
 import { logout } from '../../../../features/user/userSlice';
+import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 
 const mockdata = [
      {
@@ -21,14 +23,14 @@ const mockdata = [
           link: '/filter-database'
      },
      {
-          label: 'Добавить',
+          label: 'Добавления',
           icon: FiPlusSquare,
           initiallyOpened: true,
           links: [
-               { label: 'Пользователя', link: '/registration' },
-               { label: 'Город', link: '/city' },
-               { label: 'Тип базы', link: '/type-number' },
-               { label: 'Результат прозвона', link: '/result' },
+               { label: 'Пользователи', link: '/registration' },
+               { label: 'Города', link: '/city' },
+               { label: 'Типы базы', link: '/type-number' },
+               { label: 'Результаты прозвона', link: '/result' },
           ],
      },
      {
@@ -58,26 +60,32 @@ export const NavbarNested = () => {
           dispatch(logout())
      }
 
+     const { decoded } = useCheckValidToken()
+
      return (
           <nav className={classes.navbar}>
                <div className={classes.header}>
-                    <SwitchTheme />
-                    <Group justify="space-between">
-                         <Button
-                              variant="outline"
-                              // rightSection={<IconLogout size={14} />}
-                              onClick={logoutSession}
-                         >
-                              выйти
-                         </Button>
-                    </Group>
+                    <div className="flex items-center justify-between w-[100%]">
+                         <p>{decoded.login}</p>
+                         <SwitchTheme />
+                    </div>
                </div>
 
                <ScrollArea className={classes.links}>
-
                     <div className={classes.linksInner}>
-                         {links}</div>
+                         {links}
+                    </div>
                </ScrollArea>
+               <div className={classes.btn}>
+                    <Button
+                         className="min-w-[100%]"
+                         variant="outline"
+                         leftSection={<CiLogout size={14} />}
+                         onClick={logoutSession}
+                    >
+                         выйти
+                    </Button>
+               </div>
           </nav>
      )
 }

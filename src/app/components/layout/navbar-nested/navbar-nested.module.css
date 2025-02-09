@@ -26,6 +26,12 @@
      margin-right: calc(var(--mantine-spacing-md) * -1);
 }
 
+.btn {
+     display: flex;
+     justify-content: start;
+     padding: 10px;
+}
+
 .linksInner {
      padding-top: var(--mantine-spacing-xl);
      padding-bottom: var(--mantine-spacing-xl);

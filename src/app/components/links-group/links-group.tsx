@@ -12,7 +12,6 @@ interface LinksGroupProps {
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }
-// icon: Icon,
 export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link, initiallyOpened, links }) => {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
