@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNotification } from '../../hooks/useNotification'
 import { useLazyGetAllUsersQuery, useUpdateUserMutation } from '../../services/userApi'
 import { hasErrorField } from '../../../utils/has-error-field'

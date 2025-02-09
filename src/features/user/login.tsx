@@ -6,7 +6,7 @@ import { hasErrorField } from '../../utils/has-error-field';
 import { useNotification } from '../../app/hooks/useNotification';
 
 export const Login = () => {
-     const form = useForm({
+     const form = useForm<{ login: string, password: string }>({
           mode: 'uncontrolled',
           initialValues: { login: '', password: '' },
           validate: {
