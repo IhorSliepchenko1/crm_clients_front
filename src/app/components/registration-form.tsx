@@ -7,14 +7,12 @@ import { useNotification } from "../hooks/useNotification";
 import { useCheckValidToken } from "../hooks/useCheckValidToken";
 
 export const RegistrationForm = () => {
-
      const form = useForm<Register>({
-          mode: 'uncontrolled',
-          initialValues: { login: '', password: '', role: "USER" },
+          mode: "uncontrolled",
+          initialValues: { login: "", password: "", role: "USER" },
           validate: {
-               login: (value) => (value.length < 5 ? 'Минимальная длинна логина 5 символов!' : null),
-               password: (value) => (value.length < 6 ? 'Минимальная длинна пароля 6 символов!' : null),
-               role: (value) => (!value ? 'Роль обязательна при регистрации!' : null),
+               login: (value) => (value.length < 5 ? "Минимальная длинна логина 5 символов!" : null),
+               password: (value) => (value.length < 6 ? "Минимальная длинна пароля 6 символов!" : null),
           },
      });
 
@@ -33,42 +31,40 @@ export const RegistrationForm = () => {
           } catch (err) {
                console.error(err);
                if (hasErrorField(err)) error(err.data.message)
-               else error('Что-то пошло не так. Попробуйте снова.')
+               else error("Что-то пошло не так. Попробуйте снова.")
           }
      }
 
 
-     const roles = ['ADMIN', 'USER']
+     const roles = ["USER", decoded.role === "ADMIN" && "ADMIN"].filter(t => typeof t === "string");
      return (
-          <>
-               <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
-                    <TextInput
-                         label="Логин"
-                         placeholder="Введите логин"
-                         key={form.key('login')}
-                         {...form.getInputProps('login')}
-                    />
-                    <PasswordInput
-                         mt="sm"
-                         label="Пароль"
-                         placeholder="Введите пароль"
-                         key={form.key('password')}
-                         {...form.getInputProps('password')}
-                    />
+          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+               <TextInput
+                    label="Логин"
+                    placeholder="Введите логин"
+                    key={form.key("login")}
+                    {...form.getInputProps("login")}
+               />
+               <PasswordInput
+                    mt="sm"
+                    label="Пароль"
+                    placeholder="Введите пароль"
+                    key={form.key("password")}
+                    {...form.getInputProps("password")}
+               />
 
-                    <Select
-                         label="Роль"
-                         placeholder="Выберите роль пользователя"
-                         data={decoded.role === "ADMIN" ? roles : ["USER"]}
-                         searchable
-                         key={form.key('role')}
-                         {...form.getInputProps('role')}
-                    />
-                    {decoded.role !== "ADMIN" && <p className="text-red-500">Регистрация учетных записей администратора доступна только для роли ADMIN</p>}
-                    <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: 'dots' }}>
-                         Добавить пользователя
-                    </Button>
-               </form>
-          </>
+               <Select
+                    label="Роль"
+                    placeholder="Выберите роль пользователя"
+                    data={roles}
+                    searchable
+                    key={form.key("role")}
+                    {...form.getInputProps("role")}
+               />
+               {decoded.role !== "ADMIN" && <p className="text-red-500">Регистрация учетных записей администратора доступна только для роли ADMIN</p>}
+               <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: "dots" }}>
+                    Добавить пользователя
+               </Button>
+          </form>
      )
 }

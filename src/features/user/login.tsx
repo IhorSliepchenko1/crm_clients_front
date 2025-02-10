@@ -1,17 +1,17 @@
-import { useForm } from '@mantine/form';
-import { TextInput, Button, PasswordInput } from '@mantine/core';
-import { useLazyCheckQuery, useLoginMutation } from '../../app/services/userApi';
-import { useNavigate } from 'react-router-dom';
-import { hasErrorField } from '../../utils/has-error-field';
-import { useNotification } from '../../app/hooks/useNotification';
+import { useForm } from "@mantine/form";
+import { TextInput, Button, PasswordInput, Fieldset } from "@mantine/core";
+import { useLazyCheckQuery, useLoginMutation } from "../../app/services/userApi";
+import { useNavigate } from "react-router-dom";
+import { hasErrorField } from "../../utils/has-error-field";
+import { useNotification } from "../../app/hooks/useNotification";
 
 export const Login = () => {
      const form = useForm<{ login: string, password: string }>({
-          mode: 'uncontrolled',
-          initialValues: { login: '', password: '' },
+          mode: "uncontrolled",
+          initialValues: { login: "", password: "" },
           validate: {
-               login: (value) => (value.length < 5 ? 'Минимальная длинна логина 5 символов!' : null),
-               password: (value) => (value.length < 6 ? 'Минимальная длинна пароля 6 символов!' : null),
+               login: (value) => (value.length < 5 ? "Минимальная длинна логина 5 символов!" : null),
+               password: (value) => (value.length < 6 ? "Минимальная длинна пароля 6 символов!" : null),
           },
      });
 
@@ -32,7 +32,7 @@ export const Login = () => {
           } catch (err) {
                console.error(err);
                if (hasErrorField(err)) error(err.data.message)
-               else error('Что-то пошло не так. Попробуйте снова.')
+               else error("Что-то пошло не так. Попробуйте снова.")
           }
      }
 
@@ -41,18 +41,18 @@ export const Login = () => {
                <TextInput
                     label="Логин"
                     placeholder="Введите логин"
-                    key={form.key('login')}
-                    {...form.getInputProps('login')}
+                    key={form.key("login")}
+                    {...form.getInputProps("login")}
                />
                <PasswordInput
                     mt="sm"
                     label="Пароль"
                     placeholder="Введите пароль"
-                    key={form.key('password')}
-                    {...form.getInputProps('password')}
+                    key={form.key("password")}
+                    {...form.getInputProps("password")}
                />
 
-               <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: 'dots' }}>
+               <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: "dots" }}>
                     Войти
                </Button>
           </form>

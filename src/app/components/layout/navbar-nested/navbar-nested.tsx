@@ -1,51 +1,50 @@
+import classes from "./navbar-nested.module.scss";
+import { CiLogout } from "react-icons/ci";
 import { TbReportAnalytics, TbHistory } from "react-icons/tb";
 import { BsDatabaseFillDown, BsDatabaseAdd } from "react-icons/bs";
 import { FiPlusSquare } from "react-icons/fi";
-import { CiLogout } from "react-icons/ci";
-import { Button, ScrollArea } from '@mantine/core';
-import classes from './navbar-nested.module.css';
-import { LinksGroup } from '../../links-group/links-group';
-import { SwitchTheme } from '../../switch-theme';
-import { useAppDispatch } from '../../../hooks';
-import { logout } from '../../../../features/user/userSlice';
+import { Button, ScrollArea } from "@mantine/core";
+import { LinksGroup } from "../../links-group/links-group";
+import { SwitchTheme } from "../../switch-theme";
+import { useAppDispatch } from "../../../hooks";
+import { logout } from "../../../../features/user/userSlice";
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 
 const mockdata = [
      {
-          label: 'Отчет',
+          label: "Отчет",
           icon: TbReportAnalytics,
-          link: '/'
+          link: "/"
      },
      {
-          label: 'Скачать базу',
+          label: "Скачать базу",
           icon: BsDatabaseFillDown,
-          link: '/filter-database'
+          link: "/filter-database"
      },
      {
-          label: 'Добавления',
+          label: "Добавления",
           icon: FiPlusSquare,
-          initiallyOpened: true,
           links: [
-               { label: 'Пользователи', link: '/registration' },
-               { label: 'Города', link: '/city' },
-               { label: 'Типы базы', link: '/type-number' },
+               { label: "Пользователи", link: "/registration" },
+               { label: "Города", link: "/city" },
+               { label: "Типы базы", link: "/type-number" },
           ],
      },
      {
-          label: 'Импорт базы',
+          label: "Импорт базы",
           icon: BsDatabaseAdd,
           links: [
-               { label: 'Новая база', link: '/add-numbers' },
-               { label: 'База пришедших', link: '/add-guest' },
-               { label: 'База истории прозвона', link: '/add-result-history' },
+               { label: "Новая база", link: "/add-numbers" },
+               { label: "База пришедших", link: "/add-guest" },
+               { label: "База истории прозвона", link: "/add-result-history" },
           ],
      },
      {
-          label: 'История',
+          label: "История",
           icon: TbHistory,
           links: [
-               { label: 'История удаления', link: '/histories-delete' },
-               { label: 'История импортов', link: '/histories-import' },
+               { label: "История удаления", link: "/histories-delete" },
+               { label: "История импортов", link: "/histories-import" },
           ],
      },
 ];

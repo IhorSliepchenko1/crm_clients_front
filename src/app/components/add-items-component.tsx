@@ -6,14 +6,19 @@ import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../servi
 import { Button, TextInput } from "@mantine/core";
 
 type Data = { name: string }
-type Props = { nameAdd: 'city' | 'type' }
+type Props = { nameAdd: "city" | "type" }
 
 export const AddItemsComponent: React.FC<Props> = ({ nameAdd }) => {
+     const regex = /\d/;
+
      const form = useForm<Data>({
-          mode: 'uncontrolled',
-          initialValues: { name: '' },
+          mode: "uncontrolled",
+          initialValues: { name: "" },
           validate: {
-               name: (value) => (!value ? 'Обязательное поле!' : null),
+               name: (value) => (!value ?
+                    "Обязательное поле!"
+                    : nameAdd === "city" && regex.test(value) ?
+                         "Вназвании города цифры не допускаются" : null),
           },
      });
 
@@ -39,19 +44,20 @@ export const AddItemsComponent: React.FC<Props> = ({ nameAdd }) => {
           } catch (err) {
                console.error(err);
                if (hasErrorField(err)) error(err.data.message)
-               else error('Что-то пошло не так. Попробуйте снова.')
+               else error("Что-то пошло не так. Попробуйте снова.")
           }
      }
+
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
-                    label={nameAdd === 'city' ? "Город" : "Тип номера"}
-                    placeholder={`Введите название ${nameAdd === 'city' ? "города" : "типа номера"}`}
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
+                    label={nameAdd === "city" ? "Город" : "Тип номера"}
+                    placeholder={`Введите название ${nameAdd === "city" ? "города" : "типа номера"}`}
+                    key={form.key("name")}
+                    {...form.getInputProps("name")}
                />
 
-               <Button type="submit" mt="sm" loading={nameAdd === 'city' ? loadCity : loadTypeNumber} loaderProps={{ type: 'dots' }}>
+               <Button type="submit" mt="sm" loading={nameAdd === "city" ? loadCity : loadTypeNumber} loaderProps={{ type: "dots" }}>
                     Добавить
                </Button>
           </form>

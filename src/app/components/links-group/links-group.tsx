@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import classes from "./links-group.module.scss";
+import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
-import { Box, Collapse, Group, ThemeIcon, UnstyledButton } from '@mantine/core';
-import classes from './links-group.module.css';
-import { NavLink } from 'react-router-dom';
-import { HasNavLink } from '../has-nav-link';
+import { Box, Collapse, Group, ThemeIcon, UnstyledButton } from "@mantine/core";
+import { NavLink } from "react-router-dom";
+import { HasNavLink } from "../has-nav-link";
 
 interface LinksGroupProps {
   icon: React.FC<any>;
@@ -32,7 +32,7 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link,
         <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
           <Group justify="space-between" gap={0}>
 
-            <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <Box style={{ display: "flex", alignItems: "center" }}>
               <ThemeIcon variant="light" size={30}>
                 <Icon size={18} />
               </ThemeIcon>
@@ -43,7 +43,7 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link,
               <FaChevronRight
                 className={classes.chevron}
                 size={16}
-                style={{ transform: opened ? 'rotate(-90deg)' : 'none' }}
+                style={{ transform: opened ? "rotate(-90deg)" : "none" }}
               />
             )}
 

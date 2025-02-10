@@ -1,32 +1,32 @@
-import { notifications } from '@mantine/notifications';
+import { notifications } from "@mantine/notifications";
 import style from "../../style/notification-message.module.css"
 
 type NotificationMessage = {
-     type: 'error' | "succeed"
+     type: "error" | "succeed"
      message: string
 }
 
 export const useNotification = () => {
      const notificationMessage = ({ type, message }: NotificationMessage) =>
           notifications.show({
-               color: type === 'error' ? "red" : "green",
-               title: type === 'error' ? "Ошибка!" : "Успешно!",
+               color: type === "error" ? "red" : "green",
+               title: type === "error" ? "Ошибка!" : "Успешно!",
                message: message,
-               position: 'top-right',
+               position: "top-right",
                classNames: style
           })
 
      const succeed = (message: string) => {
           return notificationMessage({
                message: message,
-               type: 'succeed'
+               type: "succeed"
           })
      }
 
      const error = (message: string) => {
           return notificationMessage({
                message: message,
-               type: 'error'
+               type: "error"
           })
      }
 

@@ -1,29 +1,27 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import "./index.css"
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+import { createRoot } from "react-dom/client"
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { Provider } from "react-redux"
+import { store } from "./app/store"
 
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
-import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
+import { AuthGuard } from "./features/authGuard"
+import { Layout } from "./app/components/layout/layout";
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { store } from './app/store'
-
-import { AuthGuard } from './features/authGuard'
-import { Layout } from './app/components/layout/layout';
-
-import { Auth } from './pages/auth';
-import { Registration } from './pages/registration';
-import { City } from './pages/city';
-import { TypeNumber } from './pages/type-number';
-import { AddNumbers } from './pages/add-numbers';
-import { AddGuest } from './pages/add-guest';
-import { AddResultHistory } from './pages/add-result-history';
-import { HistoriesDelete } from './pages/histories-delete';
-import { HistoriesImport } from './pages/histories-import';
-import { FilterDatabase } from './pages/filter-database';
-import { MainPage } from './pages/main-page';
+import { Auth } from "./pages/auth";
+import { Registration } from "./pages/registration";
+import { City } from "./pages/city";
+import { TypeNumber } from "./pages/type-number";
+import { AddNumbers } from "./pages/add-numbers";
+import { AddGuest } from "./pages/add-guest";
+import { AddResultHistory } from "./pages/add-result-history";
+import { HistoriesDelete } from "./pages/histories-delete";
+import { HistoriesImport } from "./pages/histories-import";
+import { FilterDatabase } from "./pages/filter-database";
+import { MainPage } from "./pages/main-page";
 
 const container = document.getElementById("root")
 const router = createBrowserRouter([

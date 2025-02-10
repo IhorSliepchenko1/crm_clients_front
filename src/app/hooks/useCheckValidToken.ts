@@ -21,8 +21,8 @@ export const useCheckValidToken = () => {
                     exp: 0,
                     iat: 0,
                     id: 0,
-                    login: '',
-                    role: '',
+                    login: "",
+                    role: "",
                }
           }
      }, [token])
