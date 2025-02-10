@@ -16,5 +16,19 @@ export const useNotification = () => {
                classNames: style
           })
 
-     return { notificationMessage }
+     const succeed = (message: string) => {
+          return notificationMessage({
+               message: message,
+               type: 'succeed'
+          })
+     }
+
+     const error = (message: string) => {
+          return notificationMessage({
+               message: message,
+               type: 'error'
+          })
+     }
+
+     return { succeed, error }
 }

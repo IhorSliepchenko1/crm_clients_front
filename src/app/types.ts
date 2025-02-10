@@ -16,26 +16,14 @@ export type UpdateUser = {
      }; id: number
 }
 
-export type City = {
+export type TCity_TypeNumber = {
      id: number
      name: string
      createdAt: Date
      updatedAt: Date
 }
 
-export type Result = {
-     id: number
-     name: string
-     createdAt: Date
-     updatedAt: Date
-}
 
-export type TypeNumber = {
-     id: number
-     name: string
-     createdAt: Date
-     updatedAt: Date
-}
 
 export type Register = { login: string, password: string, role: "ADMIN" | "USER" }
 

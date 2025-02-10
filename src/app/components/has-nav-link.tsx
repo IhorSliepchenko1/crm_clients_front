@@ -7,11 +7,5 @@ type Props = {
 }
 
 export const HasNavLink: React.FC<Props> = ({ children, hasLinks, link }) => {
-  return (
-    !hasLinks ? <NavLink
-      to={link as string}
-    >
-      {children}
-    </NavLink> : children
-  )
+  return (!hasLinks ? <NavLink to={link ?? ''}>{children}</NavLink> : children)
 }

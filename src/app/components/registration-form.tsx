@@ -4,6 +4,7 @@ import { Register } from "../types";
 import { useLazyGetAllUsersQuery, useRegisterMutation } from "../services/userApi";
 import { hasErrorField } from "../../utils/has-error-field";
 import { useNotification } from "../hooks/useNotification";
+import { useCheckValidToken } from "../hooks/useCheckValidToken";
 
 export const RegistrationForm = () => {
 
@@ -19,30 +20,25 @@ export const RegistrationForm = () => {
 
      const [registration, { isLoading }] = useRegisterMutation()
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
-
-     const { notificationMessage } = useNotification()
+     const { decoded } = useCheckValidToken()
+     const { succeed, error } = useNotification()
 
      const onSubmit = async (data: Register) => {
           try {
                await registration(data).unwrap()
-               await triggerAllUsersQuery().unwrap()
+               succeed("Пользователь добавлен!")
                form.reset()
-
-               notificationMessage({
-                    message: "Пользователь добавлен!",
-                    type: 'succeed'
-               })
+               await triggerAllUsersQuery().unwrap()
 
           } catch (err) {
-               if (hasErrorField(err)) {
-                    notificationMessage({
-                         message: err.data.message,
-                         type: 'error'
-                    })
-               }
+               console.error(err);
+               if (hasErrorField(err)) error(err.data.message)
+               else error('Что-то пошло не так. Попробуйте снова.')
           }
      }
-     
+
+
+     const roles = ['ADMIN', 'USER']
      return (
           <>
                <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -63,11 +59,12 @@ export const RegistrationForm = () => {
                     <Select
                          label="Роль"
                          placeholder="Выберите роль пользователя"
-                         data={['ADMIN', 'USER']}
+                         data={decoded.role === "ADMIN" ? roles : ["USER"]}
                          searchable
                          key={form.key('role')}
                          {...form.getInputProps('role')}
                     />
+                    {decoded.role !== "ADMIN" && <p className="text-red-500">Регистрация учетных записей администратора доступна только для роли ADMIN</p>}
                     <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: 'dots' }}>
                          Добавить пользователя
                     </Button>

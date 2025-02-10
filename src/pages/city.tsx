@@ -1,6 +1,9 @@
+import { AddItemsComponent } from "../app/components/add-items-component"
 
 export const City = () => {
   return (
-    <div>City</div>
+    <div>
+      <AddItemsComponent nameAdd={"city"} />
+    </div>
   )
 }

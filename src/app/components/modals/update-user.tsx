@@ -40,28 +40,21 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
 
      const [disabled, setDisabled] = useState(true)
      const [updateUserMutation] = useUpdateUserMutation()
-     const { notificationMessage } = useNotification()
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
+     const { succeed, error } = useNotification()
 
      const updateUser = async (data: SubmitData) => {
           try {
                await updateUserMutation({ id, data }).unwrap()
-               await triggerAllUsersQuery().unwrap()
-
-               notificationMessage({
-                    message: `Пользователь ${login} обновлён!`,
-                    type: 'succeed'
-               })
+               succeed(`Пользователь ${login} обновлён!`)
+               form.reset()
                close()
+               await triggerAllUsersQuery().unwrap()
           }
-
           catch (err) {
-               if (hasErrorField(err)) {
-                    notificationMessage({
-                         message: err.data.message,
-                         type: 'error'
-                    })
-               }
+               console.error(err);
+               if (hasErrorField(err)) error(err.data.message)
+               else error('Что-то пошло не так. Попробуйте снова.')
           }
      }
 
@@ -74,7 +67,7 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
           close();
           form.reset();
      }
-     
+
      return (
           <Modal opened={opened} onClose={() => onClose()} title="Обновление информации о пользователе" >
                <form onSubmit={form.onSubmit(updateUser)}>
@@ -110,10 +103,7 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                          {...form.getInputProps('role')}
                     />
                     <div className='flex justify-between mt-5'>
-                         <Button onClick={() => {
-                              close()
-                              form.reset();
-                         }} variant="default">Отмена</Button>
+                         <Button onClick={onClose} variant="default">Отмена</Button>
                          <Button type='submit' color='blue' disabled={disabled}>Изменить</Button>
                     </div>
                </form>

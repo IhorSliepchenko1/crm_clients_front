@@ -1,9 +1,7 @@
 import { Container } from "./container"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import {
-     selectIsAuthenticated,
-} from "../../../features/user/userSlice"
+import { selectIsAuthenticated } from "../../../features/user/userSlice"
 import { useEffect } from "react"
 import { NavbarNested } from "./navbar-nested/navbar-nested"
 

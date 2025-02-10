@@ -17,7 +17,6 @@ import { Auth } from './pages/auth';
 import { Registration } from './pages/registration';
 import { City } from './pages/city';
 import { TypeNumber } from './pages/type-number';
-import { Result } from './pages/result';
 import { AddNumbers } from './pages/add-numbers';
 import { AddGuest } from './pages/add-guest';
 import { AddResultHistory } from './pages/add-result-history';
@@ -55,10 +54,6 @@ const router = createBrowserRouter([
       {
         path: "/type-number",
         element: <TypeNumber />
-      },
-      {
-        path: "/result",
-        element: <Result />
       },
       {
         path: "/add-numbers",

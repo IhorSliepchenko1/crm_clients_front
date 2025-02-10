@@ -19,29 +19,23 @@ export const Login = () => {
      const navigate = useNavigate()
      const [triggerCurrentQuery] = useLazyCheckQuery()
 
-     const { notificationMessage } = useNotification()
+     const { succeed, error } = useNotification()
 
      const onSubmit = async (data: { login: string, password: string }) => {
           try {
                await login(data).unwrap()
                await triggerCurrentQuery().unwrap()
+               succeed("Вы вошли в систему!")
                form.reset()
-
-               notificationMessage({
-                    message: "Вы вошли в систему!",
-                    type: 'succeed'
-               })
-
                navigate("/")
+
           } catch (err) {
-               if (hasErrorField(err)) {
-                    notificationMessage({
-                         message: err.data.message,
-                         type: 'error'
-                    })
-               }
+               console.error(err);
+               if (hasErrorField(err)) error(err.data.message)
+               else error('Что-то пошло не так. Попробуйте снова.')
           }
      }
+
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-4">
                <TextInput

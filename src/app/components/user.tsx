@@ -17,35 +17,25 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
 
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
      const [deeleteUserMutation] = useDeleteUserMutation()
-     const { notificationMessage } = useNotification()
+     const { succeed, error } = useNotification()
      const { decoded } = useCheckValidToken()
 
      const deleteUser = async () => {
           if (decoded.id === id) {
-               notificationMessage({
-                    message: "Свою учетную запись удалить нельзя!",
-                    type: 'error'
-               })
+               error('Свою учетную запись удалить нельзя!')
                close()
                return
           }
 
           try {
                await deeleteUserMutation(id).unwrap()
+               succeed(`Пользователь ${login} удалён!`)
                await triggerAllUsersQuery().unwrap()
 
-               notificationMessage({
-                    message: `Пользователь ${login} удалён!`,
-                    type: 'succeed'
-               })
-
           } catch (err) {
-               if (hasErrorField(err)) {
-                    notificationMessage({
-                         message: err.data.message,
-                         type: 'error'
-                    })
-               }
+               console.error(err);
+               if (hasErrorField(err)) error(err.data.message)
+               else error('Что-то пошло не так. Попробуйте снова.')
           }
      }
 
@@ -66,12 +56,16 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                     <p>{login}</p>
                </div>
                <div className='flex items-center gap-2'>
-                    <Button onClick={openUpdateModal} variant="filled" size="xs" leftSection={<MdEdit size={10} />} color="yellow">Изменить</Button>
-                    <Button onClick={openDeleteModal} variant="filled" size="xs" leftSection={<MdDelete size={10} />} color="red">Удалить</Button>
+                    {(decoded.role === 'ADMIN' || (decoded.role === 'USER' && decoded.id === id)) && (
+                         <Button onClick={openUpdateModal} variant="filled" size="xs" leftSection={<MdEdit size={10} />} color="yellow">
+                              Изменить
+                         </Button>
+                    )}
+                    {decoded.role === 'ADMIN' && <Button onClick={openDeleteModal} variant="filled" size="xs" leftSection={<MdDelete size={10} />} color="red">Удалить</Button>}
                </div>
                {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление аккаунта ${login}`} deleteUser={deleteUser} />}
                {modal === 1 && <UpdateUserModal id={id} login={login} role={role} opened={opened} close={close} />}
-          </Group>
+          </Group >
      )
 }
 

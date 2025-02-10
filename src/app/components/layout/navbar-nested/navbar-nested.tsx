@@ -2,7 +2,6 @@ import { TbReportAnalytics, TbHistory } from "react-icons/tb";
 import { BsDatabaseFillDown, BsDatabaseAdd } from "react-icons/bs";
 import { FiPlusSquare } from "react-icons/fi";
 import { CiLogout } from "react-icons/ci";
-
 import { Button, ScrollArea } from '@mantine/core';
 import classes from './navbar-nested.module.css';
 import { LinksGroup } from '../../links-group/links-group';
@@ -30,7 +29,6 @@ const mockdata = [
                { label: 'Пользователи', link: '/registration' },
                { label: 'Города', link: '/city' },
                { label: 'Типы базы', link: '/type-number' },
-               { label: 'Результаты прозвона', link: '/result' },
           ],
      },
      {

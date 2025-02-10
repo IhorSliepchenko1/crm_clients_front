@@ -15,6 +15,7 @@ interface LinksGroupProps {
 export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link, initiallyOpened, links }) => {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
+
   const items = (hasLinks ? links : []).map((link) => (
     <NavLink
       key={link.label}
@@ -30,12 +31,14 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link,
       <HasNavLink hasLinks={hasLinks} link={link}>
         <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
           <Group justify="space-between" gap={0}>
+
             <Box style={{ display: 'flex', alignItems: 'center' }}>
               <ThemeIcon variant="light" size={30}>
                 <Icon size={18} />
               </ThemeIcon>
               <Box ml="md">{label}</Box>
             </Box>
+
             {hasLinks && (
               <FaChevronRight
                 className={classes.chevron}
@@ -43,9 +46,11 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({ icon: Icon, label, link,
                 style={{ transform: opened ? 'rotate(-90deg)' : 'none' }}
               />
             )}
+
           </Group>
         </UnstyledButton>
       </HasNavLink>
+
       {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
     </>
   )
