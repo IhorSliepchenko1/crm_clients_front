@@ -18,7 +18,7 @@ export const cityApi = api.injectEndpoints({
                     body: { name },
                }),
           }),
-          getAllCity: builder.query<TCity_TypeNumber[], void>({
+          getAllCity: builder.query<{ rows: TCity_TypeNumber[] }, void>({
                query: () => ({
                     url: "city",
                     method: "GET",

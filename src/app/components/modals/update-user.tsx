@@ -66,7 +66,6 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
           }
      };
 
-
      return (
           <Modal opened={opened} onClose={close} title="Обновление информации о пользователе">
                <form onSubmit={form.onSubmit(updateUser)}>
@@ -85,16 +84,13 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                          placeholder="Введите новый пароль"
                          {...form.getInputProps("newPassword")}
                     />
-                    {
-                         decoded.role === "ADMIN" &&
+                    {decoded.role === "ADMIN" &&
                          <Select
                               label="Роль"
                               placeholder="Выберите роль пользователя"
                               data={["ADMIN", "USER"]}
                               {...form.getInputProps("role")}
-                         />
-                    }
-
+                         />}
                     <div className="flex justify-between mt-5">
                          <Button onClick={close} variant="default">Отмена</Button>
                          <Button type="submit" color="blue" disabled={!form.isDirty()}>Изменить</Button>

@@ -17,7 +17,7 @@ export const typeNumberApi = api.injectEndpoints({
                     body: { name },
                }),
           }),
-          getAllTypeNumber: builder.query<TCity_TypeNumber[], void>({
+          getAllTypeNumber: builder.query<{ rows: TCity_TypeNumber[] }, void>({
                query: () => ({
                     url: "type-number",
                     method: "GET",

@@ -66,14 +66,6 @@ export const NavbarNested = () => {
                          <p>{decoded.login}</p>
                          <SwitchTheme />
                     </div>
-               </div>
-
-               <ScrollArea className={classes.links}>
-                    <div className={classes.linksInner}>
-                         {links}
-                    </div>
-               </ScrollArea>
-               <div className={classes.btn}>
                     <Button
                          className="min-w-[100%]"
                          variant="outline"
@@ -83,6 +75,13 @@ export const NavbarNested = () => {
                          выйти
                     </Button>
                </div>
+
+               <ScrollArea className={classes.links}>
+                    <div className={classes.linksInner}>
+                         {links}
+                    </div>
+
+               </ScrollArea>
           </nav>
      )
 }
