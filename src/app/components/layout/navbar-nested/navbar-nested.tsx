@@ -5,7 +5,7 @@ import { BsDatabaseFillDown, BsDatabaseAdd } from "react-icons/bs";
 import { FiPlusSquare } from "react-icons/fi";
 import { Button, ScrollArea } from "@mantine/core";
 import { LinksGroup } from "../../links-group/links-group";
-import { SwitchTheme } from "../../switch-theme";
+import { SwitchTheme } from "../../ui/switch-theme";
 import { useAppDispatch } from "../../../hooks";
 import { logout } from "../../../../features/user/userSlice";
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";

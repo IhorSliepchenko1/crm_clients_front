@@ -5,7 +5,7 @@ import { hasErrorField } from "../../../utils/has-error-field";
 import { Modal, PasswordInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
-import { ModalActionComponent } from "../modal-action-component";
+import { ModalActionComponent } from "../ui/modal-action-component";
 
 type Props = {
      login: string;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { Box, Collapse, Group, ThemeIcon, UnstyledButton } from "@mantine/core";
 import { NavLink } from "react-router-dom";
-import { HasNavLink } from "../has-nav-link";
+import { HasNavLink } from "../layout/has-nav-link";
 
 interface LinksGroupProps {
   icon: React.FC<any>;

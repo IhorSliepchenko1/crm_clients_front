@@ -1,14 +1,14 @@
 import { Group } from '@mantine/core'
-import { useNotification } from '../hooks/useNotification/useNotification';
+import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useDisclosure } from '@mantine/hooks';
-import { useCheckValidToken } from '../hooks/useCheckValidToken';
-import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../services/cityApi';
-import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../services/typeNumberApi';
-import { hasErrorField } from '../../utils/has-error-field';
-import { OpenModalComponent } from './open-modal-component';
-import { DeleteModals } from './modals/delete-modals';
-import { UpdateItemModal } from './modals/update-item';
-import { useChangeTypeModal } from '../hooks/useChangeTypeModal';
+import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
+import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../../../services/cityApi';
+import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../../../services/typeNumberApi';
+import { hasErrorField } from '../../../../utils/has-error-field';
+import { OpenModalComponent } from '../modal/open-modal-component';
+import { DeleteModals } from '../../modals/delete-modals';
+import { UpdateItemModal } from '../../modals/update-item';
+import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
 
 type Props = {
      nameItem: "city" | "type"
@@ -34,7 +34,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
           type: { delete: deeleteTypeNumberMutation, refresh: triggerAllTypeNumberQuery }
      };
 
-     const onDelete = async () => {
+     const deleteItem = async () => {
           try {
                await actions[nameItem].delete(id).unwrap();
                succeed(`${nameItem === "city" ? "Город" : "Тип базы"} '${name}' удалён!`)
@@ -64,7 +64,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                     opened={opened}
                     close={close}
                     title={`Подтвердите удаление`}
-                    onClick={onDelete}
+                    onClick={deleteItem}
                     typeModal={typeModal}
                />
 

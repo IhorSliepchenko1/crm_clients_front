@@ -1,5 +1,5 @@
-import { ButtonCancel } from "./button/button-cancel"
-import { ButtonSubmit } from "./button/button-submit"
+import { ButtonCancel } from "../button/button-cancel"
+import { ButtonSubmit } from "../button/button-submit"
 
 type Props = {
      close: () => void

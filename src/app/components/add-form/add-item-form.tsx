@@ -1,10 +1,10 @@
 import { useForm } from "@mantine/form";
-import { useNotification } from "../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../utils/has-error-field";
-import { useAddCityMutation, useLazyGetAllCityQuery } from "../services/cityApi";
-import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../services/typeNumberApi";
+import { useNotification } from "../../hooks/useNotification/useNotification";
+import { hasErrorField } from "../../../utils/has-error-field";
+import { useAddCityMutation, useLazyGetAllCityQuery } from "../../services/cityApi";
+import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../../services/typeNumberApi";
 import { TextInput } from "@mantine/core";
-import { ButtonSubmit } from "./button/button-submit";
+import { ButtonSubmit } from "../button/button-submit";
 
 type Data = { name: string }
 type Props = { nameAdd: "city" | "type" }

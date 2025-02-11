@@ -1,5 +1,5 @@
 import { Fieldset, Flex } from "@mantine/core"
-import { SwitchTheme } from "../app/components/switch-theme"
+import { SwitchTheme } from "../app/components/ui/switch-theme"
 import { Login } from "../features/user/login"
 
 export const Auth = () => {

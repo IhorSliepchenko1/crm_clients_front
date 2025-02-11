@@ -1,13 +1,13 @@
 import { Group, Badge } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { DeleteModals } from "./modals/delete-modals";
-import { useDeleteUserMutation, useLazyGetAllUsersQuery } from "../services/userApi";
-import { hasErrorField } from "../../utils/has-error-field";
-import { useNotification } from "../hooks/useNotification/useNotification";
-import { useCheckValidToken } from "../hooks/useCheckValidToken";
-import { UpdateUserModal } from "./modals/update-user";
-import { OpenModalComponent } from "./open-modal-component";
-import { useChangeTypeModal } from "../hooks/useChangeTypeModal";
+import { DeleteModals } from "../../modals/delete-modals";
+import { useDeleteUserMutation, useLazyGetAllUsersQuery } from "../../../services/userApi";
+import { hasErrorField } from "../../../../utils/has-error-field";
+import { useNotification } from "../../../hooks/useNotification/useNotification";
+import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
+import { UpdateUserModal } from "../../modals/update-user";
+import { OpenModalComponent } from "../modal/open-modal-component";
+import { useChangeTypeModal } from "../../../hooks/useChangeTypeModal";
 
 type Props = { role: "ADMIN" | "USER", login: string, id: number }
 

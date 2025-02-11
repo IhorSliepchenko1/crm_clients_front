@@ -5,7 +5,7 @@ import { useLazyGetAllTypeNumberQuery, useUpdateTypeNumberMutation } from "../..
 import { useNotification } from "../../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect } from "react";
-import { ModalActionComponent } from "../modal-action-component";
+import { ModalActionComponent } from "../ui/modal-action-component";
 
 type SubmitData = { name: string }
 

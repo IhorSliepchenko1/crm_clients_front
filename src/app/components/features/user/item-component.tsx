@@ -1,7 +1,7 @@
-import { TItem } from "../types"
-import { Item } from "./item"
-import { LoaderComponent } from "./layout/loader"
-import { ScrolContainer } from "./layout/scrol-container"
+import { TItem } from "../../../types"
+import { Item } from "../item/item"
+import { LoaderComponent } from "../../layout/loader"
+import { ScrolContainer } from "../../layout/scrol-container"
 
 type Props = {
      isLoading: boolean
