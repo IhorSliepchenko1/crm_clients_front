@@ -12,7 +12,7 @@ import { AuthGuard } from "./features/authGuard"
 import { Layout } from "./app/components/layout/layout";
 
 import { Auth } from "./pages/auth";
-import { Registration } from "./pages/registration";
+import { Users } from "./pages/users";
 import { City } from "./pages/city";
 import { TypeNumber } from "./pages/type-number";
 import { AddNumbers } from "./pages/add-numbers";
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
         element: <FilterDatabase />
       },
       {
-        path: "/registration",
-        element: <Registration />
+        path: "/users",
+        element: <Users />
       },
       {
         path: "/city",

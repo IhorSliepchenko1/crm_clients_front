@@ -52,8 +52,10 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
      return (
           <Group justify="space-between">
                <div className="flex items-center gap-3">
-                    <Badge className="min-w-[100px]" color={role === "ADMIN" ? "green" : "orange"}>роль: {role}</Badge>
-                    <p>{login}</p>
+                    <Badge className="min-w-[100px]" color={role === "ADMIN" ? "green" : "orange"}>роль: {role} </Badge>
+                    <p>
+                         <span className="text-red-600">{decoded.id === id && "(ВЫ) "}</span>
+                         {login}</p>
                </div>
                <ActionComponent id={id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление аккаунта ${login}`} onClick={deleteUser} />}

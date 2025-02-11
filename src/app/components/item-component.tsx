@@ -8,15 +8,16 @@ import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../se
 import { hasErrorField } from '../../utils/has-error-field';
 import { ActionComponent } from './action-component';
 import { DeleteModals } from './modals/delete-modals';
+import { UpdateItemModal } from './modals/update-item';
 
 type Props = {
-     nameDelete: "city" | "type"
+     nameItem: "city" | "type"
      id: number
      index: number
      name: string
 }
 
-export const ItemComponent: React.FC<Props> = ({ nameDelete, id, index, name }) => {
+export const ItemComponent: React.FC<Props> = ({ nameItem, id, index, name }) => {
      const [modal, setModal] = useState<0 | 1>(0)
      const [opened, { open, close }] = useDisclosure(false);
      const { succeed, error } = useNotification()
@@ -35,9 +36,9 @@ export const ItemComponent: React.FC<Props> = ({ nameDelete, id, index, name }) 
 
      const onDelete = async () => {
           try {
-               await actions[nameDelete].delete(id).unwrap();
+               await actions[nameItem].delete(id).unwrap();
                succeed("Свойство удалено!")
-               await actions[nameDelete].refresh().unwrap();
+               await actions[nameItem].refresh().unwrap();
                close()
 
           } catch (err) {
@@ -65,6 +66,7 @@ export const ItemComponent: React.FC<Props> = ({ nameDelete, id, index, name }) 
                </div>
                <ActionComponent id={decoded.id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление`} onClick={onDelete} />}
+               {modal === 1 && <UpdateItemModal opened={opened} close={close} nameItem={nameItem} id={id} name={name} />}
           </Group >
      )
 }

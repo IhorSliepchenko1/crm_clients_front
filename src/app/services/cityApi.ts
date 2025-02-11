@@ -1,4 +1,4 @@
-import { TCity_TypeNumber } from "../types";
+import { TCity_TypeNumber, UpdateTCity_TypeNumber } from "../types";
 import { api } from "./api"
 
 export const cityApi = api.injectEndpoints({
@@ -11,7 +11,7 @@ export const cityApi = api.injectEndpoints({
                          body: { name },
                     }),
                }),
-          updateCity: builder.mutation<TCity_TypeNumber, { id: number, name: string }>({
+          updateCity: builder.mutation<UpdateTCity_TypeNumber, { id: number, name: string }>({
                query: ({ name, id }) => ({
                     url: `city/${id}`,
                     method: "PUT",

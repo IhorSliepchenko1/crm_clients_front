@@ -25,7 +25,7 @@ const mockdata = [
           label: "Добавления",
           icon: FiPlusSquare,
           links: [
-               { label: "Пользователи", link: "/registration" },
+               { label: "Пользователи", link: "/users" },
                { label: "Города", link: "/city" },
                { label: "Типы базы", link: "/type-number" },
           ],

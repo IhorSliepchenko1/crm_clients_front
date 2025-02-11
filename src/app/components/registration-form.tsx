@@ -5,6 +5,7 @@ import { useLazyGetAllUsersQuery, useRegisterMutation } from "../services/userAp
 import { hasErrorField } from "../../utils/has-error-field";
 import { useNotification } from "../hooks/useNotification";
 import { useCheckValidToken } from "../hooks/useCheckValidToken";
+import { ButtonSubmit } from "./button/button-submit";
 
 export const RegistrationForm = () => {
      const form = useForm<Register>({
@@ -46,25 +47,22 @@ export const RegistrationForm = () => {
                     {...form.getInputProps("login")}
                />
                <PasswordInput
-                    mt="sm"
                     label="Пароль"
                     placeholder="Введите пароль"
                     key={form.key("password")}
                     {...form.getInputProps("password")}
                />
-
-               <Select
-                    label="Роль"
-                    placeholder="Выберите роль пользователя"
-                    data={roles}
-                    searchable
-                    key={form.key("role")}
-                    {...form.getInputProps("role")}
-               />
-               {decoded.role !== "ADMIN" && <p className="text-red-500">Регистрация учетных записей администратора доступна только для роли ADMIN</p>}
-               <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: "dots" }}>
-                    Добавить пользователя
-               </Button>
+               {decoded.role === "ADMIN" &&
+                    <Select
+                         label="Роль"
+                         placeholder="Выберите роль пользователя"
+                         data={roles}
+                         searchable
+                         key={form.key("role")}
+                         {...form.getInputProps("role")}
+                    />}
+               {decoded.role !== "ADMIN" && <p className="text-red-500">Для вашей роли пользователя доступна регистрация только пользователь с аналогичной ролью</p>}
+               <ButtonSubmit loading={isLoading} text={"Добавить пользователя"} />
           </form>
      )
 }

@@ -1,9 +1,10 @@
 import { useForm } from "@mantine/form";
-import { TextInput, Button, PasswordInput, Fieldset } from "@mantine/core";
+import { TextInput, PasswordInput } from "@mantine/core";
 import { useLazyCheckQuery, useLoginMutation } from "../../app/services/userApi";
 import { useNavigate } from "react-router-dom";
 import { hasErrorField } from "../../utils/has-error-field";
 import { useNotification } from "../../app/hooks/useNotification";
+import { ButtonSubmit } from "../../app/components/button/button-submit";
 
 export const Login = () => {
      const form = useForm<{ login: string, password: string }>({
@@ -45,16 +46,12 @@ export const Login = () => {
                     {...form.getInputProps("login")}
                />
                <PasswordInput
-                    mt="sm"
                     label="Пароль"
                     placeholder="Введите пароль"
                     key={form.key("password")}
                     {...form.getInputProps("password")}
                />
-
-               <Button type="submit" mt="sm" loading={isLoading} loaderProps={{ type: "dots" }}>
-                    Войти
-               </Button>
+               <ButtonSubmit loading={isLoading} text={"Войти"} />
           </form>
      )
 }

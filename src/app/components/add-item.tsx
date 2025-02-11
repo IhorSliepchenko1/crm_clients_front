@@ -3,12 +3,13 @@ import { useNotification } from "../hooks/useNotification";
 import { hasErrorField } from "../../utils/has-error-field";
 import { useAddCityMutation, useLazyGetAllCityQuery } from "../services/cityApi";
 import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../services/typeNumberApi";
-import { Button, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
+import { ButtonSubmit } from "./button/button-submit";
 
 type Data = { name: string }
 type Props = { nameAdd: "city" | "type" }
 
-export const AddItemsComponent: React.FC<Props> = ({ nameAdd }) => {
+export const AddItem: React.FC<Props> = ({ nameAdd }) => {
      const regex = /\d/;
 
      const form = useForm<Data>({
@@ -18,7 +19,7 @@ export const AddItemsComponent: React.FC<Props> = ({ nameAdd }) => {
                name: (value) => (!value ?
                     "Обязательное поле!"
                     : nameAdd === "city" && regex.test(value) ?
-                         "Вназвании города цифры не допускаются" : null),
+                         "В названии города цифры не допускаются" : null),
           },
      });
 
@@ -56,10 +57,7 @@ export const AddItemsComponent: React.FC<Props> = ({ nameAdd }) => {
                     key={form.key("name")}
                     {...form.getInputProps("name")}
                />
-
-               <Button type="submit" mt="sm" loading={nameAdd === "city" ? loadCity : loadTypeNumber} loaderProps={{ type: "dots" }}>
-                    Добавить
-               </Button>
+               <ButtonSubmit loading={nameAdd === "city" ? loadCity : loadTypeNumber} text={"Добавить"} />
           </form>
      )
 }

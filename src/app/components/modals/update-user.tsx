@@ -5,6 +5,7 @@ import { hasErrorField } from "../../../utils/has-error-field";
 import { Button, Modal, PasswordInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
+import { ButtonSubmit } from "../button/button-submit";
 
 type Props = {
      login: string;
@@ -36,7 +37,7 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
           },
      });
 
-     const [updateUserMutation] = useUpdateUserMutation();
+     const [updateUserMutation, { isLoading }] = useUpdateUserMutation();
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery();
      const { succeed, error } = useNotification();
      const { decoded } = useCheckValidToken()
@@ -93,7 +94,7 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                          />}
                     <div className="flex justify-between mt-5">
                          <Button onClick={close} variant="default">Отмена</Button>
-                         <Button type="submit" color="blue" disabled={!form.isDirty()}>Изменить</Button>
+                         <ButtonSubmit disabled={!form.isDirty()} loading={isLoading} text={"Изменить"} />
                     </div>
                </form>
           </Modal>
