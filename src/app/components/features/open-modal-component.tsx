@@ -1,5 +1,5 @@
-import { useCheckValidToken } from '../../../hooks/useCheckValidToken'
-import { ButtonModalOpen } from '../../button/button-open-modal'
+import { useCheckValidToken } from '../../hooks/useCheckValidToken'
+import { ButtonModalOpen } from '../button/button-open-modal'
 
 type Props = {
      openUpdateModal: () => void

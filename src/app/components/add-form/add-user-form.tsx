@@ -61,7 +61,9 @@ export const AddUserForm = () => {
                          key={form.key("role")}
                          {...form.getInputProps("role")}
                     />}
-               {decoded.role !== "ADMIN" && <p className="text-red-500">Для вашей роли пользователя доступна регистрация только пользователь с аналогичной ролью</p>}
+               {decoded.role !== "ADMIN" && <p className="text-red-500">
+                    Вы можете зарегистрировать только по с ролью USER
+               </p>}
                <ButtonSubmit loading={isLoading} text={"Добавить пользователя"} />
           </form>
      )

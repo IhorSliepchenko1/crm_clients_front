@@ -6,7 +6,7 @@ import { hasErrorField } from "../../../../utils/has-error-field";
 import { useNotification } from "../../../hooks/useNotification/useNotification";
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 import { UpdateUserModal } from "../../modals/update-user";
-import { OpenModalComponent } from "../modal/open-modal-component";
+import { OpenModalComponent } from "../open-modal-component";
 import { useChangeTypeModal } from "../../../hooks/useChangeTypeModal";
 
 type Props = { role: "ADMIN" | "USER", login: string, id: number }

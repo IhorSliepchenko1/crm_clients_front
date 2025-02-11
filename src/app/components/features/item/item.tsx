@@ -5,7 +5,7 @@ import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../../../services/cityApi';
 import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../../../services/typeNumberApi';
 import { hasErrorField } from '../../../../utils/has-error-field';
-import { OpenModalComponent } from '../modal/open-modal-component';
+import { OpenModalComponent } from '../open-modal-component';
 import { DeleteModals } from '../../modals/delete-modals';
 import { UpdateItemModal } from '../../modals/update-item';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
