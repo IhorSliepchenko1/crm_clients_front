@@ -1,5 +1,5 @@
 import { useForm } from "@mantine/form";
-import { useNotification } from "../hooks/useNotification";
+import { useNotification } from "../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../utils/has-error-field";
 import { useAddCityMutation, useLazyGetAllCityQuery } from "../services/cityApi";
 import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../services/typeNumberApi";
@@ -9,7 +9,7 @@ import { ButtonSubmit } from "./button/button-submit";
 type Data = { name: string }
 type Props = { nameAdd: "city" | "type" }
 
-export const AddItem: React.FC<Props> = ({ nameAdd }) => {
+export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const regex = /\d/;
 
      const form = useForm<Data>({

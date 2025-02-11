@@ -1,9 +1,9 @@
-import { TCity_TypeNumber, UpdateTCity_TypeNumber } from "../types";
+import { TItem, UpdateTItem } from "../types";
 import { api } from "./api"
 
 export const cityApi = api.injectEndpoints({
      endpoints: (builder) => ({
-          addCity: builder.mutation<TCity_TypeNumber, { name: string }>(
+          addCity: builder.mutation<TItem, { name: string }>(
                {
                     query: ({ name }) => ({
                          url: "city",
@@ -11,20 +11,20 @@ export const cityApi = api.injectEndpoints({
                          body: { name },
                     }),
                }),
-          updateCity: builder.mutation<UpdateTCity_TypeNumber, { id: number, name: string }>({
+          updateCity: builder.mutation<UpdateTItem, { id: number, name: string }>({
                query: ({ name, id }) => ({
                     url: `city/${id}`,
                     method: "PUT",
                     body: { name },
                }),
           }),
-          getAllCity: builder.query<{ rows: TCity_TypeNumber[] }, void>({
+          getAllCity: builder.query<{ rows: TItem[] }, void>({
                query: () => ({
                     url: "city",
                     method: "GET",
                }),
           }),
-          getByIdCity: builder.query<TCity_TypeNumber, number>({
+          getByIdCity: builder.query<TItem, number>({
                query: (id) => ({
                     url: `city/${id}`,
                     method: "GET",

@@ -16,13 +16,13 @@ export type UpdateUser = {
      }; id: number
 }
 
-export type TCity_TypeNumber = {
+export type TItem = {
      id: number
      name: string
      createdAt: Date
      updatedAt: Date
 }
-export type UpdateTCity_TypeNumber = {
+export type UpdateTItem = {
      name: string
      id: number
 }
@@ -123,4 +123,4 @@ export type DeleteHistory = {
 
 export type PageLimit = { limit: number, page: number }
 
-export type Children = { children: React.ReactElement[] | React.ReactElement }
+export type Children = { children: React.ReactNode }

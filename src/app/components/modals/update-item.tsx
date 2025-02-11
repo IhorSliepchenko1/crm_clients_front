@@ -2,7 +2,7 @@ import { Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { useLazyGetAllCityQuery, useUpdateCityMutation } from "../../services/cityApi";
 import { useLazyGetAllTypeNumberQuery, useUpdateTypeNumberMutation } from "../../services/typeNumberApi";
-import { useNotification } from "../../hooks/useNotification";
+import { useNotification } from "../../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect } from "react";
 import { ModalActionComponent } from "../modal-action-component";
@@ -15,9 +15,10 @@ type Props = {
      opened: boolean
      close: () => void
      name: string
+     typeModal: "delete" | "update"
 }
 
-export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, name }) => {
+export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, name, typeModal }) => {
      const regex = /\d/;
 
      const form = useForm<SubmitData>({
@@ -68,7 +69,7 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
      }
 
      return (
-          <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
+          typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
                          label="Логин"

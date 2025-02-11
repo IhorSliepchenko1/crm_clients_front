@@ -8,20 +8,15 @@ export const UserComponent = () => {
 
      return (
           <ScrolContainer>
-               <>
-                    {
-                         isLoading
-                              ? <LoaderComponent styles="h-[50vh]" />
-                              : data?.map((item) => (
-                                   <User
-                                        key={item.id}
-                                        role={item.role}
-                                        login={item.login}
-                                        id={item.id}
-                                   />
-                              ))
-                    }
-               </>
+               {isLoading
+                    ? <LoaderComponent styles="h-[50vh]" />
+                    : data?.map((item) => (
+                         <User
+                              key={item.id}
+                              role={item.role}
+                              login={item.login}
+                              id={item.id}
+                         />))}
           </ScrolContainer>
      )
 }

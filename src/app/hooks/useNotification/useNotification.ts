@@ -1,5 +1,5 @@
 import { notifications } from "@mantine/notifications";
-import style from "../../style/notification-message.module.scss"
+import style from "./notification-message.module.scss"
 
 type NotificationMessage = {
      type: "error" | "succeed"

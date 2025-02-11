@@ -3,18 +3,17 @@ import { useDisclosure } from "@mantine/hooks";
 import { DeleteModals } from "./modals/delete-modals";
 import { useDeleteUserMutation, useLazyGetAllUsersQuery } from "../services/userApi";
 import { hasErrorField } from "../../utils/has-error-field";
-import { useNotification } from "../hooks/useNotification";
+import { useNotification } from "../hooks/useNotification/useNotification";
 import { useCheckValidToken } from "../hooks/useCheckValidToken";
-import { useState } from "react";
 import { UpdateUserModal } from "./modals/update-user";
 import { OpenModalComponent } from "./open-modal-component";
+import { useChangeTypeModal } from "../hooks/useChangeTypeModal";
 
 type Props = { role: "ADMIN" | "USER", login: string, id: number }
 
 export const User: React.FC<Props> = ({ role, login, id }) => {
-     const [modal, setModal] = useState<0 | 1>(0)
      const [opened, { open, close }] = useDisclosure(false);
-
+     const { typeModal, openUpdateModal, openDeleteModal } = useChangeTypeModal({ open })
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
      const [deeleteUserMutation] = useDeleteUserMutation()
      const { succeed, error } = useNotification()
@@ -39,27 +38,35 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
           }
      }
 
-     const openUpdateModal = () => {
-          setModal(1)
-          open()
-     }
-
-     const openDeleteModal = () => {
-          setModal(0)
-          open()
-     }
-
      return (
           <Group justify="space-between">
                <div className="flex items-center gap-3">
                     <Badge className="min-w-[100px]" color={role === "ADMIN" ? "green" : "orange"}>роль: {role} </Badge>
                     <p>
-                         <span className="text-red-600">{decoded.id === id && "(ВЫ) "}</span>
-                         {login}</p>
+                         {login}
+                         <span className="text-red-600">{decoded.id === id && " (ВЫ)"}</span>
+                    </p>
                </div>
-               <OpenModalComponent id={id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
-               {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление аккаунта ${login}`} onClick={deleteUser} />}
-               {modal === 1 && <UpdateUserModal id={id} login={login} role={role} opened={opened} close={close} />}
+               <OpenModalComponent
+                    id={id}
+                    openUpdateModal={openUpdateModal}
+                    openDeleteModal={openDeleteModal} />
+
+               <DeleteModals
+                    opened={opened}
+                    close={close}
+                    title={`Подтвердите удаление аккаунта ${login}`}
+                    onClick={deleteUser}
+                    typeModal={typeModal} />
+
+               <UpdateUserModal
+                    id={id}
+                    login={login}
+                    role={role}
+                    opened={opened}
+                    close={close}
+                    typeModal={typeModal}
+               />
           </Group >
      )
 }

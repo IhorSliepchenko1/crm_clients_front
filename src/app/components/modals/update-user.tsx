@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNotification } from "../../hooks/useNotification";
+import { useNotification } from "../../hooks/useNotification/useNotification";
 import { useLazyGetAllUsersQuery, useUpdateUserMutation } from "../../services/userApi";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { Modal, PasswordInput, Select, TextInput } from "@mantine/core";
@@ -13,16 +13,17 @@ type Props = {
      id: number;
      opened: boolean;
      close: () => void;
+     typeModal: "delete" | "update"
 };
 
 type SubmitData = {
-     login: string;
-     newPassword: string;
-     oldPassword: string;
-     role: "ADMIN" | "USER";
+     login: string
+     newPassword: string
+     oldPassword: string
+     role: "ADMIN" | "USER"
 };
 
-export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, close }) => {
+export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, close, typeModal }) => {
      const form = useForm<SubmitData>({
           initialValues: {
                login,
@@ -68,7 +69,7 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
      };
 
      return (
-          <Modal opened={opened} onClose={close} title="Обновление информации о пользователе">
+          typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации о пользователе">
                <form onSubmit={form.onSubmit(updateUser)}>
                     <TextInput
                          label="Логин"

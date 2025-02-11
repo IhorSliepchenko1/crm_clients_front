@@ -3,7 +3,7 @@ import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
 import { Register } from "../types";
 import { useLazyGetAllUsersQuery, useRegisterMutation } from "../services/userApi";
 import { hasErrorField } from "../../utils/has-error-field";
-import { useNotification } from "../hooks/useNotification";
+import { useNotification } from "../hooks/useNotification/useNotification";
 import { useCheckValidToken } from "../hooks/useCheckValidToken";
 import { ButtonSubmit } from "./button/button-submit";
 

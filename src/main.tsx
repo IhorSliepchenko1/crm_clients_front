@@ -7,10 +7,8 @@ import { Notifications } from "@mantine/notifications";
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Provider } from "react-redux"
 import { store } from "./app/store"
-
 import { AuthGuard } from "./features/authGuard"
 import { Layout } from "./app/components/layout/layout";
-
 import { Auth } from "./pages/auth";
 import { Users } from "./pages/users";
 import { City } from "./pages/city";
@@ -76,9 +74,6 @@ const router = createBrowserRouter([
     ],
   },
 ])
-
-
-
 
 
 

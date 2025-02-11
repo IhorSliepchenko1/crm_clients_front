@@ -3,7 +3,7 @@ import { TextInput, PasswordInput } from "@mantine/core";
 import { useLazyCheckQuery, useLoginMutation } from "../../app/services/userApi";
 import { useNavigate } from "react-router-dom";
 import { hasErrorField } from "../../utils/has-error-field";
-import { useNotification } from "../../app/hooks/useNotification";
+import { useNotification } from "../../app/hooks/useNotification/useNotification";
 import { ButtonSubmit } from "../../app/components/button/button-submit";
 
 export const Login = () => {
