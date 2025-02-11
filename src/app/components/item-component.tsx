@@ -6,7 +6,7 @@ import { useCheckValidToken } from '../hooks/useCheckValidToken';
 import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../services/cityApi';
 import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../services/typeNumberApi';
 import { hasErrorField } from '../../utils/has-error-field';
-import { ActionComponent } from './action-component';
+import { OpenModalComponent } from './open-modal-component';
 import { DeleteModals } from './modals/delete-modals';
 import { UpdateItemModal } from './modals/update-item';
 
@@ -37,7 +37,7 @@ export const ItemComponent: React.FC<Props> = ({ nameItem, id, index, name }) =>
      const onDelete = async () => {
           try {
                await actions[nameItem].delete(id).unwrap();
-               succeed("Свойство удалено!")
+               succeed(`${nameItem === "city" ? "Город" : "Тип базы"} '${name}' удалён!`)
                await actions[nameItem].refresh().unwrap();
                close()
 
@@ -64,7 +64,7 @@ export const ItemComponent: React.FC<Props> = ({ nameItem, id, index, name }) =>
                     <div>{index}.</div>
                     <div>{name}</div>
                </div>
-               <ActionComponent id={decoded.id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
+               <OpenModalComponent id={decoded.id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление`} onClick={onDelete} />}
                {modal === 1 && <UpdateItemModal opened={opened} close={close} nameItem={nameItem} id={id} name={name} />}
           </Group >

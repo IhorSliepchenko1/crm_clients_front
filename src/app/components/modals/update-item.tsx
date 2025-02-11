@@ -1,11 +1,11 @@
-import { Button, Modal, TextInput } from "@mantine/core"
+import { Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { useLazyGetAllCityQuery, useUpdateCityMutation } from "../../services/cityApi";
 import { useLazyGetAllTypeNumberQuery, useUpdateTypeNumberMutation } from "../../services/typeNumberApi";
 import { useNotification } from "../../hooks/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
-import { ButtonSubmit } from "../button/button-submit";
 import { useEffect } from "react";
+import { ModalActionComponent } from "../modal-action-component";
 
 type SubmitData = { name: string }
 
@@ -55,7 +55,7 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
      const updateItem = async ({ name }: SubmitData) => {
           try {
                await actions[nameItem].update({ id, name }).unwrap();
-               succeed("Свойство обновлено!");
+               succeed(`${nameItem === "city" ? "Город" : "Тип базы"} '${name}' обновлён!`)
                form.reset();
                close()
                await actions[nameItem].refresh().unwrap();
@@ -75,10 +75,11 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
                          placeholder="Введите логин"
                          {...form.getInputProps("name")}
                     />
-                    <div className="flex justify-between mt-5">
-                         <Button onClick={close} variant="default">Отмена</Button>
-                         <ButtonSubmit disabled={!form.isDirty()} loading={actions[nameItem].loading} text={"Изменить"} />
-                    </div>
+                    <ModalActionComponent
+                         disabled={!form.isDirty()}
+                         loading={actions[nameItem].loading}
+                         close={close}
+                    />
                </form>
           </Modal>
      )

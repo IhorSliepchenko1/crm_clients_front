@@ -1,4 +1,5 @@
 import { Modal, Button } from "@mantine/core";
+import { ButtonCancel } from "../button/button-cancel";
 
 type Props = {
      opened: boolean
@@ -11,7 +12,7 @@ export const DeleteModals: React.FC<Props> = ({ opened, close, title, onClick })
      return (
           <Modal opened={opened} onClose={close} title={title}>
                <div className="flex justify-between mt-5">
-                    <Button onClick={() => close()} variant="default">Отмена</Button>
+                    <ButtonCancel close={close} />
                     <Button onClick={onClick} color="red">Удалить</Button>
                </div>
           </Modal>

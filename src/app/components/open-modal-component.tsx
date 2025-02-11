@@ -1,5 +1,5 @@
 import { useCheckValidToken } from '../hooks/useCheckValidToken'
-import { ActionButton } from './button/action-button'
+import { ButtonModalOpen } from './button/button-open-modal'
 
 type Props = {
      openUpdateModal: () => void
@@ -7,15 +7,15 @@ type Props = {
      id: number
 }
 
-export const ActionComponent: React.FC<Props> = ({ id, openUpdateModal, openDeleteModal }) => {
+export const OpenModalComponent: React.FC<Props> = ({ id, openUpdateModal, openDeleteModal }) => {
      const { decoded } = useCheckValidToken()
 
      return (
           <div className="flex items-center gap-2">
                {(decoded.role === "ADMIN" || (decoded.role === "USER" && decoded.id === id)) && (
-                    <ActionButton onClick={openUpdateModal} text="Изменить" type="EDIT" />
+                    <ButtonModalOpen onClick={openUpdateModal} text="Изменить" typeColor="EDIT" />
                )}
-               {decoded.role === "ADMIN" && <ActionButton onClick={openDeleteModal} text="Удалить" type="DELETE" />}
+               {decoded.role === "ADMIN" && <ButtonModalOpen onClick={openDeleteModal} text="Удалить" typeColor="DELETE" />}
           </div>
      )
 }

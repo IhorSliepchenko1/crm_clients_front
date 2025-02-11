@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useNotification } from "../../hooks/useNotification";
 import { useLazyGetAllUsersQuery, useUpdateUserMutation } from "../../services/userApi";
 import { hasErrorField } from "../../../utils/has-error-field";
-import { Button, Modal, PasswordInput, Select, TextInput } from "@mantine/core";
+import { Modal, PasswordInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
-import { ButtonSubmit } from "../button/button-submit";
+import { ModalActionComponent } from "../modal-action-component";
 
 type Props = {
      login: string;
@@ -92,10 +92,11 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                               data={["ADMIN", "USER"]}
                               {...form.getInputProps("role")}
                          />}
-                    <div className="flex justify-between mt-5">
-                         <Button onClick={close} variant="default">Отмена</Button>
-                         <ButtonSubmit disabled={!form.isDirty()} loading={isLoading} text={"Изменить"} />
-                    </div>
+                    <ModalActionComponent
+                         disabled={!form.isDirty()}
+                         loading={isLoading}
+                         close={close}
+                    />
                </form>
           </Modal>
      );

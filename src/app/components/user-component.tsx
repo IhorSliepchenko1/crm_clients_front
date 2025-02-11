@@ -1,9 +1,9 @@
 import { useGetAllUsersQuery } from "../services/userApi"
 import { ScrolContainer } from "./layout/scrol-container"
-import { LoaderComponent } from "./loader"
+import { LoaderComponent } from "./layout/loader"
 import { User } from "./user"
 
-export const UserList = () => {
+export const UserComponent = () => {
      const { data, isLoading } = useGetAllUsersQuery()
 
      return (

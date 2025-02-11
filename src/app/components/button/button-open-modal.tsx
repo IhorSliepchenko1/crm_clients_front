@@ -5,18 +5,18 @@ import { MdEdit } from "react-icons/md"
 type Props = {
      onClick: () => void
      text: string
-     type: "DELETE" | "EDIT"
+     typeColor: "DELETE" | "EDIT"
 }
 
 
-export const ActionButton: React.FC<Props> = ({ onClick, text, type }) => {
+export const ButtonModalOpen: React.FC<Props> = ({ onClick, text, typeColor }) => {
      return (
           <Button
                onClick={onClick}
                variant="filled"
                size="xs"
-               leftSection={type === "DELETE" ? <MdDelete /> : <MdEdit />}
-               color={type === "DELETE" ? "red" : "yellow"} >
+               leftSection={typeColor === "DELETE" ? <MdDelete /> : <MdEdit />}
+               color={typeColor === "DELETE" ? "red" : "yellow"} >
                {text}
           </Button>
      )

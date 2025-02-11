@@ -2,7 +2,7 @@ import { AddItem } from "../app/components/add-item"
 import { useGetAllCityQuery } from "../app/services/cityApi"
 import { ItemComponent } from "../app/components/item-component"
 import { Divider } from "@mantine/core"
-import { LoaderComponent } from "../app/components/loader"
+import { LoaderComponent } from "../app/components/layout/loader"
 import { ScrolContainer } from "../app/components/layout/scrol-container"
 
 

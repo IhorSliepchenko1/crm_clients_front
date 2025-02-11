@@ -1,7 +1,7 @@
 import { Divider } from "@mantine/core"
 import { AddItem } from "../app/components/add-item"
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi"
-import { LoaderComponent } from "../app/components/loader"
+import { LoaderComponent } from "../app/components/layout/loader"
 import { ItemComponent } from "../app/components/item-component"
 import { ScrolContainer } from "../app/components/layout/scrol-container"
 

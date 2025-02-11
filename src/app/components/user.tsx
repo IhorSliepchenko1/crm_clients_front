@@ -7,7 +7,7 @@ import { useNotification } from "../hooks/useNotification";
 import { useCheckValidToken } from "../hooks/useCheckValidToken";
 import { useState } from "react";
 import { UpdateUserModal } from "./modals/update-user";
-import { ActionComponent } from "./action-component";
+import { OpenModalComponent } from "./open-modal-component";
 
 type Props = { role: "ADMIN" | "USER", login: string, id: number }
 
@@ -57,7 +57,7 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                          <span className="text-red-600">{decoded.id === id && "(ВЫ) "}</span>
                          {login}</p>
                </div>
-               <ActionComponent id={id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
+               <OpenModalComponent id={id} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                {modal === 0 && <DeleteModals opened={opened} close={close} title={`Подтвердите удаление аккаунта ${login}`} onClick={deleteUser} />}
                {modal === 1 && <UpdateUserModal id={id} login={login} role={role} opened={opened} close={close} />}
           </Group >
