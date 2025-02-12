@@ -4,12 +4,13 @@ import { useLazyGetAllUsersQuery, useUpdateUserMutation } from "../../services/u
 import { hasErrorField } from "../../../utils/has-error-field";
 import { Modal, PasswordInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ModalActionComponent } from "../ui/modal-action-component";
+import { ROLES } from "../../types";
+import { roles } from "../../../utils/role-list";
 
 type Props = {
      login: string;
-     role: "ADMIN" | "USER";
+     role: ROLES;
      id: number;
      opened: boolean;
      close: () => void;
@@ -20,7 +21,7 @@ type SubmitData = {
      login: string
      newPassword: string
      oldPassword: string
-     role: "ADMIN" | "USER"
+     role: ROLES
 };
 
 export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, close, typeModal }) => {
@@ -41,7 +42,6 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
      const [updateUserMutation, { isLoading }] = useUpdateUserMutation();
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery();
      const { succeed, error } = useNotification();
-     const { decoded } = useCheckValidToken()
 
      useEffect(() => {
           if (opened) {
@@ -86,13 +86,12 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                          placeholder="Введите новый пароль"
                          {...form.getInputProps("newPassword")}
                     />
-                    {decoded.role === "ADMIN" &&
-                         <Select
-                              label="Роль"
-                              placeholder="Выберите роль пользователя"
-                              data={["ADMIN", "USER"]}
-                              {...form.getInputProps("role")}
-                         />}
+                    <Select
+                         label="Роль"
+                         placeholder="Выберите роль пользователя"
+                         data={roles}
+                         {...form.getInputProps("role")}
+                    />
                     <ModalActionComponent
                          disabled={!form.isDirty()}
                          loading={isLoading}

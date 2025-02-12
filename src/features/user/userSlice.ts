@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { userApi } from "../../app/services/userApi"
 import { RootState } from "../../app/store"
 
-interface InitialState {
+type InitialState = {
      isAuthenticated: boolean
      token: string | null
 }

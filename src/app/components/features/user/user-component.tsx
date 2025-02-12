@@ -1,7 +1,8 @@
 import { useGetAllUsersQuery } from "../../../services/userApi"
 import { ScrolContainer } from "../../layout/scrol-container"
 import { LoaderComponent } from "../../layout/loader"
-import { User } from "../item/user"
+import { User } from "./user"
+import { ROLES } from "../../../types"
 
 export const UserComponent = () => {
      const { data, isLoading } = useGetAllUsersQuery()
@@ -13,7 +14,7 @@ export const UserComponent = () => {
                     : data?.map((item) => (
                          <User
                               key={item.id}
-                              role={item.role}
+                              role={item.role as ROLES}
                               login={item.login}
                               id={item.id}
                          />))}

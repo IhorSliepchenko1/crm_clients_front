@@ -1,13 +1,14 @@
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "../hooks";
 import { useMemo } from "react";
+import { ROLES } from "../types";
 
 type DecodedToken = {
      exp: number;
      iat: number;
      id: number;
      login: string;
-     role: string;
+     role: ROLES;
 }
 
 export const useCheckValidToken = () => {
@@ -22,7 +23,7 @@ export const useCheckValidToken = () => {
                     iat: 0,
                     id: 0,
                     login: "",
-                    role: "",
+                    role: ROLES.VIEWER,
                }
           }
      }, [token])

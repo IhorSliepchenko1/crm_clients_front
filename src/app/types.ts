@@ -12,7 +12,7 @@ export type UpdateUser = {
           login: string
           newPassword: string
           oldPassword: string
-          role: string
+          role: ROLES
      }; id: number
 }
 
@@ -22,6 +22,7 @@ export type TItem = {
      createdAt: Date
      updatedAt: Date
 }
+
 export type UpdateTItem = {
      name: string
      id: number
@@ -63,44 +64,6 @@ export type RaportImport = {
      incorrect: number;
 }
 
-// export type CopyNumber = {
-//      id: number
-//      number: string
-//      full_name: string
-//      dob: string
-//      blocking_period: string
-//      name_import_result_file: string
-//      name_import_guest_file: string
-//      createdAt: Date
-//      updatedAt: Date
-// }
-
-// export type ResultHistories = {
-//      id: number
-//      operator: string
-//      note: string
-//      call_date: string
-//      number_id: number
-//      result_id: number
-//      name_import_result_file: string
-//      createdAt: Date
-//      updatedAt: Date
-// }
-
-// type TimeString = `${number}:${number}:${number}`;
-
-// export type Guest = {
-//      id: number
-//      date: string
-//      time: TimeString
-//      guests: number
-//      pairs: number
-//      name_import_guest_file: string
-//      number_id: number
-//      createdAt: Date
-//      updatedAt: Date
-// }
-
 export type ImportHistory = {
      id: number
      dublicate: number
@@ -122,5 +85,11 @@ export type DeleteHistory = {
 }
 
 export type PageLimit = { limit: number, page: number }
-
 export type Children = { children: React.ReactNode }
+
+
+export enum ROLES {
+     ADMIN = "ADMIN",
+     USER = "USER",
+     VIEWER = "VIEWER"
+}

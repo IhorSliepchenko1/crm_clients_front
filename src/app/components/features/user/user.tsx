@@ -6,10 +6,15 @@ import { hasErrorField } from "../../../../utils/has-error-field";
 import { useNotification } from "../../../hooks/useNotification/useNotification";
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 import { UpdateUserModal } from "../../modals/update-user";
-import { OpenModalComponent } from "../open-modal-component";
 import { useChangeTypeModal } from "../../../hooks/useChangeTypeModal";
+import { OpenModalComponent } from "../../open-modal-component";
+import { ROLES } from "../../../types";
 
-type Props = { role: "ADMIN" | "USER", login: string, id: number }
+type Props = {
+     role: ROLES,
+     login: string,
+     id: number
+}
 
 export const User: React.FC<Props> = ({ role, login, id }) => {
      const [opened, { open, close }] = useDisclosure(false);
@@ -38,10 +43,22 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
           }
      }
 
+     const colorRole = (role: ROLES) => {
+          switch (role) {
+               case "ADMIN":
+                    return "green"
+               case "USER":
+                    return "orange"
+               case "VIEWER":
+                    return "yellow"
+               default: return
+          }
+     }
+
      return (
           <Group justify="space-between">
                <div className="flex items-center gap-3">
-                    <Badge className="min-w-[100px]" color={role === "ADMIN" ? "green" : "orange"}>роль: {role} </Badge>
+                    <Badge className="min-w-[100px]" color={colorRole(role)}>роль: {role} </Badge>
                     <p>
                          {login}
                          <span className="text-red-600">{decoded.id === id && " (ВЫ)"}</span>
@@ -50,7 +67,9 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                <OpenModalComponent
                     id={id}
                     openUpdateModal={openUpdateModal}
-                    openDeleteModal={openDeleteModal} />
+                    openDeleteModal={openDeleteModal}
+                    component="USER"
+               />
 
                <DeleteModals
                     opened={opened}

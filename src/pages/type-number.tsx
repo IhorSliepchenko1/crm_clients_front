@@ -1,15 +1,18 @@
 import { Divider } from "@mantine/core"
 import { AddItemForm } from "../app/components/add-form/add-item-form"
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi"
-import { ItemComponent } from "../app/components/features/user/item-component"
+import { ItemComponent } from "../app/components/features/item/item-component"
+import { useCheckValidToken } from "../app/hooks/useCheckValidToken"
 
 export const TypeNumber = () => {
   const { data, isLoading } = useGetAllTypeNumberQuery()
+  const { decoded } = useCheckValidToken()
 
   return (
     <>
-      <AddItemForm nameAdd="type" />
-      <Divider my="xs" />
+      {decoded.role === "ADMIN" && <AddItemForm nameAdd="type" />}
+      <Divider my="sm" />
+      <p className="text-center text-xl">Список типов баз</p>
       <ItemComponent
         nameItem="type"
         data={data}

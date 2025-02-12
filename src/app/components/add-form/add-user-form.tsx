@@ -4,8 +4,8 @@ import { Register } from "../../types";
 import { useLazyGetAllUsersQuery, useRegisterMutation } from "../../services/userApi";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ButtonSubmit } from "../button/button-submit";
+import { roles } from "../../../utils/role-list";
 
 export const AddUserForm = () => {
      const form = useForm<Register>({
@@ -19,7 +19,6 @@ export const AddUserForm = () => {
 
      const [registration, { isLoading }] = useRegisterMutation()
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
-     const { decoded } = useCheckValidToken()
      const { succeed, error } = useNotification()
 
      const onSubmit = async (data: Register) => {
@@ -37,7 +36,6 @@ export const AddUserForm = () => {
      }
 
 
-     const roles = ["USER", decoded.role === "ADMIN" && "ADMIN"].filter(t => typeof t === "string");
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
@@ -52,18 +50,14 @@ export const AddUserForm = () => {
                     key={form.key("password")}
                     {...form.getInputProps("password")}
                />
-               {decoded.role === "ADMIN" &&
-                    <Select
-                         label="Роль"
-                         placeholder="Выберите роль пользователя"
-                         data={roles}
-                         searchable
-                         key={form.key("role")}
-                         {...form.getInputProps("role")}
-                    />}
-               {decoded.role !== "ADMIN" && <p className="text-red-500">
-                    Вы можете зарегистрировать только по с ролью USER
-               </p>}
+               <Select
+                    label="Роль"
+                    placeholder="Выберите роль пользователя"
+                    data={roles}
+                    searchable
+                    key={form.key("role")}
+                    {...form.getInputProps("role")}
+               />
                <ButtonSubmit loading={isLoading} text={"Добавить пользователя"} />
           </form>
      )

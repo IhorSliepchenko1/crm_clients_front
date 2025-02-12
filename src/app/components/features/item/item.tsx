@@ -1,14 +1,13 @@
 import { Group } from '@mantine/core'
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useDisclosure } from '@mantine/hooks';
-import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../../../services/cityApi';
 import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../../../services/typeNumberApi';
 import { hasErrorField } from '../../../../utils/has-error-field';
-import { OpenModalComponent } from '../open-modal-component';
 import { DeleteModals } from '../../modals/delete-modals';
 import { UpdateItemModal } from '../../modals/update-item';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
+import { OpenModalComponent } from '../../open-modal-component';
 
 type Props = {
      nameItem: "city" | "type"
@@ -21,7 +20,6 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
      const [opened, { open, close }] = useDisclosure(false);
      const { typeModal, openUpdateModal, openDeleteModal } = useChangeTypeModal({ open })
      const { succeed, error } = useNotification()
-     const { decoded } = useCheckValidToken()
 
      const [deeleteCityMutation] = useDeleteCityMutation()
      const [triggerAllCityQuery] = useLazyGetAllCityQuery()
@@ -55,7 +53,6 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                     <div>{name}</div>
                </div>
                <OpenModalComponent
-                    id={decoded.id}
                     openUpdateModal={openUpdateModal}
                     openDeleteModal={openDeleteModal}
                />
