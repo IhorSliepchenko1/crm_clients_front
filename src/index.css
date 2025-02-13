@@ -11,3 +11,8 @@ body {
 * ::-webkit-scrollbar-thumb {
      background-color: #1971c2;
 }
+
+th,
+tr {
+     text-align: center !important;
+}

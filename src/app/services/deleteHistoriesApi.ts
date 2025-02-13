@@ -3,7 +3,10 @@ import { api } from "./api"
 
 export const deleteHistoriesApi = api.injectEndpoints({
      endpoints: (builder) => ({
-          allImportHistories: builder.query<DeleteHistory[], PageLimit>({
+          allImportHistories: builder.query<{
+               rows: DeleteHistory[];
+               count: number;
+          }, PageLimit>({
                query: ({ limit, page }) => ({
                     url: "histories-delete",
                     method: "GET",
