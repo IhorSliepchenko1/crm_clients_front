@@ -20,6 +20,7 @@ import { HistoriesDelete } from "./pages/histories-delete";
 import { HistoriesImport } from "./pages/histories-import";
 import { FilterDatabase } from "./pages/filter-database";
 import { MainPage } from "./pages/main-page";
+import { Result } from "./pages/result";
 
 const container = document.getElementById("root")
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/type-number",
         element: <TypeNumber />
+      },
+      {
+        path: "/result",
+        element: <Result />
       },
       {
         path: "/add-numbers",

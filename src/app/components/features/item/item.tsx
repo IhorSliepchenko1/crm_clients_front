@@ -8,9 +8,10 @@ import { DeleteModals } from '../../modals/delete-modals';
 import { UpdateItemModal } from '../../modals/update-item';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
 import { OpenModalComponent } from '../../open-modal-component';
+import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../services/resultApi';
 
 type Props = {
-     nameItem: "city" | "type"
+     nameItem: "city" | "type" | "result"
      id: number
      index: number
      name: string
@@ -21,21 +22,26 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
      const { typeModal, openUpdateModal, openDeleteModal } = useChangeTypeModal({ open })
      const { succeed, error } = useNotification()
 
-     const [deeleteCityMutation] = useDeleteCityMutation()
+     const [deleteCityMutation] = useDeleteCityMutation()
      const [triggerAllCityQuery] = useLazyGetAllCityQuery()
 
-     const [deeleteTypeNumberMutation] = useDeleteTypeNumberMutation()
+     const [deleteTypeNumberMutation] = useDeleteTypeNumberMutation()
      const [triggerAllTypeNumberQuery] = useLazyGetAllTypeNumberQuery()
 
+     const [deleteResultMutation] = useDeleteResultMutation()
+     const [triggerAllResultQuery] = useLazyGetAllResultQuery()
+
      const actions = {
-          city: { delete: deeleteCityMutation, refresh: triggerAllCityQuery },
-          type: { delete: deeleteTypeNumberMutation, refresh: triggerAllTypeNumberQuery }
+          city: { delete: deleteCityMutation, refresh: triggerAllCityQuery, text: "Город" },
+          type: { delete: deleteTypeNumberMutation, refresh: triggerAllTypeNumberQuery, text: "Тип базы" },
+          result: { delete: deleteResultMutation, refresh: triggerAllResultQuery, text: "Результат" }
      };
+
 
      const deleteItem = async () => {
           try {
                await actions[nameItem].delete(id).unwrap();
-               succeed(`${nameItem === "city" ? "Город" : "Тип базы"} '${name}' удалён!`)
+               succeed(`${actions[nameItem].text} '${name}' удалён!`)
                await actions[nameItem].refresh().unwrap();
                close()
 
@@ -72,7 +78,6 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                     id={id} name={name}
                     typeModal={typeModal}
                />
-
           </Group >
      )
 }

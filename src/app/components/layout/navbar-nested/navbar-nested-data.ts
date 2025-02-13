@@ -25,7 +25,8 @@ export const data = (logoutSession: () => void) => {
                links: [
                     { label: "Пользователи", link: "/users" },
                     { label: "Города", link: "/city" },
-                    { label: "Типы базы", link: "/type-number" },
+                    { label: "Типы баз", link: "/type-number" },
+                    { label: "Результаты", link: "/result" },
                ],
                access: [ROLES.ADMIN]
           },

@@ -12,8 +12,8 @@ export const TypeNumber = () => {
     <>
       {decoded.role === "ADMIN" && <AddItemForm nameAdd="type" />}
       <Divider my="sm" />
-      <p className="text-center text-xl">Список типов баз</p>
       <ItemComponent
+        text="Список типов баз"
         nameItem="type"
         data={data}
         isLoading={isLoading}

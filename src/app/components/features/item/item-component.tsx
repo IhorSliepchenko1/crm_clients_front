@@ -8,12 +8,14 @@ type Props = {
      data: {
           rows: TItem[];
      } | undefined
-     nameItem: "city" | "type"
+     nameItem: "city" | "type" | "result"
+     text: string
 }
 
-export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem }) => {
+export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem, text }) => {
      return (
           <ScrolContainer>
+               <p className="text-center text-xl">{text}</p>
                {isLoading
                     ? <LoaderComponent styles="h-[50vh]" />
                     : data?.rows.map((item, index) => (

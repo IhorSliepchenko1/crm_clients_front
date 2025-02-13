@@ -6,11 +6,12 @@ import { useNotification } from "../../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect } from "react";
 import { ModalActionComponent } from "../ui/modal-action-component";
+import { useLazyGetAllResultQuery, useUpdateResultMutation } from "../../services/resultApi";
 
 type SubmitData = { name: string }
 
 type Props = {
-     nameItem: "city" | "type"
+     nameItem: "city" | "type" | "result"
      id: number
      opened: boolean
      close: () => void
@@ -34,9 +35,12 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
 
      const [updateCity, { isLoading: loadCity }] = useUpdateCityMutation()
      const [updateTypeNumber, { isLoading: loadTypeNumber }] = useUpdateTypeNumberMutation()
+     const [updateResultMutation, { isLoading: loadResult }] = useUpdateResultMutation()
 
      const [triggerAllCityQuery] = useLazyGetAllCityQuery()
      const [triggerAllTypeNumberQuery] = useLazyGetAllTypeNumberQuery()
+     const [triggerAllResultQuery] = useLazyGetAllResultQuery()
+
      const { succeed, error } = useNotification()
 
      useEffect(() => {
@@ -49,14 +53,15 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
      }, [opened]);
 
      const actions = {
-          city: { update: updateCity, refresh: triggerAllCityQuery, loading: loadCity },
-          type: { update: updateTypeNumber, refresh: triggerAllTypeNumberQuery, loading: loadTypeNumber }
+          city: { update: updateCity, refresh: triggerAllCityQuery, loading: loadCity, text: "Город" },
+          type: { update: updateTypeNumber, refresh: triggerAllTypeNumberQuery, loading: loadTypeNumber, text: "Тип базы" },
+          result: { update: updateResultMutation, refresh: triggerAllResultQuery, loading: loadResult, text: "Результат" }
      };
 
      const updateItem = async ({ name }: SubmitData) => {
           try {
                await actions[nameItem].update({ id, name }).unwrap();
-               succeed(`${nameItem === "city" ? "Город" : "Тип базы"} '${name}' обновлён!`)
+               succeed(`${actions[nameItem].text} '${name}' обновлён!`)
                form.reset();
                close()
                await actions[nameItem].refresh().unwrap();
@@ -72,8 +77,7 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
-                         label="Логин"
-                         placeholder="Введите логин"
+                         label={actions[nameItem].text}
                          {...form.getInputProps("name")}
                     />
                     <ModalActionComponent
