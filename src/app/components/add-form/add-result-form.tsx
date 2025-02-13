@@ -33,12 +33,9 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const missingResult = useMemo(() => {
           if (data) {
                const existingResults = data.rows.map((item) => item.name)
-               console.log(existingResults);
-
                const resultArray = requireResults.filter(item => {
                     return existingResults.indexOf(item) < 0
                })
-
                return resultArray
           }
 
