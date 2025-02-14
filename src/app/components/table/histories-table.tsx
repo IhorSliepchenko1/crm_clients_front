@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
-import { Pagination, Table } from "@mantine/core";
+import { Table } from "@mantine/core";
 import { LoaderComponent } from "../layout/loader";
 import { useCalendarInputDate } from "../../hooks/useCalendarInputDate";
 import { useAllImportHistoriesQuery } from "../../services/importHistoriesApi";
 import { useAllDeleteHistoriesQuery } from "../../services/deleteHistoriesApi";
+import { Pagination } from "../ui/pagination";
+import { useTotalPage } from "../../hooks/useTotalPage";
 
 type Props = {
      name: "delete" | "import";
@@ -11,7 +13,7 @@ type Props = {
 
 export const HistoriesTable: React.FC<Props> = ({ name }) => {
      const [page, setPage] = useState(1);
-     const limit = 15;
+     const limit = 20;
      const { data: dataImport, isLoading: loadingImport } = useAllImportHistoriesQuery({ limit, page });
      const { data: dataDelete, isLoading: loadingDelete } = useAllDeleteHistoriesQuery({ limit, page });
 
@@ -20,10 +22,7 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
           : { data: dataDelete, loading: loadingDelete, title1: "Удалённые", title2: "Не найденные" };
 
      const { calendarDate } = useCalendarInputDate();
-
-     const total = useMemo(() => {
-          return histories.data?.count ? Math.ceil(histories.data.count / limit) : 0;
-     }, [histories.data?.count, limit]);
+     const total = useTotalPage(histories.data?.count, limit)
 
      const rows = histories.data?.rows?.length
           ? histories.data.rows.map((item, index) => (
@@ -42,7 +41,7 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
           );
 
      return (
-          <div className="flex flex-col justify-between items-center h-[95vh] w-full">
+          <div className="flex flex-col justify-between items-center min-h-[750px] w-full">
                {histories.loading ? (
                     <LoaderComponent />
                ) : (
@@ -59,9 +58,8 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
                          <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
                )}
-               <div className="flex justify-center mt-5">
-                    <Pagination total={total} defaultValue={1} onChange={setPage} />
-               </div>
+
+               <Pagination total={total} setPage={setPage} />
           </div>
      );
 };

@@ -15,7 +15,7 @@ type Props = {
 export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem, text }) => {
      return (
           <ScrolContainer>
-               <p className="text-center text-xl">{text}</p>
+               <p className="text-center text-xl sticky top-0">{text}</p>
                {isLoading
                     ? <LoaderComponent styles="h-[50vh]" />
                     : data?.rows.map((item, index) => (

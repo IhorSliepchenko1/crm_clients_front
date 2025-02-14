@@ -31,13 +31,13 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const { succeed, error } = useNotification()
 
      const actions = nameAdd === "city" ?
-          { add: addCity, refresh: triggerAllCityQuery } :
-          { add: addTypeNumber, refresh: triggerAllTypeNumberQuery }
+          { add: addCity, refresh: triggerAllCityQuery, textSucceed: "город" } :
+          { add: addTypeNumber, refresh: triggerAllTypeNumberQuery, textSucceed: "тип базы" }
 
      const onSubmit = async (data: Data) => {
           try {
                await actions.add(data).unwrap();
-               succeed("Новое свойство добавлено!");
+               succeed(`Новый ${actions.textSucceed} добавлен!`);
                form.reset()
                await actions.refresh().unwrap();
 

@@ -55,7 +55,7 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const onSubmit = async (data: Data) => {
           try {
                await addResult(data).unwrap();
-               succeed("Новое свойство добавлено!");
+               succeed("Новый результат добавлен!");
                form.reset()
                await triggerAllResultQuery().unwrap();
           } catch (err) {

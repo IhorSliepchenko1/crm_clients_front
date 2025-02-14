@@ -65,10 +65,8 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                     </p>
                </div>
                <OpenModalComponent
-                    id={id}
                     openUpdateModal={openUpdateModal}
                     openDeleteModal={openDeleteModal}
-                    component="USER"
                />
 
                <DeleteModals
