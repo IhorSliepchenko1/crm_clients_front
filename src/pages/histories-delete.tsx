@@ -1,10 +1,10 @@
-import { DeleteHistoriesTable } from "../app/components/table/delete-histories-table"
+import { HistoriesTable } from "../app/components/table/histories-table"
 
 
 export const HistoriesDelete = () => {
   return (
     <div>
-      <DeleteHistoriesTable />
+      <HistoriesTable name="delete" />
     </div>
   )
 }

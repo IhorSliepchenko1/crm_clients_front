@@ -30,17 +30,16 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const [triggerAllTypeNumberQuery] = useLazyGetAllTypeNumberQuery()
      const { succeed, error } = useNotification()
 
-     const actions = {
-          city: { add: addCity, refresh: triggerAllCityQuery },
-          type: { add: addTypeNumber, refresh: triggerAllTypeNumberQuery }
-     };
+     const actions = nameAdd === "city" ?
+          { add: addCity, refresh: triggerAllCityQuery } :
+          { add: addTypeNumber, refresh: triggerAllTypeNumberQuery }
 
      const onSubmit = async (data: Data) => {
           try {
-               await actions[nameAdd].add(data).unwrap();
+               await actions.add(data).unwrap();
                succeed("Новое свойство добавлено!");
                form.reset()
-               await actions[nameAdd].refresh().unwrap();
+               await actions.refresh().unwrap();
 
           } catch (err) {
                console.error(err);
