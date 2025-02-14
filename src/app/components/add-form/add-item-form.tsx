@@ -5,13 +5,15 @@ import { useAddCityMutation, useLazyGetAllCityQuery } from "../../services/cityA
 import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../../services/typeNumberApi";
 import { TextInput } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
+import { useCheckValidToken } from "../../hooks/useCheckValidToken";
+import { ROLES } from "../../../utils/role-list";
 
 type Data = { name: string }
 type Props = { nameAdd: "city" | "type" }
 
 export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const regex = /\d/;
-
+     const { decoded } = useCheckValidToken()
      const form = useForm<Data>({
           mode: "uncontrolled",
           initialValues: { name: "" },
@@ -49,6 +51,7 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      }
 
      return (
+          decoded.role === ROLES.ADMIN &&
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
                     label={nameAdd === "city" ? "Город" : "Тип номера"}

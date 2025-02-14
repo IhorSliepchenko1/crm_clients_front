@@ -2,12 +2,14 @@ import { useGetAllUsersQuery } from "../../../services/userApi"
 import { LoaderComponent } from "../../layout/loader"
 import { User } from "./user"
 import { ROLES } from "../../../types"
+import { ScrolContainer } from "../../layout/scrol-container"
 
 export const UserComponent = () => {
      const { data, isLoading } = useGetAllUsersQuery()
 
      return (
-          <div className="flex flex-col gap-1">
+          <ScrolContainer>
+               <p className="text-center text-xl sticky top-0">Список пользователей</p>
                {isLoading
                     ? <LoaderComponent styles="h-[50vh]" />
                     : data?.map((item) => (
@@ -17,6 +19,6 @@ export const UserComponent = () => {
                               login={item.login}
                               id={item.id}
                          />))}
-          </div>
+          </ScrolContainer>
      )
 }

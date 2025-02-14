@@ -64,26 +64,33 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                          <span className="text-red-600">{decoded.id === id && " (ВЫ)"}</span>
                     </p>
                </div>
-               <OpenModalComponent
-                    openUpdateModal={openUpdateModal}
-                    openDeleteModal={openDeleteModal}
-               />
+               {
+                    decoded.role === ROLES.ADMIN &&
+                    <>
 
-               <DeleteModals
-                    opened={opened}
-                    close={close}
-                    title={`Подтвердите удаление аккаунта ${login}`}
-                    onClick={deleteUser}
-                    typeModal={typeModal} />
+                         <OpenModalComponent
+                              openUpdateModal={openUpdateModal}
+                              openDeleteModal={openDeleteModal}
+                         />
 
-               <UpdateUserModal
-                    id={id}
-                    login={login}
-                    role={role}
-                    opened={opened}
-                    close={close}
-                    typeModal={typeModal}
-               />
+                         <DeleteModals
+                              opened={opened}
+                              close={close}
+                              title={`Подтвердите удаление аккаунта ${login}`}
+                              onClick={deleteUser}
+                              typeModal={typeModal} />
+
+                         <UpdateUserModal
+                              id={id}
+                              login={login}
+                              role={role}
+                              opened={opened}
+                              close={close}
+                              typeModal={typeModal}
+                         />
+                    </>
+               }
+
           </Group >
      )
 }

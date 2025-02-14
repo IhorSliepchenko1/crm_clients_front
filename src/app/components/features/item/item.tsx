@@ -9,6 +9,8 @@ import { UpdateItemModal } from '../../modals/update-item';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
 import { OpenModalComponent } from '../../open-modal-component';
 import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../services/resultApi';
+import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
+import { ROLES } from '../../../../utils/role-list';
 
 type Props = {
      nameItem: "city" | "type" | "result"
@@ -21,6 +23,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
      const [opened, { open, close }] = useDisclosure(false);
      const { typeModal, openUpdateModal, openDeleteModal } = useChangeTypeModal({ open })
      const { succeed, error } = useNotification()
+     const { decoded } = useCheckValidToken()
 
      const [deleteCityMutation] = useDeleteCityMutation()
      const [triggerAllCityQuery] = useLazyGetAllCityQuery()
@@ -58,26 +61,32 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                     <div>{index}.</div>
                     <div>{name}</div>
                </div>
-               <OpenModalComponent
-                    openUpdateModal={openUpdateModal}
-                    openDeleteModal={openDeleteModal}
-               />
+               {
+                    decoded.role === ROLES.ADMIN &&
+                    <>
+                         <OpenModalComponent
+                              openUpdateModal={openUpdateModal}
+                              openDeleteModal={openDeleteModal}
+                         />
 
-               <DeleteModals
-                    opened={opened}
-                    close={close}
-                    title={`Подтвердите удаление`}
-                    onClick={deleteItem}
-                    typeModal={typeModal}
-               />
+                         <DeleteModals
+                              opened={opened}
+                              close={close}
+                              title={`Подтвердите удаление`}
+                              onClick={deleteItem}
+                              typeModal={typeModal}
+                         />
 
-               <UpdateItemModal
-                    opened={opened}
-                    close={close}
-                    nameItem={nameItem}
-                    id={id} name={name}
-                    typeModal={typeModal}
-               />
+                         <UpdateItemModal
+                              opened={opened}
+                              close={close}
+                              nameItem={nameItem}
+                              id={id} name={name}
+                              typeModal={typeModal}
+                         />
+                    </>
+               }
+
           </Group >
      )
 }

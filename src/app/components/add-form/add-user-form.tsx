@@ -5,7 +5,8 @@ import { useLazyGetAllUsersQuery, useRegisterMutation } from "../../services/use
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useNotification } from "../../hooks/useNotification/useNotification";
 import { ButtonSubmit } from "../button/button-submit";
-import { roles } from "../../../utils/role-list";
+import { ROLES, roles } from "../../../utils/role-list";
+import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 
 export const AddUserForm = () => {
      const form = useForm<Register>({
@@ -20,7 +21,8 @@ export const AddUserForm = () => {
      const [registration, { isLoading }] = useRegisterMutation()
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
      const { succeed, error } = useNotification()
-
+     const { decoded } = useCheckValidToken()
+     
      const onSubmit = async (data: Register) => {
           try {
                await registration(data).unwrap()
@@ -37,7 +39,7 @@ export const AddUserForm = () => {
 
 
      return (
-          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+          decoded.role === ROLES.ADMIN &&  <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
                     label="Логин"
                     placeholder="Введите логин"
