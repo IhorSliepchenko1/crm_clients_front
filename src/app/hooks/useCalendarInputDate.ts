@@ -1,14 +1,20 @@
 export const useCalendarInputDate = () => {
+     const formatDate = (date: Date | string, includeTime = true) => {
+          const initial = date instanceof Date ? date : new Date(date);
 
-     const calendarDate = (date: Date | string) => {
-          const initial = new Date(date)
+          if (isNaN(initial.getTime())) return "Некорректная дата";
 
-          const dd = `${initial.getDate()}`.padStart(2, "0")
-          const mm = `${initial.getMonth() + 1}`.padStart(2, "0")
-          const yyyy = `${initial.getFullYear()}`.padStart(2, "0")
+          const dd = String(initial.getDate()).padStart(2, "0");
+          const mm = String(initial.getMonth() + 1).padStart(2, "0");
+          const yyyy = String(initial.getFullYear());
 
-          return `${dd}.${mm}.${yyyy} ${initial.getHours()}:${initial.getMinutes()}`
-     }
+          const hours = String(initial.getHours()).padStart(2, "0");
+          const minutes = String(initial.getMinutes()).padStart(2, "0");
 
-     return { calendarDate }
-}
+          return includeTime
+               ? `${dd}.${mm}.${yyyy} ${hours}:${minutes}`
+               : `${dd}.${mm}.${yyyy}`;
+     };
+
+     return { formatDate };
+};

@@ -11,7 +11,7 @@ import { RaportItem } from '../app/components/ui/raport-item';
 import { useReadFile } from '../app/hooks/useReadFile';
 
 
-export const AddNumbers = () => {
+export const DeleteNumbers = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { data: null as File | null },

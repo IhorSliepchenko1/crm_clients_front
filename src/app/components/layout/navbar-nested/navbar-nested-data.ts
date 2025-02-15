@@ -34,7 +34,8 @@ export const data = (logoutSession: () => void) => {
                label: "Импорт базы",
                icon: BsDatabaseAdd,
                links: [
-                    { label: "Новая база", link: "/add-numbers" },
+                    { label: "Добавить номера", link: "/add-numbers" },
+                    { label: "Удалить номера", link: "/delete-numbers" },
                     { label: "База пришедших", link: "/add-guest" },
                     { label: "База истории прозвона", link: "/add-result-history" },
                ],
@@ -44,8 +45,8 @@ export const data = (logoutSession: () => void) => {
                label: "История",
                icon: TbHistory,
                links: [
-                    { label: "История удаления", link: "/histories-delete" },
-                    { label: "История импортов", link: "/histories-import" },
+                    { label: "Импорты", link: "/histories-import" },
+                    { label: "Удаления", link: "/histories-delete" },
                ],
                access: [ROLES.ADMIN, ROLES.USER]
           },

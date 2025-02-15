@@ -21,6 +21,7 @@ import { HistoriesImport } from "./pages/histories-import";
 import { FilterDatabase } from "./pages/filter-database";
 import { MainPage } from "./pages/main-page";
 import { Result } from "./pages/result";
+import { DeleteNumbers } from "./pages/delete-numbers";
 
 const container = document.getElementById("root")
 const router = createBrowserRouter([
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/add-numbers",
         element: <AddNumbers />
+      },
+      {
+        path: "/delete-numbers",
+        element: <DeleteNumbers />
       },
       {
         path: "/add-guest",
