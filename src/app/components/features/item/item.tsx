@@ -48,10 +48,10 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                await actions[nameItem].refresh().unwrap();
                close()
 
-          } catch (err) {
+          } catch (err: any) {
                console.error(err);
-               if (hasErrorField(err)) error(err.data.message)
-               else error("Что-то пошло не так. Попробуйте снова.")
+               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               error(message);
           }
      }
 

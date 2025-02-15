@@ -61,10 +61,10 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
                succeed("Новый результат добавлен!");
                form.reset()
                await triggerAllResultQuery().unwrap();
-          } catch (err) {
+          } catch (err: any) {
                console.error(err);
-               if (hasErrorField(err)) error(err.data.message)
-               else error("Что-то пошло не так. Попробуйте снова.")
+               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               error(message);
           }
      }
 

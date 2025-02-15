@@ -37,6 +37,7 @@ export type NumberAdd = {
      }[];
      unique: number;
      incorrect: number;
+     totalDublicate: number
 }
 
 export type NumberDelete = {
@@ -92,4 +93,16 @@ export enum ROLES {
      ADMIN = "ADMIN",
      USER = "USER",
      VIEWER = "VIEWER"
+}
+
+export type DublicateItem = {
+     name: string;
+     count: number;
+}
+
+export type Raport = {
+     dublicate: DublicateItem[]
+     incorrect: number,
+     unique: number
+     totalDublicate: number
 }

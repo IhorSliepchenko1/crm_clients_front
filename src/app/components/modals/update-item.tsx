@@ -66,10 +66,10 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
                close()
                await actions[nameItem].refresh().unwrap();
 
-          } catch (err) {
+          } catch (err: any) {
                console.error(err);
-               if (hasErrorField(err)) error(err.data.message)
-               else error("Что-то пошло не так. Попробуйте снова.")
+               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               error(message);
           }
      }
 

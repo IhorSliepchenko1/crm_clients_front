@@ -43,10 +43,10 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
                form.reset()
                await actions.refresh().unwrap();
 
-          } catch (err) {
+          } catch (err: any) {
                console.error(err);
-               if (hasErrorField(err)) error(err.data.message)
-               else error("Что-то пошло не так. Попробуйте снова.")
+               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               error(message);
           }
      }
 

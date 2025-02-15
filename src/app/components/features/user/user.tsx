@@ -36,10 +36,10 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                succeed(`Пользователь ${login} удалён!`)
                await triggerAllUsersQuery().unwrap()
 
-          } catch (err) {
+          } catch (err: any) {
                console.error(err);
-               if (hasErrorField(err)) error(err.data.message)
-               else error("Что-то пошло не так. Попробуйте снова.")
+               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               error(message);
           }
      }
 

@@ -5,6 +5,10 @@ import { useNotification } from '../app/hooks/useNotification/useNotification';
 import { hasErrorField } from '../utils/has-error-field';
 import { ButtonSubmit } from '../app/components/button/button-submit';
 import { useForm } from '@mantine/form';
+import { CSVLink } from 'react-csv';
+import { Raport } from '../app/types';
+import { RaportItem } from '../app/components/ui/raport-item';
+
 
 export const AddNumbers = () => {
   const form = useForm({
@@ -16,6 +20,8 @@ export const AddNumbers = () => {
   })
 
   const [value, setValue] = useState<File | null>(null);
+  const [raportData, setRaportData] = useState<Raport | null>(null)
+
   const [addFile, { isLoading }] = useAddNumberMutation()
   const { succeed, error } = useNotification()
   const headerCheck = ["number", "typeNumber", "city"]
@@ -55,34 +61,51 @@ export const AddNumbers = () => {
 
         const data = new FormData();
         data.append("data", value);
-
         const response = await addFile({ data }).unwrap();
+        setRaportData(response)
 
         setValue(null)
+        form.reset()
         succeed("Файл успешно отправлен");
       }
 
     } catch (err: any) {
       setValue(null)
+      form.reset()
       const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
       error(message);
     }
   }
 
   return (
-    <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
-      <FileInput
-        key={form.key("data")}
-        {...form.getInputProps("data")}
-        label="Загрузить файл"
-        placeholder="Загрузите файл формата .csv"
-        value={value}
-        onChange={(file) => {
-          setValue(file)
-          form.setFieldValue("data", file)
-        }}
-      />
-      <ButtonSubmit loading={isLoading} text="Добавить" />
-    </form>
+    <div >
+      <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+        <CSVLink data={[headerCheck]} filename="example.csv">
+          Скачать пример файла
+        </CSVLink>
+        <FileInput
+          key={form.key("data")}
+          {...form.getInputProps("data")}
+          placeholder="Загрузите файл формата .csv"
+          value={value}
+          onChange={(file) => {
+            setValue(file)
+            form.setFieldValue("data", file)
+          }}
+        />
+        <p className='text-xs'>не покидайте страницу до окончания импорта</p>
+        <ButtonSubmit loading={isLoading} text="Добавить" />
+      </form>
+
+      <div className='flex justify-center'>
+        {raportData && <RaportItem
+          dublicate={raportData.dublicate}
+          incorrect={raportData.incorrect}
+          unique={raportData.unique}
+          totalDublicate={raportData.totalDublicate}
+          setRaportData={setRaportData}
+        />}
+      </div>
+    </div>
   )
 }
