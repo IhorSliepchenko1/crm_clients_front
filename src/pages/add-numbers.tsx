@@ -8,6 +8,7 @@ import { useForm } from '@mantine/form';
 import { CSVLink } from 'react-csv';
 import { Raport } from '../app/types';
 import { RaportItem } from '../app/components/ui/raport-item';
+import { useReadFile } from '../app/hooks/useReadFile';
 
 
 export const AddNumbers = () => {
@@ -26,16 +27,6 @@ export const AddNumbers = () => {
   const { succeed, error } = useNotification()
   const headerCheck = ["number", "typeNumber", "city"]
 
-  const readFile = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsText(file);
-
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = () => reject("Ошибка чтения файла!");
-    });
-  };
-
   const validateFile = async (file: File) => {
 
     if (file.type !== "text/csv") {
@@ -46,7 +37,7 @@ export const AddNumbers = () => {
       throw new Error("Максимальный объём файла 5мб");
     }
 
-    const fileData = await readFile(file);
+    const fileData = await useReadFile(file);
     const headerFile = fileData.split('\n')[0].replace("\r", '').split(";");
 
     if (!headerCheck.every(header => headerFile.includes(header))) {
