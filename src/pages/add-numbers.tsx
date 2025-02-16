@@ -10,7 +10,6 @@ import { Raport } from '../app/types';
 import { RaportItem } from '../app/components/ui/raport-item';
 import { useReadFile } from '../app/hooks/useReadFile';
 
-
 export const AddNumbers = () => {
   const form = useForm({
     mode: "uncontrolled",
@@ -52,11 +51,10 @@ export const AddNumbers = () => {
         const data = new FormData();
         data.append("data", value);
         const response = await addFile({ data }).unwrap();
-
+        succeed("Файл успешно импортирован");
         setRaportData(response)
         setValue(null)
         form.reset()
-        succeed("Файл успешно импортирован");
       }
 
     } catch (err: any) {
