@@ -6,6 +6,7 @@ import { useAddResultHistoriesMutation } from "../app/services/resultHistoriesAp
 import { FileInput } from "@mantine/core";
 import { ButtonSubmit } from "../app/components/button/button-submit";
 import { DontLeave } from "../app/components/ui/dont-leave";
+import { useFileValidation } from "../app/hooks/useFileValidation";
 
 
 export const ResultHistory = () => {
@@ -20,21 +21,12 @@ export const ResultHistory = () => {
   const [addFile, { isLoading }] = useAddResultHistoriesMutation()
   const { succeed, error } = useNotification()
 
-  const validateFile = async (file: File) => {
-
-    if (file.type !== "text/csv") {
-      throw new Error("Данный формат не поддерживается!");
-    }
-
-    if (file.size > 5000000) {
-      throw new Error("Максимальный объём файла 5мб");
-    }
-  };
+  const validateFile = useFileValidation();
 
   const onSubmit = async () => {
     try {
       if (value) {
-        await validateFile(value);
+        validateFile(value);
         const data = new FormData();
         data.append("data", value);
         await addFile({ data }).unwrap();
@@ -50,7 +42,7 @@ export const ResultHistory = () => {
       error(message);
     }
   }
-  
+
   return (
     <div>
       {/* <div className='flex justify-between items-center py-3'>
