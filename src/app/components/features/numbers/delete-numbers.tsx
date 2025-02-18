@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import {  FileInput } from '@mantine/core';
-import { useDeleteNumberMutation } from '../services/numberApi';
-import { useNotification } from '../hooks/useNotification/useNotification';
-import { hasErrorField } from '../../utils/has-error-field';
-import { ButtonSubmit } from './button/button-submit';
+import { FileInput } from '@mantine/core';
+import { useDeleteNumberMutation } from '../../../services/numberApi';
+import { useNotification } from '../../../hooks/useNotification/useNotification';
+import { hasErrorField } from '../../../../utils/has-error-field';
+import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
-import { DontLeave } from './ui/dont-leave';
+import { DontLeave } from '../../ui/dont-leave';
 
 export const DeleteNumbers = () => {
   const form = useForm({

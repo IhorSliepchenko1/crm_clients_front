@@ -1,8 +1,8 @@
 import { Tabs } from '@mantine/core';
 import { MdAddCircleOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { AddNumbers } from '../app/components/add-numbers';
-import { DeleteNumbers } from '../app/components/delete-numbers';
+import { AddNumbers } from '../app/components/features/numbers/add-numbers';
+import { DeleteNumbers } from '../app/components/features/numbers/delete-numbers';
 
 
 export const Numbers = () => {

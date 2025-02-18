@@ -4,11 +4,12 @@ import { useRef } from "react";
 import { useDownloadPDF } from "../../hooks/useDownloadPDF";
 import { ContainerPDFimportNumbers } from "../layout/container-pdf-import-numbers";
 
-type Props = Raport & {
-     setRaportData: React.Dispatch<React.SetStateAction<Raport | null>>;
+type Props = {
+     setRaport: React.Dispatch<React.SetStateAction<Raport | null>>
+     raport: Raport
 };
 
-export const RaportItem: React.FC<Props> = ({ incorrect, unique, dublicate, totalDublicate, setRaportData }) => {
+export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
      const pdfRef = useRef<HTMLDivElement>(null)
 
      const { downloadPDF } = useDownloadPDF({
@@ -17,7 +18,7 @@ export const RaportItem: React.FC<Props> = ({ incorrect, unique, dublicate, tota
      })
 
      const handleDownload = () => downloadPDF();
-     const handleClose = () => setRaportData(null);
+     const handleClose = () => setRaport(null);
 
      const buttons = [
           { color: "green", text: "скачать PDF", onClick: handleDownload },
@@ -25,9 +26,9 @@ export const RaportItem: React.FC<Props> = ({ incorrect, unique, dublicate, tota
      ]
 
      const totalInfo = [
-          { text: "К-во некорректных номеров", value: incorrect },
-          { text: "К-во уникальных номеров", value: unique },
-          { text: "К-во дублей", value: totalDublicate },
+          { text: "К-во некорректных номеров", value: raport.incorrect },
+          { text: "К-во уникальных номеров", value: raport.unique },
+          { text: "К-во дублей", value: raport.totalDublicate },
      ]
 
      return (
@@ -45,7 +46,7 @@ export const RaportItem: React.FC<Props> = ({ incorrect, unique, dublicate, tota
                          </div>
                          <Divider my="xs" />
                          <div >
-                              {dublicate.map(item => (
+                              {raport.dublicate.map(item => (
                                    <div key={item.name + item.count} className="flex justify-between pb-0.5">
                                         <p className="pr-7">{item.name}</p>
                                         <NumberFormatter thousandSeparator="." decimalSeparator="," value={item.count} />

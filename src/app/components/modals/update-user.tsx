@@ -72,21 +72,25 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации о пользователе">
                <form onSubmit={form.onSubmit(updateUser)}>
                     <TextInput
+                         key={form.key("login")}
                          label="Логин"
                          placeholder="Введите логин"
                          {...form.getInputProps("login")}
                     />
                     <PasswordInput
+                         key={form.key("oldPassword")}
                          label="Текущий пароль"
                          placeholder="Введите текущий пароль"
                          {...form.getInputProps("oldPassword")}
                     />
                     <PasswordInput
+                         key={form.key("newPassword")}
                          label="Новый пароль"
                          placeholder="Введите новый пароль"
                          {...form.getInputProps("newPassword")}
                     />
                     <Select
+                         key={form.key("role")}
                          label="Роль"
                          placeholder="Выберите роль пользователя"
                          data={roles}

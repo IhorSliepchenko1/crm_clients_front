@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { FileInput } from '@mantine/core';
-import { useAddNumberMutation } from '../services/numberApi';
-import { useNotification } from '../hooks/useNotification/useNotification';
-import { hasErrorField } from '../../utils/has-error-field';
-import { ButtonSubmit } from './button/button-submit';
+import { useAddNumberMutation } from '../../../services/numberApi';
+import { useNotification } from '../../../hooks/useNotification/useNotification';
+import { hasErrorField } from '../../../../utils/has-error-field';
+import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
 import { CSVLink } from 'react-csv';
-import { Raport } from '../types';
-import { RaportItem } from './ui/raport-item';
-import { useReadFile } from '../hooks/useReadFile';
-import { DontLeave } from './ui/dont-leave';
+import { Raport } from '../../../types';
+import { RaportAddNumber } from '../../ui/raport-add-number';
+import { DontLeave } from '../../ui/dont-leave';
+import { useFileValidation } from '../../../hooks/useFileValidation';
 
 export const AddNumbers = () => {
   const form = useForm({
@@ -21,39 +21,27 @@ export const AddNumbers = () => {
   })
 
   const [value, setValue] = useState<File | null>(null);
-  const [raportData, setRaportData] = useState<Raport | null>(null)
+  const [raport, setRaport] = useState<Raport | null>(null)
 
   const [addFile, { isLoading }] = useAddNumberMutation()
   const { succeed, error } = useNotification()
   const headerCheck = ["number", "typeNumber", "city"]
 
-  const validateFile = async (file: File) => {
-
-    if (file.type !== "text/csv") {
-      throw new Error("Данный формат не поддерживается!");
-    }
-
-    if (file.size > 5000000) {
-      throw new Error("Максимальный объём файла 5мб");
-    }
-
-    const fileData = await useReadFile(file);
-    const headerFile = fileData.split('\n')[0].replace("\r", '').split(";");
-
-    if (!headerCheck.every(header => headerFile.includes(header))) {
-      throw new Error("Некорректный файл!");
-    }
-  };
+  const validateFile = useFileValidation();
 
   const onSubmit = async () => {
     try {
       if (value) {
-        await validateFile(value);
+        await validateFile({
+          file: value,
+          headerCheck,
+          fileStatus: true
+        });
         const data = new FormData();
         data.append("data", value);
         const response = await addFile({ data }).unwrap();
         succeed("Файл успешно импортирован");
-        setRaportData(response)
+        setRaport(response)
         setValue(null)
         form.reset()
       }
@@ -88,12 +76,7 @@ export const AddNumbers = () => {
       </form>
 
       <div className='flex justify-center'>
-        {raportData && <RaportItem
-          dublicate={raportData.dublicate}
-          incorrect={raportData.incorrect}
-          unique={raportData.unique}
-          totalDublicate={raportData.totalDublicate}
-          setRaportData={setRaportData}
+        {raport && <RaportAddNumber raport={raport} setRaport={setRaport}
         />}
       </div>
     </div>

@@ -1,7 +1,15 @@
 import { useCallback } from "react";
+import { useReadFile } from "./useReadFile";
+
+type Props = {
+     file: File,
+     headerCheck: string[],
+     fileStatus?: boolean
+}
+const regex = /[а-яёА-ЯЁ ]/u
 
 export const useFileValidation = () => {
-     return useCallback((file: File) => {
+     return useCallback(async ({ file, headerCheck, fileStatus = false }: Props) => {
           if (file.type !== "text/csv") {
                throw new Error("Данный формат не поддерживается!");
           }
@@ -9,5 +17,19 @@ export const useFileValidation = () => {
           if (file.size > 5_000_000) {
                throw new Error("Максимальный объём файла 5мб");
           }
+
+          if (regex.test(file.name)) {
+               throw new Error("Уберите с названия файла кирилицу и пробелы!");
+          }
+
+          if (fileStatus) {
+               const fileData = await useReadFile(file);
+               const headerFile = fileData.split('\n')[0].replace("\r", '').split(";");
+
+               if (!headerCheck.every(header => headerFile.includes(header))) {
+                    throw new Error("Некорректный файл!");
+               }
+          }
+
      }, []);
 };
