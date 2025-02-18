@@ -44,19 +44,18 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
           <div className="flex flex-col justify-between items-center min-h-[750px] w-full">
                {histories.loading ? (
                     <LoaderComponent />
-               ) : (
-                    <Table>
-                         <Table.Thead>
-                              <Table.Tr>
-                                   <Table.Th>{histories.title1}</Table.Th>
-                                   <Table.Th>{histories.title2}</Table.Th>
-                                   <Table.Th>Некорректные</Table.Th>
-                                   <Table.Th>Инициатор</Table.Th>
-                                   <Table.Th>Дата</Table.Th>
-                              </Table.Tr>
-                         </Table.Thead>
-                         <Table.Tbody>{rows}</Table.Tbody>
-                    </Table>
+               ) : (<Table>
+                    <Table.Thead>
+                         <Table.Tr>
+                              <Table.Th>{histories.title1}</Table.Th>
+                              <Table.Th>{histories.title2}</Table.Th>
+                              <Table.Th>Некорректные</Table.Th>
+                              <Table.Th>Инициатор</Table.Th>
+                              <Table.Th>Дата</Table.Th>
+                         </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{rows}</Table.Tbody>
+               </Table>
                )}
 
                <Pagination total={total} setPage={setPage} />

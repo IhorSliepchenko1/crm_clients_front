@@ -1,5 +1,5 @@
 
-export const AddGuest = () => {
+export const Guest = () => {
   return (
     <div>AddGuest</div>
   )

@@ -14,7 +14,7 @@ export const data = (logoutSession: () => void) => {
                access: [ROLES.VIEWER, ROLES.ADMIN, ROLES.USER]
           },
           {
-               label: "Скачать базу",
+               label: "Выбрать базу",
                icon: BsDatabaseFillDown,
                link: "/filter-database",
                access: [ROLES.ADMIN, ROLES.USER]
@@ -34,10 +34,9 @@ export const data = (logoutSession: () => void) => {
                label: "Импорт базы",
                icon: BsDatabaseAdd,
                links: [
-                    { label: "Добавить номера", link: "/add-numbers" },
-                    { label: "Удалить номера", link: "/delete-numbers" },
-                    { label: "База пришедших", link: "/add-guest" },
-                    { label: "База истории прозвона", link: "/add-result-history" },
+                    { label: "Номера", link: "/numbers" },
+                    { label: "Результаты", link: "/result-history" },
+                    { label: "Гости", link: "/guest" },
                ],
                access: [ROLES.ADMIN, ROLES.USER]
           },

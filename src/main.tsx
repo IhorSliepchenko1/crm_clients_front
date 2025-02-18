@@ -13,15 +13,14 @@ import { Auth } from "./pages/auth";
 import { Users } from "./pages/users";
 import { City } from "./pages/city";
 import { TypeNumber } from "./pages/type-number";
-import { AddNumbers } from "./pages/add-numbers";
-import { AddGuest } from "./pages/add-guest";
-import { AddResultHistory } from "./pages/add-result-history";
 import { HistoriesDelete } from "./pages/histories-delete";
 import { HistoriesImport } from "./pages/histories-import";
 import { FilterDatabase } from "./pages/filter-database";
 import { MainPage } from "./pages/main-page";
 import { Result } from "./pages/result";
-import { DeleteNumbers } from "./pages/delete-numbers";
+import { Numbers } from "./pages/numbers";
+import { Guest } from "./pages/guest";
+import { ResultHistory } from "./pages/result-history";
 
 const container = document.getElementById("root")
 const router = createBrowserRouter([
@@ -58,20 +57,16 @@ const router = createBrowserRouter([
         element: <Result />
       },
       {
-        path: "/add-numbers",
-        element: <AddNumbers />
+        path: "/numbers",
+        element: <Numbers />
       },
       {
-        path: "/delete-numbers",
-        element: <DeleteNumbers />
+        path: "/guest",
+        element: <Guest />
       },
       {
-        path: "/add-guest",
-        element: <AddGuest />
-      },
-      {
-        path: "/add-result-history",
-        element: <AddResultHistory />
+        path: "/result-history",
+        element: <ResultHistory />
       },
       {
         path: "/histories-delete",

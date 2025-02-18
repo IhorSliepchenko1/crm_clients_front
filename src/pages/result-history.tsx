@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { FileInput } from '@mantine/core';
-import { useDeleteNumberMutation } from '../app/services/numberApi';
-import { useNotification } from '../app/hooks/useNotification/useNotification';
-import { hasErrorField } from '../utils/has-error-field';
-import { ButtonSubmit } from '../app/components/button/button-submit';
-import { useForm } from '@mantine/form';
+import { hasErrorField } from "../utils/has-error-field";
+import { useNotification } from "../app/hooks/useNotification/useNotification";
+import { useState } from "react";
+import { useForm } from "@mantine/form";
+import { useAddResultHistoriesMutation } from "../app/services/resultHistoriesApi";
+import { FileInput } from "@mantine/core";
+import { ButtonSubmit } from "../app/components/button/button-submit";
+import { DontLeave } from "../app/components/ui/dont-leave";
 
-export const DeleteNumbers = () => {
+
+export const ResultHistory = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { data: null as File | null },
@@ -15,8 +17,9 @@ export const DeleteNumbers = () => {
     },
   })
   const [value, setValue] = useState<File | null>(null);
-  const [deleteFile, { isLoading }] = useDeleteNumberMutation()
+  const [addFile, { isLoading }] = useAddResultHistoriesMutation()
   const { succeed, error } = useNotification()
+
   const validateFile = async (file: File) => {
 
     if (file.type !== "text/csv") {
@@ -34,7 +37,7 @@ export const DeleteNumbers = () => {
         await validateFile(value);
         const data = new FormData();
         data.append("data", value);
-        await deleteFile({ data }).unwrap();
+        await addFile({ data }).unwrap();
         succeed("Файл успешно импортирован");
         setValue(null)
         form.reset()
@@ -47,11 +50,14 @@ export const DeleteNumbers = () => {
       error(message);
     }
   }
-
+  
   return (
     <div>
-      <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+      {/* <div className='flex justify-between items-center py-3'>
         <p>Загрузите файл с номера для удаления</p>
+        <Button leftSection={<FaLongArrowAltLeft />} variant="filled" size="xs" onClick={() => navigate('/add-numbers')}>добавить номера</Button>
+      </div> */}
+      <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
         <FileInput
           key={form.key("data")}
           {...form.getInputProps("data")}
@@ -62,10 +68,9 @@ export const DeleteNumbers = () => {
             form.setFieldValue("data", file)
           }}
         />
-        <p className='text-xs'>не покидайте страницу до окончания удаления</p>
-        <ButtonSubmit loading={isLoading} text="Удалить" color="red" />
+        <DontLeave />
+        <ButtonSubmit loading={isLoading} text="Добавить" />
       </form>
     </div>
-
   )
 }

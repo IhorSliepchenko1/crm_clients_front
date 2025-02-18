@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { FileInput } from '@mantine/core';
-import { useAddNumberMutation } from '../app/services/numberApi';
-import { useNotification } from '../app/hooks/useNotification/useNotification';
-import { hasErrorField } from '../utils/has-error-field';
-import { ButtonSubmit } from '../app/components/button/button-submit';
+import { useAddNumberMutation } from '../services/numberApi';
+import { useNotification } from '../hooks/useNotification/useNotification';
+import { hasErrorField } from '../../utils/has-error-field';
+import { ButtonSubmit } from './button/button-submit';
 import { useForm } from '@mantine/form';
 import { CSVLink } from 'react-csv';
-import { Raport } from '../app/types';
-import { RaportItem } from '../app/components/ui/raport-item';
-import { useReadFile } from '../app/hooks/useReadFile';
+import { Raport } from '../types';
+import { RaportItem } from './ui/raport-item';
+import { useReadFile } from '../hooks/useReadFile';
+import { DontLeave } from './ui/dont-leave';
 
 export const AddNumbers = () => {
   const form = useForm({
@@ -71,6 +72,7 @@ export const AddNumbers = () => {
         <CSVLink data={[headerCheck]} filename="example.csv">
           Скачать пример файла
         </CSVLink>
+
         <FileInput
           key={form.key("data")}
           {...form.getInputProps("data")}
@@ -81,7 +83,7 @@ export const AddNumbers = () => {
             form.setFieldValue("data", file)
           }}
         />
-        <p className='text-xs'>не покидайте страницу до окончания импорта</p>
+        <DontLeave />
         <ButtonSubmit loading={isLoading} text="Добавить" />
       </form>
 
