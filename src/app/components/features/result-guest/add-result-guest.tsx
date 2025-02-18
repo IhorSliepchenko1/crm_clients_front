@@ -1,17 +1,21 @@
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
-import { useAddResultHistoriesMutation } from '../services/resultHistoriesApi';
-import { useNotification } from '../hooks/useNotification/useNotification';
-import { useFileValidation } from '../hooks/useFileValidation';
-import { hasErrorField } from '../../utils/has-error-field';
+import { useAddResultHistoriesMutation } from '../../../services/resultHistoriesApi';
+import { useNotification } from '../../../hooks/useNotification/useNotification';
+import { useFileValidation } from '../../../hooks/useFileValidation';
+import { hasErrorField } from '../../../../utils/has-error-field';
 import { CSVLink } from 'react-csv';
 import { FileInput } from '@mantine/core';
-import { DontLeave } from './ui/dont-leave';
-import { ButtonSubmit } from './button/button-submit';
-import { RaportAddResultHistories } from './ui/raport-add-result-histories';
-import { RaportImport } from '../types';
+import { DontLeave } from '../../ui/dont-leave';
+import { ButtonSubmit } from '../../button/button-submit';
+import { RaportAddResultHistories } from '../../ui/raport-add-result-histories';
+import { RaportImport } from '../../../types';
 
-export const AddResultHistories = () => {
+type Props = {
+     type: "result" | "guest"
+}
+
+export const AddResultGuest: React.FC<Props> = ({ type }) => {
      const form = useForm({
           mode: "uncontrolled",
           initialValues: { data: null as File | null },
@@ -20,10 +24,15 @@ export const AddResultHistories = () => {
 
      const [value, setValue] = useState<File | null>(null);
      const [raport, setRaport] = useState<RaportImport | null>(null)
-     const [addFile, { isLoading }] = useAddResultHistoriesMutation()
-     const { succeed, error } = useNotification()
 
-     const headerCheck = ["number", "result", "presentation_date", "presentation_time", "call_date", "operator"]
+     const [addFileResult, { isLoading: isLoadingResult }] = useAddResultHistoriesMutation()
+     const [addFileGuest, { isLoading: isLoadingGuest }] = useAddResultHistoriesMutation()
+
+     const actions = type === "result" ? { add: addFileResult, loading: isLoadingResult } : { add: addFileGuest, loading: isLoadingGuest }
+
+     const { succeed, error } = useNotification()
+     const headerCheck = type === "result" ? ["number", "result", "presentation_date", "presentation_time", "call_date", "operator"] : ["number", "date", "time", "full_name", "guests", "pairs"]
+
      const validateFile = useFileValidation();
 
      const onSubmit = async () => {
@@ -35,7 +44,7 @@ export const AddResultHistories = () => {
                     });
                     const data = new FormData();
                     data.append("data", value);
-                    const response = await addFile({ data }).unwrap();
+                    const response = await actions.add({ data }).unwrap();
 
                     succeed("Файл успешно импортирован");
                     setValue(null)
@@ -67,7 +76,7 @@ export const AddResultHistories = () => {
                     }}
                />
                <DontLeave />
-               <ButtonSubmit loading={isLoading} text="Добавить" />
+               <ButtonSubmit loading={actions.loading} text="Добавить" />
 
                {raport && <RaportAddResultHistories raport={raport} setRaport={setRaport} />}
           </form>

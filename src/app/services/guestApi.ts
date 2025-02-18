@@ -10,12 +10,12 @@ export const guestApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          
-          deleteGuest: builder.mutation<string, { name_import_guest_file: string }>({
-               query: ({ name_import_guest_file }) => ({
+
+          deleteGuest: builder.mutation<string, string>({
+               query: (fileName) => ({
                     url: "guest",
                     method: "DELETE",
-                    body: { name_import_guest_file }
+                    body: { fileName }
                }),
           }),
      }),
