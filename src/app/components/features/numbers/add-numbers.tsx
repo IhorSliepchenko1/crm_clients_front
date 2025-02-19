@@ -5,11 +5,11 @@ import { useNotification } from '../../../hooks/useNotification/useNotification'
 import { hasErrorField } from '../../../../utils/has-error-field';
 import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
-import { CSVLink } from 'react-csv';
 import { Raport } from '../../../types';
 import { RaportAddNumber } from '../../ui/raport-add-number';
 import { DontLeave } from '../../ui/dont-leave';
 import { useFileValidation } from '../../../hooks/useFileValidation';
+import { DownloadExampleCSV } from '../../ui/download-example-csv';
 
 export const AddNumbers = () => {
   const form = useForm({
@@ -62,9 +62,7 @@ export const AddNumbers = () => {
   return (
     <div >
       <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
-        <CSVLink data={[headerCheck]} filename="example.csv">
-          Скачать пример файла
-        </CSVLink>
+        <DownloadExampleCSV array={headerCheck} />
 
         <FileInput
           key={form.key("data")}

@@ -7,10 +7,11 @@ import { ButtonSubmit } from "../../button/button-submit";
 import { TextInput } from "@mantine/core";
 import { useDeleteGuestMutation } from "../../../services/guestApi";
 
-
 type Props = {
      type: "result" | "guest"
 }
+
+type Data = { fileName: string }
 
 export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
      const form = useForm<{ fileName: string }>({
@@ -28,9 +29,9 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
 
      const { succeed, error } = useNotification()
 
-     const onSubmit = async (fileName: string) => {
+     const onSubmit = async (data: Data) => {
           try {
-               const response = await actions.delete(fileName).unwrap();
+               const response = await actions.delete(data).unwrap();
                succeed(response)
                form.reset()
 
@@ -45,10 +46,9 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
           }
      }
 
-
      return (
-          <form onSubmit={form.onSubmit((values) => onSubmit(values.fileName))} className="flex flex-col gap-2">
-               <p>Загрузите файл с номера для удаления</p>
+          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+               <p>Впишите полное название файла для удаления</p>
                <TextInput
                     key={form.key("fileName")}
                     placeholder="Введите имя файла для удаления"

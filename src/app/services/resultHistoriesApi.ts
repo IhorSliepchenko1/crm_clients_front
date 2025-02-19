@@ -10,11 +10,11 @@ export const resultHistoriesApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          deleteResultHistories: builder.mutation<string, string>({
+          deleteResultHistories: builder.mutation<string, { fileName: string }>({
                query: (fileName) => ({
                     url: "result-history",
                     method: "DELETE",
-                    body: { fileName }
+                    body: fileName
                }),
           }),
      }),

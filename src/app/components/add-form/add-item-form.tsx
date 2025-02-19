@@ -36,6 +36,7 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const actions = useMemo(() => ({
           add: nameAdd === "city" ? addCity : addTypeNumber,
           refresh: nameAdd === "city" ? triggerAllCityQuery : triggerAllTypeNumberQuery,
+          loading: nameAdd === "city" ? loadCity : loadTypeNumber,
           textSucceed: nameAdd === "city" ? "город" : "тип базы",
      }), [nameAdd, addCity, addTypeNumber, triggerAllCityQuery, triggerAllTypeNumberQuery]);
 
@@ -69,7 +70,7 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
                     key={form.key("name")}
                     {...form.getInputProps("name")}
                />
-               <ButtonSubmit loading={nameAdd === "city" ? loadCity : loadTypeNumber} text={"Добавить"} />
+               <ButtonSubmit loading={actions.loading} text={"Добавить"} />
           </form>
      )
 }

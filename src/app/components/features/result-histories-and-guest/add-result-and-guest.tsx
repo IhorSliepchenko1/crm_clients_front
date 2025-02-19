@@ -4,12 +4,12 @@ import { useAddResultHistoriesMutation } from '../../../services/resultHistories
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useFileValidation } from '../../../hooks/useFileValidation';
 import { hasErrorField } from '../../../../utils/has-error-field';
-import { CSVLink } from 'react-csv';
 import { FileInput } from '@mantine/core';
 import { DontLeave } from '../../ui/dont-leave';
 import { ButtonSubmit } from '../../button/button-submit';
 import { RaportAddResultHistories } from '../../ui/raport-add-result-histories';
 import { RaportImport } from '../../../types';
+import { DownloadExampleCSV } from '../../ui/download-example-csv';
 
 type Props = {
      type: "result" | "guest"
@@ -71,9 +71,7 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
 
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
-               <CSVLink data={[headerCheck]} filename="example.csv">
-                    Скачать пример файла
-               </CSVLink>
+               <DownloadExampleCSV array={headerCheck} />
                <FileInput
                     key={form.key("data")}
                     {...form.getInputProps("data")}
