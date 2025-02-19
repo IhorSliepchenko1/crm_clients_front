@@ -35,8 +35,12 @@ export const DeleteResultHistories: React.FC<Props> = ({ type }) => {
                form.reset()
 
           } catch (err: any) {
+               console.error(err);
                form.reset()
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }

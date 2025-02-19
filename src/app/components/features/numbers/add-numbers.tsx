@@ -46,10 +46,15 @@ export const AddNumbers = () => {
         form.reset()
       }
 
-    } catch (err: any) {
+    }
+    catch (err: any) {
+      console.error(err);
       setValue(null)
       form.reset()
-      const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+      const message = hasErrorField(err)
+        ? err?.data?.message
+        : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
       error(message);
     }
   }

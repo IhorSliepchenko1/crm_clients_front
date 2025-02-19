@@ -7,6 +7,7 @@ import { TextInput } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
+import { useMemo } from "react";
 
 type Data = { name: string }
 type Props = { nameAdd: "city" | "type" }
@@ -32,9 +33,11 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const [triggerAllTypeNumberQuery] = useLazyGetAllTypeNumberQuery()
      const { succeed, error } = useNotification()
 
-     const actions = nameAdd === "city" ?
-          { add: addCity, refresh: triggerAllCityQuery, textSucceed: "город" } :
-          { add: addTypeNumber, refresh: triggerAllTypeNumberQuery, textSucceed: "тип базы" }
+     const actions = useMemo(() => ({
+          add: nameAdd === "city" ? addCity : addTypeNumber,
+          refresh: nameAdd === "city" ? triggerAllCityQuery : triggerAllTypeNumberQuery,
+          textSucceed: nameAdd === "city" ? "город" : "тип базы",
+     }), [nameAdd, addCity, addTypeNumber, triggerAllCityQuery, triggerAllTypeNumberQuery]);
 
      const onSubmit = async (data: Data) => {
           try {
@@ -45,17 +48,24 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
 
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
+     }
+
+     const upperCaseFirstLetter = (str: string) => {
+          return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase()
      }
 
      return (
           decoded.role === ROLES.ADMIN &&
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
-                    label={nameAdd === "city" ? "Город" : "Тип номера"}
-                    placeholder={`Введите название ${nameAdd === "city" ? "города" : "типа номера"}`}
+                    label={upperCaseFirstLetter(actions.textSucceed)}
+                    placeholder={"Введите название"}
                     key={form.key("name")}
                     {...form.getInputProps("name")}
                />

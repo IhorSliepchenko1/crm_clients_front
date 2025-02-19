@@ -11,6 +11,7 @@ import { OpenModalComponent } from '../../open-modal-component';
 import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../services/resultApi';
 import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { ROLES } from '../../../../utils/role-list';
+import { useMemo } from 'react';
 
 type Props = {
      nameItem: "city" | "type" | "result"
@@ -34,23 +35,33 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
      const [deleteResultMutation] = useDeleteResultMutation()
      const [triggerAllResultQuery] = useLazyGetAllResultQuery()
 
-     const actions = {
-          city: { delete: deleteCityMutation, refresh: triggerAllCityQuery, text: "Город" },
-          type: { delete: deleteTypeNumberMutation, refresh: triggerAllTypeNumberQuery, text: "Тип базы" },
-          result: { delete: deleteResultMutation, refresh: triggerAllResultQuery, text: "Результат" }
-     };
+     const actions = useMemo(() => {
+          switch (nameItem) {
+               case 'city':
+                    return { delete: deleteCityMutation, refresh: triggerAllCityQuery, text: "Город" };
+               case 'type':
+                    return { delete: deleteTypeNumberMutation, refresh: triggerAllTypeNumberQuery, text: "Тип базы" };
+               case 'result':
+                    return { delete: deleteResultMutation, refresh: triggerAllResultQuery, text: "Результат" };
+               default:
+                    return
+          }
+     }, [nameItem, deleteCityMutation, triggerAllCityQuery, deleteTypeNumberMutation, triggerAllTypeNumberQuery, deleteResultMutation, triggerAllResultQuery]);
 
 
      const deleteItem = async () => {
           try {
-               await actions[nameItem].delete(id).unwrap();
-               succeed(`${actions[nameItem].text} '${name}' удалён!`)
-               await actions[nameItem].refresh().unwrap();
+               await actions?.delete(id).unwrap();
+               succeed(`${actions?.text} '${name}' удалён!`)
+               await actions?.refresh().unwrap();
                close()
 
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }
@@ -72,7 +83,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                          <DeleteModals
                               opened={opened}
                               close={close}
-                              title={`Подтвердите удаление`}
+                              title={`Подтвердите удаление '${name}'`}
                               onClick={deleteItem}
                               typeModal={typeModal}
                          />

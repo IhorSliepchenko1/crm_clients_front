@@ -63,7 +63,10 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
                await triggerAllUsersQuery().unwrap();
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      };

@@ -3,7 +3,7 @@ import { useReadFile } from "./useReadFile";
 
 type Props = {
      file: File,
-     headerCheck: string[],
+     headerCheck?: string[],
      fileStatus?: boolean
 }
 const regex = /[а-яёА-ЯЁ ]/u
@@ -22,7 +22,7 @@ export const useFileValidation = () => {
                throw new Error("Уберите с названия файла кирилицу и пробелы!");
           }
 
-          if (fileStatus) {
+          if (fileStatus && headerCheck) {
                const fileData = await useReadFile(file);
                const headerFile = fileData.split('\n')[0].replace("\r", '').split(";");
 

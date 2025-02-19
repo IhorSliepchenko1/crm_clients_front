@@ -32,7 +32,10 @@ export const AddUserForm = () => {
 
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }

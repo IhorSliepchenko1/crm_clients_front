@@ -10,9 +10,7 @@ import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
 
 type Props = {
-     data: {
-          rows: TItem[];
-     } | undefined
+     data: { rows: TItem[] } | undefined
      dataLoading: boolean
 }
 
@@ -28,6 +26,17 @@ const requireResults = [
 ];
 
 export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
+     const form = useForm<Data>({
+          mode: "uncontrolled",
+          initialValues: { name: "-" },
+          validate: {
+               name: (value) => (missingResult?.length === 0
+                    ? "Все необходимые результаты уже были добавлены!"
+                    : requireResults.indexOf(value) < 0
+                         ? "Данный результат добавить нельзя!" : null),
+          },
+     });
+
      const [addResult, { isLoading }] = useAddResultMutation()
      const [triggerAllResultQuery] = useLazyGetAllResultQuery()
      const { succeed, error } = useNotification()
@@ -44,16 +53,6 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
 
      }, [dataLoading, triggerAllResultQuery, data])
 
-     const form = useForm<Data>({
-          mode: "uncontrolled",
-          initialValues: { name: "-" },
-          validate: {
-               name: (value) => (missingResult?.length === 0
-                    ? "Все необходимые результаты уже были добавлены!"
-                    : requireResults.indexOf(value) < 0
-                         ? "Данный результат добавить нельзя!" : null),
-          },
-     });
 
      const onSubmit = async (data: Data) => {
           try {
@@ -63,7 +62,10 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
                await triggerAllResultQuery().unwrap();
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }

@@ -6,6 +6,7 @@ import { hasErrorField } from '../../../../utils/has-error-field';
 import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
 import { DontLeave } from '../../ui/dont-leave';
+import { useFileValidation } from '../../../hooks/useFileValidation';
 
 export const DeleteNumbers = () => {
   const form = useForm({
@@ -19,21 +20,12 @@ export const DeleteNumbers = () => {
   const [deleteFile, { isLoading }] = useDeleteNumberMutation()
   const { succeed, error } = useNotification()
 
-  const validateFile = async (file: File) => {
-
-    if (file.type !== "text/csv") {
-      throw new Error("Данный формат не поддерживается!");
-    }
-
-    if (file.size > 5000000) {
-      throw new Error("Максимальный объём файла 5мб");
-    }
-  };
+  const validateFile = useFileValidation();
 
   const onSubmit = async () => {
     try {
       if (value) {
-        await validateFile(value);
+        await validateFile({ file: value, });
         const data = new FormData();
         data.append("data", value);
         await deleteFile({ data }).unwrap();
@@ -43,9 +35,13 @@ export const DeleteNumbers = () => {
       }
 
     } catch (err: any) {
+      console.error(err);
       setValue(null)
       form.reset()
-      const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+      const message = hasErrorField(err)
+        ? err?.data?.message
+        : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
       error(message);
     }
   }

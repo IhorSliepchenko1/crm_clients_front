@@ -24,8 +24,8 @@ export const numberApi = api.injectEndpoints({
                     params,
                }),
           }),
-          getRaport: builder.query<any, { city: string }>({
-               query: ({ city }) => ({
+          getRaport: builder.query<any, string>({
+               query: (city) => ({
                     url: "number",
                     method: "GET",
                     params: { city }

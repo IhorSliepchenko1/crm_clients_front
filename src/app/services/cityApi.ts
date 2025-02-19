@@ -5,10 +5,10 @@ export const cityApi = api.injectEndpoints({
      endpoints: (builder) => ({
           addCity: builder.mutation<TItem, { name: string }>(
                {
-                    query: ({ name }) => ({
+                    query: (name) => ({
                          url: "city",
                          method: "POST",
-                         body: { name },
+                         body: name,
                     }),
                }),
           updateCity: builder.mutation<UpdateTItem, { id: number, name: string }>({

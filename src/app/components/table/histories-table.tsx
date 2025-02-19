@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Table } from "@mantine/core";
 import { LoaderComponent } from "../layout/loader";
 import { useCalendarInputDate } from "../../hooks/useCalendarInputDate";
@@ -17,9 +17,12 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
      const { data: dataImport, isLoading: loadingImport } = useAllImportHistoriesQuery({ limit, page });
      const { data: dataDelete, isLoading: loadingDelete } = useAllDeleteHistoriesQuery({ limit, page });
 
-     const histories = name === "import"
-          ? { data: dataImport, loading: loadingImport, title1: "Дубли", title2: "Уникальные" }
-          : { data: dataDelete, loading: loadingDelete, title1: "Удалённые", title2: "Не найденные" };
+     const histories = useMemo(() => ({
+          data: name === "import" ? dataImport : dataDelete,
+          loading: name === "import" ? loadingImport : loadingDelete,
+          title1: name === "import" ? "Дубли" : "Удалённые",
+          title2: name === "import" ? "Уникальные" : "Не найденные"
+     }), [name, dataImport, dataDelete, loadingImport, loadingDelete])
 
      const { formatDate } = useCalendarInputDate();
      const total = useTotalPage(histories.data?.count, limit)

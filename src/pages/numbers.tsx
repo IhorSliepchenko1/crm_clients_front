@@ -4,7 +4,6 @@ import { MdDelete } from "react-icons/md";
 import { AddNumbers } from '../app/components/features/numbers/add-numbers';
 import { DeleteNumbers } from '../app/components/features/numbers/delete-numbers';
 
-
 export const Numbers = () => {
   return (
     <Tabs defaultValue="add" variant="pills" radius="xs" >

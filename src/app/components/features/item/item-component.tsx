@@ -5,9 +5,7 @@ import { ScrolContainer } from "../../layout/scrol-container"
 
 type Props = {
      isLoading: boolean
-     data: {
-          rows: TItem[];
-     } | undefined
+     data: { rows: TItem[] } | undefined
      nameItem: "city" | "type" | "result"
      text: string
 }

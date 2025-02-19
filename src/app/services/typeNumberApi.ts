@@ -4,10 +4,10 @@ import { api } from "./api"
 export const typeNumberApi = api.injectEndpoints({
      endpoints: (builder) => ({
           addTypeNumber: builder.mutation<TItem, { name: string }>({
-               query: ({ name }) => ({
+               query: (name) => ({
                     url: "type-number",
                     method: "POST",
-                    body: { name },
+                    body: name,
                }),
           }),
           updateTypeNumber: builder.mutation<UpdateTItem, { id: number, name: string }>({

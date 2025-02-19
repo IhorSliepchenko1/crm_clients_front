@@ -6,10 +6,10 @@ export const resultApi = api.injectEndpoints({
      endpoints: (builder) => ({
           addResult: builder.mutation<TItem, { name: string }>(
                {
-                    query: ({ name }) => ({
+                    query: (name) => ({
                          url: "result",
                          method: "POST",
-                         body: { name },
+                         body: name,
                     }),
                }),
           updateResult: builder.mutation<UpdateTItem, { id: number, name: string }>({

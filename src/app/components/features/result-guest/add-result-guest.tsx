@@ -1,5 +1,5 @@
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAddResultHistoriesMutation } from '../../../services/resultHistoriesApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useFileValidation } from '../../../hooks/useFileValidation';
@@ -31,7 +31,12 @@ export const AddResultGuest: React.FC<Props> = ({ type }) => {
      const actions = type === "result" ? { add: addFileResult, loading: isLoadingResult } : { add: addFileGuest, loading: isLoadingGuest }
 
      const { succeed, error } = useNotification()
-     const headerCheck = type === "result" ? ["number", "result", "presentation_date", "presentation_time", "call_date", "operator"] : ["number", "date", "time", "full_name", "guests", "pairs"]
+
+     const headerCheck = useMemo(() =>
+          type === "result"
+               ? ["number", "result", "presentation_date", "presentation_time", "call_date", "operator"]
+               : ["number", "date", "time", "full_name", "guests", "pairs"]
+          , [type])
 
      const validateFile = useFileValidation();
 
@@ -53,9 +58,13 @@ export const AddResultGuest: React.FC<Props> = ({ type }) => {
                }
 
           } catch (err: any) {
+               console.error(err);
                setValue(null)
                form.reset()
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }

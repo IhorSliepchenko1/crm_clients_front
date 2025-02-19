@@ -33,12 +33,15 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
 
           try {
                await deeleteUserMutation(id).unwrap()
-               succeed(`Пользователь ${login} удалён!`)
+               succeed(`Пользователь '${login}' удалён!`)
                await triggerAllUsersQuery().unwrap()
 
           } catch (err: any) {
                console.error(err);
-               const message = hasErrorField(err) ? err.data.message : err.message || "Что-то пошло не так. Попробуйте снова.";
+               const message = hasErrorField(err)
+                    ? err?.data?.message
+                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
+
                error(message);
           }
      }
@@ -76,7 +79,7 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                          <DeleteModals
                               opened={opened}
                               close={close}
-                              title={`Подтвердите удаление аккаунта ${login}`}
+                              title={`Подтвердите удаление аккаунта '${login}'`}
                               onClick={deleteUser}
                               typeModal={typeModal} />
 
