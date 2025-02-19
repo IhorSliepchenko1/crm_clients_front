@@ -6,6 +6,7 @@ import { DontLeave } from "../../ui/dont-leave";
 import { ButtonSubmit } from "../../button/button-submit";
 import { TextInput } from "@mantine/core";
 import { useDeleteGuestMutation } from "../../../services/guestApi";
+import { useMemo } from "react";
 
 type Props = {
      type: "result" | "guest"
@@ -25,7 +26,9 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
      const [deleteResultHistories, { isLoading: isLoadingResult }] = useDeleteResultHistoriesMutation()
      const [deleteGuest, { isLoading: isLoadingGuest }] = useDeleteGuestMutation()
 
-     const actions = type === "result" ? { delete: deleteResultHistories, loading: isLoadingResult, name: "name_import_result_file" } : { delete: deleteGuest, loading: isLoadingGuest, name: "name_import_guest_file" }
+     const actions = useMemo(() => (
+          { delete: type === "result" ? deleteResultHistories : deleteGuest, loading: type === "result" ? isLoadingResult : isLoadingGuest }
+     ), [type, deleteResultHistories, deleteGuest, isLoadingResult, isLoadingGuest])
 
      const { succeed, error } = useNotification()
 
