@@ -15,7 +15,7 @@ type Props = {
      type: "result" | "guest"
 }
 
-export const AddResultGuest: React.FC<Props> = ({ type }) => {
+export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
      const form = useForm({
           mode: "uncontrolled",
           initialValues: { data: null as File | null },

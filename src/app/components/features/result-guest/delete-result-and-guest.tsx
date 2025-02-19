@@ -12,7 +12,7 @@ type Props = {
      type: "result" | "guest"
 }
 
-export const DeleteResultHistories: React.FC<Props> = ({ type }) => {
+export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
      const form = useForm<{ fileName: string }>({
           mode: "uncontrolled",
           initialValues: { fileName: "" },

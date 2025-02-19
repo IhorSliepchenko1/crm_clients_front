@@ -1,13 +1,13 @@
 import { Tabs } from '@mantine/core'
 import { MdAddCircleOutline, MdDelete } from 'react-icons/md'
-import { AddResultGuest } from './add-result-guest'
-import { DeleteResultHistories } from './delete-result-guest'
+import { AddResultAndGuest } from './add-result-and-guest'
+import { DeleteResultAndGuest } from './delete-result-and-guest'
 
 type Props = {
      type: "result" | "guest"
 }
 
-export const ResultGuestTabs: React.FC<Props> = ({ type }) => {
+export const ResultAndGuestTabs: React.FC<Props> = ({ type }) => {
      return (
           <Tabs defaultValue="add" variant="pills" radius="xs" >
                <Tabs.List>
@@ -20,11 +20,11 @@ export const ResultGuestTabs: React.FC<Props> = ({ type }) => {
                </Tabs.List>
 
                <Tabs.Panel value="add" className='p-5'>
-                    <AddResultGuest type={type} />
+                    <AddResultAndGuest type={type} />
                </Tabs.Panel>
 
                <Tabs.Panel value="delete" className='p-5'>
-                    <DeleteResultHistories type={type} />
+                    <DeleteResultAndGuest type={type} />
                </Tabs.Panel>
           </Tabs>
      )
