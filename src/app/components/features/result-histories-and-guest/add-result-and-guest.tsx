@@ -10,6 +10,7 @@ import { ButtonSubmit } from '../../button/button-submit';
 import { RaportAddResultHistories } from '../../ui/raport-add-result-histories';
 import { RaportImport } from '../../../types';
 import { DownloadExampleCSV } from '../../ui/download-example-csv';
+import { useAddGuestMutation } from '../../../services/guestApi';
 
 type Props = {
      type: "result" | "guest"
@@ -26,9 +27,11 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
      const [raport, setRaport] = useState<RaportImport | null>(null)
 
      const [addFileResult, { isLoading: isLoadingResult }] = useAddResultHistoriesMutation()
-     const [addFileGuest, { isLoading: isLoadingGuest }] = useAddResultHistoriesMutation()
+     const [addFileGuest, { isLoading: isLoadingGuest }] = useAddGuestMutation()
 
-     const actions = type === "result" ? { add: addFileResult, loading: isLoadingResult } : { add: addFileGuest, loading: isLoadingGuest }
+     const actions = useMemo(() => (
+          { add: type === "result" ? addFileResult : addFileGuest, loading: type === "result" ? isLoadingResult : isLoadingGuest }
+     ), [type, addFileResult, addFileGuest, isLoadingResult, isLoadingGuest])
 
      const { succeed, error } = useNotification()
 
