@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useNotification } from "../../hooks/useNotification/useNotification";
 import { useLazyGetAllUsersQuery, useUpdateUserMutation } from "../../services/userApi";
-import { hasErrorField } from "../../../utils/has-error-field";
 import { Modal, PasswordInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ModalActionComponent } from "../ui/modal-action-component";
 import { ROLES } from "../../types";
 import { roles } from "../../../utils/role-list";
+import { errorMessages } from "../../../utils/has-error-field";
 
 type Props = {
      login: string;
@@ -59,45 +59,45 @@ export const UpdateUserModal: React.FC<Props> = ({ id, login, role, opened, clos
           try {
                await updateUserMutation({ id, data }).unwrap();
                succeed("Пользователь обновлён!");
-               close();
                await triggerAllUsersQuery().unwrap();
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+               close();
+          } catch (err) {
+               error(errorMessages(err));
           }
      };
 
      return (
-          typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации о пользователе">
+          typeModal === "update" &&
+          <Modal
+               opened={opened}
+               onClose={close}
+               title="Обновление информации о пользователе"
+          >
                <form onSubmit={form.onSubmit(updateUser)}>
                     <TextInput
-                         key={form.key("login")}
                          label="Логин"
                          placeholder="Введите логин"
+                         key={form.key("login")}
                          {...form.getInputProps("login")}
                     />
                     <PasswordInput
-                         key={form.key("oldPassword")}
                          label="Текущий пароль"
                          placeholder="Введите текущий пароль"
+                         key={form.key("oldPassword")}
                          {...form.getInputProps("oldPassword")}
                     />
                     <PasswordInput
-                         key={form.key("newPassword")}
                          label="Новый пароль"
                          placeholder="Введите новый пароль"
+                         key={form.key("newPassword")}
                          {...form.getInputProps("newPassword")}
                     />
                     <Select
-                         key={form.key("role")}
                          label="Роль"
                          placeholder="Выберите роль пользователя"
-                         data={roles}
+                         key={form.key("role")}
                          {...form.getInputProps("role")}
+                         data={roles}
                     />
                     <ModalActionComponent
                          disabled={!form.isDirty()}

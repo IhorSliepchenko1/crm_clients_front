@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useAddResultHistoriesMutation } from '../../../services/resultHistoriesApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useFileValidation } from '../../../hooks/useFileValidation';
-import { hasErrorField } from '../../../../utils/has-error-field';
+import { errorMessages } from '../../../../utils/has-error-field';
 import { FileInput } from '@mantine/core';
 import { DontLeave } from '../../ui/dont-leave';
 import { ButtonSubmit } from '../../button/button-submit';
@@ -29,11 +29,14 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
      const [addFileResult, { isLoading: isLoadingResult }] = useAddResultHistoriesMutation()
      const [addFileGuest, { isLoading: isLoadingGuest }] = useAddGuestMutation()
 
-     const actions = useMemo(() => (
-          { add: type === "result" ? addFileResult : addFileGuest, loading: type === "result" ? isLoadingResult : isLoadingGuest }
-     ), [type, addFileResult, addFileGuest, isLoadingResult, isLoadingGuest])
-
      const { succeed, error } = useNotification()
+
+     const actions = useMemo(() => (
+          {
+               add: type === "result" ? addFileResult : addFileGuest,
+               loading: type === "result" ? isLoadingResult : isLoadingGuest
+          }
+     ), [type])
 
      const headerCheck = useMemo(() =>
           type === "result"
@@ -60,15 +63,10 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                     setRaport(response)
                }
 
-          } catch (err: any) {
-               console.error(err);
+          } catch (err) {
                setValue(null)
                form.reset()
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+               error(errorMessages(err));
           }
      }
 
@@ -76,9 +74,9 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <DownloadExampleCSV array={headerCheck} />
                <FileInput
+                    placeholder="Загрузите файл формата .csv"
                     key={form.key("data")}
                     {...form.getInputProps("data")}
-                    placeholder="Загрузите файл формата .csv"
                     value={value}
                     onChange={(file) => {
                          setValue(file)

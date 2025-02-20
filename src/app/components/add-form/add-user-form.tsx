@@ -2,7 +2,7 @@ import { useForm } from "@mantine/form";
 import { PasswordInput, Select, TextInput } from "@mantine/core";
 import { Register } from "../../types";
 import { useLazyGetAllUsersQuery, useRegisterMutation } from "../../services/userApi";
-import { hasErrorField } from "../../../utils/has-error-field";
+import { errorMessages } from "../../../utils/has-error-field";
 import { useNotification } from "../../hooks/useNotification/useNotification";
 import { ButtonSubmit } from "../button/button-submit";
 import { ROLES, roles } from "../../../utils/role-list";
@@ -22,7 +22,7 @@ export const AddUserForm = () => {
      const [triggerAllUsersQuery] = useLazyGetAllUsersQuery()
      const { succeed, error } = useNotification()
      const { decoded } = useCheckValidToken()
-     
+
      const onSubmit = async (data: Register) => {
           try {
                await registration(data).unwrap()
@@ -30,19 +30,14 @@ export const AddUserForm = () => {
                form.reset()
                await triggerAllUsersQuery().unwrap()
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
 
      return (
-          decoded.role === ROLES.ADMIN &&  <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
+          decoded.role === ROLES.ADMIN && <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
                     label="Логин"
                     placeholder="Введите логин"
@@ -58,10 +53,9 @@ export const AddUserForm = () => {
                <Select
                     label="Роль"
                     placeholder="Выберите роль пользователя"
-                    data={roles}
-                    searchable
                     key={form.key("role")}
                     {...form.getInputProps("role")}
+                    data={roles}
                />
                <ButtonSubmit loading={isLoading} text={"Добавить пользователя"} />
           </form>

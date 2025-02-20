@@ -3,7 +3,6 @@ import { useNotification } from '../../../hooks/useNotification/useNotification'
 import { useDisclosure } from '@mantine/hooks';
 import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../../../services/cityApi';
 import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../../../services/typeNumberApi';
-import { hasErrorField } from '../../../../utils/has-error-field';
 import { DeleteModals } from '../../modals/delete-modals';
 import { UpdateCityAndResultModal } from '../../modals/update-city-and-result';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
@@ -13,6 +12,7 @@ import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { ROLES } from '../../../../utils/role-list';
 import { useMemo } from 'react';
 import { UpdateTypeNumberModal } from '../../modals/update-type-number';
+import { errorMessages } from '../../../../utils/has-error-field';
 
 type Props = {
      nameItem: "city" | "type" | "result"
@@ -48,7 +48,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" })
                default:
                     return
           }
-     }, [nameItem, deleteCityMutation, triggerAllCityQuery, deleteTypeNumberMutation, triggerAllTypeNumberQuery, deleteResultMutation, triggerAllResultQuery]);
+     }, [nameItem]);
 
 
      const deleteItem = async () => {
@@ -58,13 +58,8 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" })
                await actions?.refresh().unwrap();
                close()
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
@@ -98,13 +93,15 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" })
                               typeModal={typeModal}
                          />
 
-                         {nameItem === "type" && <UpdateTypeNumberModal
-                              opened={opened}
-                              close={close}
-                              id={id}
-                              name={name}
-                              typeModal={typeModal}
-                              color={color} />}
+                         {nameItem === "type" &&
+                              <UpdateTypeNumberModal
+                                   opened={opened}
+                                   close={close}
+                                   id={id}
+                                   name={name}
+                                   typeModal={typeModal}
+                                   color={color}
+                              />}
                     </>
                }
 

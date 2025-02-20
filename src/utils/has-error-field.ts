@@ -1,4 +1,4 @@
-export function hasErrorField(err: unknown): err is {
+function hasErrorField(err: unknown): err is {
      data: { message: string }
 } {
      return (
@@ -9,4 +9,10 @@ export function hasErrorField(err: unknown): err is {
           err.data !== null &&
           `message` in err.data
      )
+}
+
+export const errorMessages = (err: any) => {
+     return hasErrorField(err)
+          ? err?.data?.message
+          : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
 }

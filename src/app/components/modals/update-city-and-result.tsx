@@ -2,10 +2,10 @@ import { Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { useLazyGetAllCityQuery, useUpdateCityMutation } from "../../services/cityApi";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect, useMemo } from "react";
 import { ModalActionComponent } from "../ui/modal-action-component";
 import { useLazyGetAllResultQuery, useUpdateResultMutation } from "../../services/resultApi";
+import { errorMessages } from "../../../utils/has-error-field";
 
 type SubmitData = { name: string }
 
@@ -54,7 +54,7 @@ export const UpdateCityAndResultModal: React.FC<Props> = ({ nameItem, id, opened
           refresh: nameItem === "city" ? triggerAllCityQuery : triggerAllResultQuery,
           loading: nameItem === "city" ? loadCity : loadResult,
           text: nameItem === "city" ? "Город" : "Результат"
-     }), [nameItem, updateCity, updateResultMutation, triggerAllCityQuery, triggerAllResultQuery, loadCity, loadResult])
+     }), [nameItem])
 
      const updateItem = async (data: SubmitData) => {
           try {
@@ -64,22 +64,21 @@ export const UpdateCityAndResultModal: React.FC<Props> = ({ nameItem, id, opened
                close()
                await actions.refresh().unwrap();
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
      return (
-          typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
+          typeModal === "update" &&
+          <Modal opened={opened}
+               onClose={close}
+               title="Обновление информации названия свойства"
+          >
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
-                         key={form.key("name")}
                          label={actions.text}
+                         key={form.key("name")}
                          {...form.getInputProps("name")}
                     />
                     <ModalActionComponent

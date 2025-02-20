@@ -3,9 +3,13 @@ import { Item } from "../item/item"
 import { LoaderComponent } from "../../layout/loader"
 import { ScrolContainer } from "../../layout/scrol-container"
 
+type Data = TItem & {
+     color?: string
+}
+
 type Props = {
      isLoading: boolean
-     data: { rows: TItem[] } | undefined
+     data: { rows: Data[] } | undefined
      nameItem: "city" | "type" | "result"
      text: string
 }
@@ -23,7 +27,7 @@ export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem, text
                               id={item.id}
                               index={index + 1}
                               name={item.name}
-                              color={"color" in item && typeof item.color === 'string' ? item.color : ''}
+                              color={item?.color}
                          />))}
           </ScrolContainer>
      )

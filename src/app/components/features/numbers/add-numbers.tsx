@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FileInput } from '@mantine/core';
 import { useAddNumberMutation } from '../../../services/numberApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
-import { hasErrorField } from '../../../../utils/has-error-field';
+import { errorMessages } from '../../../../utils/has-error-field';
 import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
 import { Raport } from '../../../types';
@@ -32,11 +32,13 @@ export const AddNumbers = () => {
   const onSubmit = async () => {
     try {
       if (value) {
+
         await validateFile({
           file: value,
           headerCheck,
           fileStatus: true
         });
+
         const data = new FormData();
         data.append("data", value);
         const response = await addFile({ data }).unwrap();
@@ -47,15 +49,11 @@ export const AddNumbers = () => {
       }
 
     }
-    catch (err: any) {
-      console.error(err);
+
+    catch (err) {
       setValue(null)
       form.reset()
-      const message = hasErrorField(err)
-        ? err?.data?.message
-        : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-      error(message);
+      error(errorMessages(err));
     }
   }
 
@@ -65,9 +63,9 @@ export const AddNumbers = () => {
         <DownloadExampleCSV array={headerCheck} />
 
         <FileInput
+          placeholder="Загрузите файл формата .csv"
           key={form.key("data")}
           {...form.getInputProps("data")}
-          placeholder="Загрузите файл формата .csv"
           value={value}
           onChange={(file) => {
             setValue(file)
@@ -79,8 +77,7 @@ export const AddNumbers = () => {
       </form>
 
       <div className='flex justify-center'>
-        {raport && <RaportAddNumber raport={raport} setRaport={setRaport}
-        />}
+        {raport && <RaportAddNumber raport={raport} setRaport={setRaport} />}
       </div>
     </div>
   )

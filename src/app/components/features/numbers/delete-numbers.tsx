@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FileInput } from '@mantine/core';
 import { useDeleteNumberMutation } from '../../../services/numberApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
-import { hasErrorField } from '../../../../utils/has-error-field';
+import { errorMessages } from '../../../../utils/has-error-field';
 import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
 import { DontLeave } from '../../ui/dont-leave';
@@ -34,15 +34,11 @@ export const DeleteNumbers = () => {
         form.reset()
       }
 
-    } catch (err: any) {
-      console.error(err);
+    }
+    catch (err) {
       setValue(null)
       form.reset()
-      const message = hasErrorField(err)
-        ? err?.data?.message
-        : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-      error(message);
+      error(errorMessages(err));
     }
   }
 
@@ -51,9 +47,9 @@ export const DeleteNumbers = () => {
       <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
         <p>Загрузите файл с номера для удаления</p>
         <FileInput
+          placeholder="Загрузите файл формата .csv"
           key={form.key("data")}
           {...form.getInputProps("data")}
-          placeholder="Загрузите файл формата .csv"
           value={value}
           onChange={(file) => {
             setValue(file)

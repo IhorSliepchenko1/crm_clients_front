@@ -1,11 +1,11 @@
 import { useForm } from "@mantine/form";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../../utils/has-error-field";
 import { useAddCityMutation, useLazyGetAllCityQuery } from "../../services/cityApi";
 import { TextInput } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
+import { errorMessages } from "../../../utils/has-error-field";
 
 type Data = { name: string }
 
@@ -34,13 +34,8 @@ export const AddCityForm = () => {
                form.reset();
                await triggerAllCityQuery().unwrap();
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      };
 
@@ -48,9 +43,9 @@ export const AddCityForm = () => {
           decoded.role === ROLES.ADMIN &&
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
-                    key={form.key('name')}
                     label="Город"
                     placeholder={"Введите название"}
+                    key={form.key('name')}
                     {...form.getInputProps("name")}
                />
 

@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../../utils/has-error-field";
+import { errorMessages } from "../../../utils/has-error-field";
 import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../../services/typeNumberApi";
 import { ColorInput, TextInput } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
@@ -32,13 +32,8 @@ export const AddTypeNumberForm = () => {
                form.reset();
                await triggerAllTypeNumberQuery().unwrap();
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      };
 
@@ -46,15 +41,15 @@ export const AddTypeNumberForm = () => {
           decoded.role === ROLES.ADMIN &&
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
                <TextInput
-                    key={form.key("name")}
                     label="Тип базы"
                     placeholder={"Введите название"}
+                    key={form.key("name")}
                     {...form.getInputProps("name")}
                />
                <ColorInput
+                    label={"Цвет типа базы"}
+                    placeholder={"Выберите цвет для базы"}
                     key={form.key("color")}
-                    label={"Цвет для данного типа базы"}
-                    placeholder={"Выберите цвет для данного типа"}
                     {...form.getInputProps("color")}
                />
                <ButtonSubmit loading={isLoading} text={"Добавить"} />

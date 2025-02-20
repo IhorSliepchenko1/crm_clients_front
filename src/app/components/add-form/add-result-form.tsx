@@ -1,6 +1,5 @@
 import { useForm } from "@mantine/form";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../../utils/has-error-field";
 import { Select } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
 import { useAddResultMutation, useLazyGetAllResultQuery } from "../../services/resultApi";
@@ -8,6 +7,7 @@ import { useMemo } from "react";
 import { TItem } from "../../types";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
+import { errorMessages } from "../../../utils/has-error-field";
 
 type Props = {
      data: { rows: TItem[] } | undefined
@@ -53,20 +53,15 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
 
      }, [dataLoading, triggerAllResultQuery, data])
 
-
      const onSubmit = async (data: Data) => {
           try {
                await addResult(data).unwrap();
                succeed("Новый результат добавлен!");
                form.reset()
                await triggerAllResultQuery().unwrap();
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
 
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
@@ -75,10 +70,9 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
                <Select
                     label="Результат"
                     placeholder="Выберите результат для добавления"
-                    data={missingResult}
-                    searchable
                     key={form.key("name")}
                     {...form.getInputProps("name")}
+                    data={missingResult}
                     disabled={missingResult?.length === 0}
                />
                <ButtonSubmit loading={isLoading} text={"Добавить"} />

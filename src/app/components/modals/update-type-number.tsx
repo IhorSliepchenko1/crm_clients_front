@@ -2,9 +2,9 @@ import { ColorInput, Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { useLazyGetAllTypeNumberQuery, useUpdateTypeNumberMutation } from "../../services/typeNumberApi";
 import { useNotification } from "../../hooks/useNotification/useNotification";
-import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect } from "react";
 import { ModalActionComponent } from "../ui/modal-action-component";
+import { errorMessages } from "../../../utils/has-error-field";
 
 type SubmitData = { name: string, color: string }
 
@@ -37,24 +37,16 @@ export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name
           }
      }, [opened]);
 
-
-
      const updateItem = async (data: SubmitData) => {
           try {
-
                await updateTypeNumber({ data, id }).unwrap();
                succeed(`Тип базы '${name}' обновлён!`)
                form.reset();
-               close()
                await triggerAllTypeNumberQuery().unwrap();
+               close()
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
@@ -62,8 +54,8 @@ export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
-                         key={form.key("name")}
                          label="Тип базы"
+                         key={form.key("name")}
                          {...form.getInputProps("name")}
                     />
 

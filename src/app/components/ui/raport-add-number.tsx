@@ -35,7 +35,15 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
           <div>
                <div className="flex justify-between my-5">
                     {buttons.map((item, index) => (
-                         <Button key={index} variant="outline" color={item.color} size="xs" radius="xs" onClick={item.onClick}>{item.text}</Button>
+                         <Button
+                              key={index}
+                              variant="outline"
+                              color={item.color}
+                              size="xs"
+                              radius="xs"
+                              onClick={item.onClick}>
+                              {item.text}
+                         </Button>
                     ))}
                </div>
                <ContainerPDFimportNumbers ref={pdfRef}>
@@ -49,7 +57,12 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                               {raport.dublicate.map(item => (
                                    <div key={item.name + item.count} className="flex justify-between pb-0.5">
                                         <p className="pr-7">{item.name}</p>
-                                        <NumberFormatter thousandSeparator="." decimalSeparator="," value={item.count} />
+
+                                        <NumberFormatter
+                                             thousandSeparator="."
+                                             decimalSeparator=","
+                                             value={item.count}
+                                        />
                                    </div>
                               ))}
                          </div>
@@ -59,7 +72,12 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                          {totalInfo.map((item, index) => (
                               <div key={index} className="flex justify-between">
                                    <p>{item.text}</p>
-                                   <NumberFormatter thousandSeparator="." decimalSeparator="," value={item.value} />
+
+                                   <NumberFormatter
+                                        thousandSeparator="."
+                                        decimalSeparator=","
+                                        value={item.value}
+                                   />
                               </div>
                          ))}
                     </div>

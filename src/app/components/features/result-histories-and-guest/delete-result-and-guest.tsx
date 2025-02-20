@@ -1,5 +1,4 @@
 import { useForm } from "@mantine/form"
-import { hasErrorField } from "../../../../utils/has-error-field";
 import { useNotification } from "../../../hooks/useNotification/useNotification";
 import { useDeleteResultHistoriesMutation } from "../../../services/resultHistoriesApi";
 import { DontLeave } from "../../ui/dont-leave";
@@ -7,6 +6,7 @@ import { ButtonSubmit } from "../../button/button-submit";
 import { TextInput } from "@mantine/core";
 import { useDeleteGuestMutation } from "../../../services/guestApi";
 import { useMemo } from "react";
+import { errorMessages } from "../../../../utils/has-error-field";
 
 type Props = {
      type: "result" | "guest"
@@ -27,8 +27,11 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
      const [deleteGuest, { isLoading: isLoadingGuest }] = useDeleteGuestMutation()
 
      const actions = useMemo(() => (
-          { delete: type === "result" ? deleteResultHistories : deleteGuest, loading: type === "result" ? isLoadingResult : isLoadingGuest }
-     ), [type, deleteResultHistories, deleteGuest, isLoadingResult, isLoadingGuest])
+          {
+               delete: type === "result" ? deleteResultHistories : deleteGuest,
+               loading: type === "result" ? isLoadingResult : isLoadingGuest
+          }
+     ), [type])
 
      const { succeed, error } = useNotification()
 
@@ -38,14 +41,9 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
                succeed(response)
                form.reset()
 
-          } catch (err: any) {
-               console.error(err);
+          } catch (err) {
                form.reset()
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+               error(errorMessages(err));
           }
      }
 

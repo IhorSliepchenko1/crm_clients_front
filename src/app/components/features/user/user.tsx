@@ -2,13 +2,13 @@ import { Group, Badge } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { DeleteModals } from "../../modals/delete-modals";
 import { useDeleteUserMutation, useLazyGetAllUsersQuery } from "../../../services/userApi";
-import { hasErrorField } from "../../../../utils/has-error-field";
 import { useNotification } from "../../../hooks/useNotification/useNotification";
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 import { UpdateUserModal } from "../../modals/update-user";
 import { useChangeTypeModal } from "../../../hooks/useChangeTypeModal";
 import { OpenModalComponent } from "../../open-modal-component";
 import { ROLES } from "../../../types";
+import { errorMessages } from "../../../../utils/has-error-field";
 
 type Props = {
      role: ROLES,
@@ -36,13 +36,8 @@ export const User: React.FC<Props> = ({ role, login, id }) => {
                succeed(`Пользователь '${login}' удалён!`)
                await triggerAllUsersQuery().unwrap()
 
-          } catch (err: any) {
-               console.error(err);
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+          } catch (err) {
+               error(errorMessages(err));
           }
      }
 
