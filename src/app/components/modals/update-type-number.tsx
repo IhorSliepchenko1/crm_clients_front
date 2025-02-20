@@ -6,7 +6,7 @@ import { hasErrorField } from "../../../utils/has-error-field";
 import { useEffect } from "react";
 import { ModalActionComponent } from "../ui/modal-action-component";
 
-type SubmitData = { name?: string, color?: string }
+type SubmitData = { name: string, color: string }
 
 type Props = {
      id: number
@@ -41,6 +41,7 @@ export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name
 
      const updateItem = async (data: SubmitData) => {
           try {
+
                await updateTypeNumber({ data, id }).unwrap();
                succeed(`Тип базы '${name}' обновлён!`)
                form.reset();
@@ -61,6 +62,7 @@ export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
+                         key={form.key("name")}
                          label="Тип базы"
                          {...form.getInputProps("name")}
                     />

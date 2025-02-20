@@ -24,8 +24,10 @@ export type TItem = {
 }
 
 export type UpdateTItem = {
-     name: string
-     id: number
+     data: {
+          name: string;
+     }
+     id: number;
 }
 
 export type Register = { login: string, password: string, role: "ADMIN" | "USER" }

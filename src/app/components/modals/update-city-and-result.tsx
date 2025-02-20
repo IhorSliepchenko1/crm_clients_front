@@ -10,7 +10,7 @@ import { useLazyGetAllResultQuery, useUpdateResultMutation } from "../../service
 type SubmitData = { name: string }
 
 type Props = {
-     nameItem: "city" | "result" | "type"
+     nameItem: "city" | "result"
      id: number
      opened: boolean
      close: () => void
@@ -18,7 +18,7 @@ type Props = {
      typeModal: "delete" | "update"
 }
 
-export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, name, typeModal }) => {
+export const UpdateCityAndResultModal: React.FC<Props> = ({ nameItem, id, opened, close, name, typeModal }) => {
      const regex = /\d/;
 
      const form = useForm<SubmitData>({
@@ -56,9 +56,9 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
           text: nameItem === "city" ? "Город" : "Результат"
      }), [nameItem, updateCity, updateResultMutation, triggerAllCityQuery, triggerAllResultQuery, loadCity, loadResult])
 
-     const updateItem = async ({ name }: SubmitData) => {
+     const updateItem = async (data: SubmitData) => {
           try {
-               await actions.update({ id, name }).unwrap();
+               await actions.update({ data, id }).unwrap();
                succeed(`${actions.text} '${name}' обновлён!`)
                form.reset();
                close()
@@ -78,6 +78,7 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
+                         key={form.key("name")}
                          label={actions.text}
                          {...form.getInputProps("name")}
                     />

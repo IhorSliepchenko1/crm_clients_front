@@ -5,7 +5,7 @@ import { useDeleteCityMutation, useLazyGetAllCityQuery } from '../../../services
 import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../../../services/typeNumberApi';
 import { hasErrorField } from '../../../../utils/has-error-field';
 import { DeleteModals } from '../../modals/delete-modals';
-import { UpdateItemModal } from '../../modals/update-item';
+import { UpdateCityAndResultModal } from '../../modals/update-city-and-result';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
 import { OpenModalComponent } from '../../open-modal-component';
 import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../services/resultApi';
@@ -90,10 +90,10 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" })
                               typeModal={typeModal}
                          />
 
-                         <UpdateItemModal
+                         <UpdateCityAndResultModal
                               opened={opened}
                               close={close}
-                              nameItem={nameItem}
+                              nameItem={nameItem as "city" | "result"}
                               id={id} name={name}
                               typeModal={typeModal}
                          />

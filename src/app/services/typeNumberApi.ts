@@ -7,11 +7,13 @@ type TypeNumber = TItem & {
 
 type Data = {
      data: {
-          name?: string;
-          color?: string
+          name: string;
+          color: string
      }
      id: number;
 }
+
+
 
 export const typeNumberApi = api.injectEndpoints({
      endpoints: (builder) => ({

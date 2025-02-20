@@ -5,17 +5,17 @@ export const cityApi = api.injectEndpoints({
      endpoints: (builder) => ({
           addCity: builder.mutation<TItem, { name: string }>(
                {
-                    query: (data) => ({
+                    query: (name) => ({
                          url: "city",
                          method: "POST",
-                         body: { name: data.name },
+                         body: name,
                     }),
                }),
-          updateCity: builder.mutation<UpdateTItem, { id: number, name: string }>({
-               query: ({ name, id }) => ({
+          updateCity: builder.mutation<TItem, UpdateTItem>({
+               query: ({ data, id }) => ({
                     url: `city/${id}`,
                     method: "PUT",
-                    body: { name },
+                    body: data,
                }),
           }),
           getAllCity: builder.query<{ rows: TItem[], count: number }, void>({

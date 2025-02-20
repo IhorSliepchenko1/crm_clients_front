@@ -12,11 +12,11 @@ export const resultApi = api.injectEndpoints({
                          body: name,
                     }),
                }),
-          updateResult: builder.mutation<UpdateTItem, { id: number, name: string }>({
-               query: ({ name, id }) => ({
+          updateResult: builder.mutation<TItem, UpdateTItem>({
+               query: ({ data, id }) => ({
                     url: `result/${id}`,
                     method: "PUT",
-                    body: { name },
+                    body: data,
                }),
           }),
           getAllResult: builder.query<{ rows: TItem[] }, void>({
