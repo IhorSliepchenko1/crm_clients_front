@@ -1,29 +1,44 @@
-import { TItem, UpdateTItem } from "../types";
+import { TItem } from "../types";
 import { api } from "./api"
+
+type TypeNumber = TItem & {
+     color: string
+}
+
+type Data = {
+     data: {
+          name?: string;
+          color?: string
+     }
+     id: number;
+}
 
 export const typeNumberApi = api.injectEndpoints({
      endpoints: (builder) => ({
-          addTypeNumber: builder.mutation<TItem, { name: string }>({
-               query: (name) => ({
+          addTypeNumber: builder.mutation<TypeNumber, {
+               name: string;
+               color: string
+          }>({
+               query: (data) => ({
                     url: "type-number",
                     method: "POST",
-                    body: name,
+                    body: data,
                }),
           }),
-          updateTypeNumber: builder.mutation<UpdateTItem, { id: number, name: string }>({
-               query: ({ name, id }) => ({
+          updateTypeNumber: builder.mutation<TypeNumber, Data>({
+               query: ({ data, id }) => ({
                     url: `type-number/${id}`,
                     method: "PUT",
-                    body: { name },
+                    body: data,
                }),
           }),
-          getAllTypeNumber: builder.query<{ rows: TItem[] }, void>({
+          getAllTypeNumber: builder.query<{ rows: TypeNumber[] }, void>({
                query: () => ({
                     url: "type-number",
                     method: "GET",
                }),
           }),
-          getByIdTypeNumber: builder.query<TItem, number>({
+          getByIdTypeNumber: builder.query<TypeNumber, number>({
                query: (id) => ({
                     url: `type-number/${id}`,
                     method: "GET",

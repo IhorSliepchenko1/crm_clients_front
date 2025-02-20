@@ -3,13 +3,13 @@ import { useNotification } from "../../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
 import { useAddCityMutation, useLazyGetAllCityQuery } from "../../services/cityApi";
 import { useAddTypeNumberMutation, useLazyGetAllTypeNumberQuery } from "../../services/typeNumberApi";
-import { TextInput } from "@mantine/core";
+import { ColorInput, TextInput } from "@mantine/core";
 import { ButtonSubmit } from "../button/button-submit";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
 import { useMemo } from "react";
 
-type Data = { name: string }
+type Data = { name: string, color: string }
 type Props = { nameAdd: "city" | "type" }
 
 export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
@@ -17,12 +17,14 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
      const { decoded } = useCheckValidToken()
      const form = useForm<Data>({
           mode: "uncontrolled",
-          initialValues: { name: "" },
+          initialValues: { name: "", color: "" },
           validate: {
                name: (value) => (!value ?
                     "Обязательное поле!"
                     : nameAdd === "city" && regex.test(value) ?
                          "В названии города цифры не допускаются" : null),
+               color: (value) => (nameAdd === "type" && !value ?
+                    "Обязательное поле!" : null),
           },
      });
 
@@ -38,15 +40,21 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
           refresh: nameAdd === "city" ? triggerAllCityQuery : triggerAllTypeNumberQuery,
           loading: nameAdd === "city" ? loadCity : loadTypeNumber,
           textSucceed: nameAdd === "city" ? "город" : "тип базы",
-     }), [nameAdd, addCity, addTypeNumber, triggerAllCityQuery, triggerAllTypeNumberQuery]);
+     }), [nameAdd]);
+
 
      const onSubmit = async (data: Data) => {
           try {
-               await actions.add(data).unwrap();
-               succeed(`Новый ${actions.textSucceed} добавлен!`);
-               form.reset()
-               await actions.refresh().unwrap();
 
+               const payload = nameAdd === "type"
+                    ? { name: data.name, color: data.color }
+                    : { name: data.name, color: "" };
+
+               await actions.add(payload).unwrap();
+
+               succeed(`Новый ${actions.textSucceed} добавлен!`);
+               form.reset();
+               await actions.refresh().unwrap();
           } catch (err: any) {
                console.error(err);
                const message = hasErrorField(err)
@@ -55,10 +63,11 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
 
                error(message);
           }
-     }
+     };
+
 
      const upperCaseFirstLetter = (str: string) => {
-          return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase()
+          return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
      }
 
      return (
@@ -67,9 +76,15 @@ export const AddItemForm: React.FC<Props> = ({ nameAdd }) => {
                <TextInput
                     label={upperCaseFirstLetter(actions.textSucceed)}
                     placeholder={"Введите название"}
-                    key={form.key("name")}
                     {...form.getInputProps("name")}
                />
+               {nameAdd === 'type' &&
+                    <ColorInput
+                         label={"Цвет для данного типа базы"}
+                         placeholder={"Выберите цвет для данного типа"}
+                         {...form.getInputProps("color")}
+                    />
+               }
                <ButtonSubmit loading={actions.loading} text={"Добавить"} />
           </form>
      )

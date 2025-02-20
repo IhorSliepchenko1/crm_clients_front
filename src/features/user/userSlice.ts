@@ -21,7 +21,6 @@ const slice = createSlice({
                state.token = null
                localStorage.removeItem(`token`)
           }
-
      },
 
      extraReducers: (builder) => {

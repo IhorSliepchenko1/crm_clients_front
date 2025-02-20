@@ -12,15 +12,17 @@ import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../serv
 import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { ROLES } from '../../../../utils/role-list';
 import { useMemo } from 'react';
+import { UpdateTypeNumberModal } from '../../modals/update-type-number';
 
 type Props = {
      nameItem: "city" | "type" | "result"
      id: number
      index: number
      name: string
+     color?: string
 }
 
-export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
+export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" }) => {
      const [opened, { open, close }] = useDisclosure(false);
      const { typeModal, openUpdateModal, openDeleteModal } = useChangeTypeModal({ open })
      const { succeed, error } = useNotification()
@@ -70,7 +72,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
           <Group justify="space-between">
                <div className="flex gap-2">
                     <div>{index}.</div>
-                    <div>{name}</div>
+                    <div style={{ background: nameItem === "type" && color ? color : "" }}>{name}</div>
                </div>
                {
                     decoded.role === ROLES.ADMIN &&
@@ -95,6 +97,14 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name }) => {
                               id={id} name={name}
                               typeModal={typeModal}
                          />
+
+                         {nameItem === "type" && <UpdateTypeNumberModal
+                              opened={opened}
+                              close={close}
+                              id={id}
+                              name={name}
+                              typeModal={typeModal}
+                              color={color} />}
                     </>
                }
 

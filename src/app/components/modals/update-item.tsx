@@ -1,17 +1,16 @@
 import { Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { useLazyGetAllCityQuery, useUpdateCityMutation } from "../../services/cityApi";
-import { useLazyGetAllTypeNumberQuery, useUpdateTypeNumberMutation } from "../../services/typeNumberApi";
 import { useNotification } from "../../hooks/useNotification/useNotification";
 import { hasErrorField } from "../../../utils/has-error-field";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ModalActionComponent } from "../ui/modal-action-component";
 import { useLazyGetAllResultQuery, useUpdateResultMutation } from "../../services/resultApi";
 
 type SubmitData = { name: string }
 
 type Props = {
-     nameItem: "city" | "type" | "result"
+     nameItem: "city" | "result" | "type"
      id: number
      opened: boolean
      close: () => void
@@ -34,11 +33,9 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
      });
 
      const [updateCity, { isLoading: loadCity }] = useUpdateCityMutation()
-     const [updateTypeNumber, { isLoading: loadTypeNumber }] = useUpdateTypeNumberMutation()
      const [updateResultMutation, { isLoading: loadResult }] = useUpdateResultMutation()
 
      const [triggerAllCityQuery] = useLazyGetAllCityQuery()
-     const [triggerAllTypeNumberQuery] = useLazyGetAllTypeNumberQuery()
      const [triggerAllResultQuery] = useLazyGetAllResultQuery()
 
      const { succeed, error } = useNotification()
@@ -52,19 +49,20 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
           }
      }, [opened]);
 
-     const actions = {
-          city: { update: updateCity, refresh: triggerAllCityQuery, loading: loadCity, text: "Город" },
-          type: { update: updateTypeNumber, refresh: triggerAllTypeNumberQuery, loading: loadTypeNumber, text: "Тип базы" },
-          result: { update: updateResultMutation, refresh: triggerAllResultQuery, loading: loadResult, text: "Результат" }
-     };
+     const actions = useMemo(() => ({
+          update: nameItem === "city" ? updateCity : updateResultMutation,
+          refresh: nameItem === "city" ? triggerAllCityQuery : triggerAllResultQuery,
+          loading: nameItem === "city" ? loadCity : loadResult,
+          text: nameItem === "city" ? "Город" : "Результат"
+     }), [nameItem, updateCity, updateResultMutation, triggerAllCityQuery, triggerAllResultQuery, loadCity, loadResult])
 
      const updateItem = async ({ name }: SubmitData) => {
           try {
-               await actions[nameItem].update({ id, name }).unwrap();
-               succeed(`${actions[nameItem].text} '${name}' обновлён!`)
+               await actions.update({ id, name }).unwrap();
+               succeed(`${actions.text} '${name}' обновлён!`)
                form.reset();
                close()
-               await actions[nameItem].refresh().unwrap();
+               await actions.refresh().unwrap();
 
           } catch (err: any) {
                console.error(err);
@@ -80,12 +78,12 @@ export const UpdateItemModal: React.FC<Props> = ({ nameItem, id, opened, close, 
           typeModal === "update" && <Modal opened={opened} onClose={close} title="Обновление информации названия свойства">
                <form onSubmit={form.onSubmit(updateItem)}>
                     <TextInput
-                         label={actions[nameItem].text}
+                         label={actions.text}
                          {...form.getInputProps("name")}
                     />
                     <ModalActionComponent
                          disabled={!form.isDirty()}
-                         loading={actions[nameItem].loading}
+                         loading={actions.loading}
                          close={close}
                     />
                </form>

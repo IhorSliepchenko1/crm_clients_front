@@ -23,6 +23,7 @@ export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem, text
                               id={item.id}
                               index={index + 1}
                               name={item.name}
+                              color={"color" in item && typeof item.color === 'string' ? item.color : ''}
                          />))}
           </ScrolContainer>
      )
