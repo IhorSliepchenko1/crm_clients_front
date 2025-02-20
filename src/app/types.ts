@@ -108,3 +108,21 @@ export type Raport = {
      unique: number
      totalDublicate: number
 }
+
+
+export type RaportItem = {
+     all_numbers: number
+     color: string
+     guests: number
+     pairs: number
+     'Не уверенный': number
+     Но: number
+     Отказ: number
+     'Ошибка(возраст)': number
+     'Ошибка(км)': number
+     Согласие: number
+}
+
+export type RaportData = {
+     [key: string]: RaportItem;
+}

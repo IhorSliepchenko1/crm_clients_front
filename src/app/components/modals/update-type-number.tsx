@@ -20,6 +20,10 @@ type Props = {
 export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name, typeModal, color = '' }) => {
 
      const form = useForm<SubmitData>({
+          validate: {
+               name: (value) => (!value ? "Обязательное поле!" : null),
+               color: (value) => (!value ? "Обязательное поле!" : null),
+          },
           mode: "uncontrolled",
           initialValues: { name, color }
      });

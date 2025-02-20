@@ -2,7 +2,7 @@ import { useForm } from "@mantine/form";
 import { TextInput, PasswordInput } from "@mantine/core";
 import { useLazyCheckQuery, useLoginMutation } from "../../app/services/userApi";
 import { useNavigate } from "react-router-dom";
-import { hasErrorField } from "../../utils/has-error-field";
+import { errorMessages } from "../../utils/has-error-field";
 import { useNotification } from "../../app/hooks/useNotification/useNotification";
 import { ButtonSubmit } from "../../app/components/button/button-submit";
 
@@ -30,14 +30,9 @@ export const Login = () => {
                form.reset()
                navigate("/")
 
-          } catch (err: any) {
-               console.error(err);
+          } catch (err) {
                form.reset()
-               const message = hasErrorField(err)
-                    ? err?.data?.message
-                    : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
-
-               error(message);
+               error(errorMessages(err));
           }
      }
 

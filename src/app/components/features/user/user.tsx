@@ -6,7 +6,7 @@ import { useNotification } from "../../../hooks/useNotification/useNotification"
 import { useCheckValidToken } from "../../../hooks/useCheckValidToken";
 import { UpdateUserModal } from "../../modals/update-user";
 import { useChangeTypeModal } from "../../../hooks/useChangeTypeModal";
-import { OpenModalComponent } from "../../open-modal-component";
+import { OpenModalComponent } from "../../ui/open-modal-component";
 import { ROLES } from "../../../types";
 import { errorMessages } from "../../../../utils/has-error-field";
 

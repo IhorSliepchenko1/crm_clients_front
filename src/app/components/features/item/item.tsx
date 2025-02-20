@@ -6,7 +6,7 @@ import { useDeleteTypeNumberMutation, useLazyGetAllTypeNumberQuery } from '../..
 import { DeleteModals } from '../../modals/delete-modals';
 import { UpdateCityAndResultModal } from '../../modals/update-city-and-result';
 import { useChangeTypeModal } from '../../../hooks/useChangeTypeModal';
-import { OpenModalComponent } from '../../open-modal-component';
+import { OpenModalComponent } from '../../ui/open-modal-component';
 import { useDeleteResultMutation, useLazyGetAllResultQuery } from '../../../services/resultApi';
 import { useCheckValidToken } from '../../../hooks/useCheckValidToken';
 import { ROLES } from '../../../../utils/role-list';
@@ -48,7 +48,7 @@ export const Item: React.FC<Props> = ({ nameItem, id, index, name, color = "" })
                default:
                     return
           }
-     }, [nameItem]);
+     }, [nameItem, deleteCityMutation, deleteTypeNumberMutation, deleteResultMutation]);
 
 
      const deleteItem = async () => {

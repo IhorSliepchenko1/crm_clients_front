@@ -36,7 +36,7 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                add: type === "result" ? addFileResult : addFileGuest,
                loading: type === "result" ? isLoadingResult : isLoadingGuest
           }
-     ), [type])
+     ), [type, isLoadingResult, isLoadingGuest])
 
      const headerCheck = useMemo(() =>
           type === "result"

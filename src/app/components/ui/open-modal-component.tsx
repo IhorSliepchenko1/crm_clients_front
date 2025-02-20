@@ -1,4 +1,4 @@
-import { ButtonModalOpen } from "./button/button-open-modal"
+import { ButtonModalOpen } from "../button/button-open-modal"
 
 
 type Props = {

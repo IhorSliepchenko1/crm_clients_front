@@ -1,5 +1,6 @@
-import { NumberAdd, NumberDelete, ParamlList } from "../types";
+import { NumberAdd, NumberDelete, ParamlList, RaportData, RaportItem } from "../types";
 import { api } from "./api"
+
 
 export const numberApi = api.injectEndpoints({
      endpoints: (builder) => ({
@@ -24,9 +25,9 @@ export const numberApi = api.injectEndpoints({
                     params,
                }),
           }),
-          getRaport: builder.query<any, string>({
-               query: (city) => ({
-                    url: "number",
+          getRaport: builder.query<RaportData, { city: string }>({
+               query: ({ city }) => ({
+                    url: "number/raport",
                     method: "GET",
                     params: { city }
                }),

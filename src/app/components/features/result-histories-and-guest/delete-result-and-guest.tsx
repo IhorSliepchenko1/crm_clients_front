@@ -31,7 +31,7 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
                delete: type === "result" ? deleteResultHistories : deleteGuest,
                loading: type === "result" ? isLoadingResult : isLoadingGuest
           }
-     ), [type])
+     ), [type, isLoadingResult, isLoadingGuest])
 
      const { succeed, error } = useNotification()
 

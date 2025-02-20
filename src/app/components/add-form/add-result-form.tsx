@@ -8,6 +8,7 @@ import { TItem } from "../../types";
 import { useCheckValidToken } from "../../hooks/useCheckValidToken";
 import { ROLES } from "../../../utils/role-list";
 import { errorMessages } from "../../../utils/has-error-field";
+import { RESULT } from "../../../utils/result";
 
 type Props = {
      data: { rows: TItem[] } | undefined
@@ -16,14 +17,7 @@ type Props = {
 
 type Data = { name: string }
 
-const requireResults = [
-     "Но",
-     "Согласие",
-     "Не уверенный",
-     "Отказ",
-     "Ошибка(км)",
-     "Ошибка(возраст)",
-];
+
 
 export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const form = useForm<Data>({
@@ -32,7 +26,7 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
           validate: {
                name: (value) => (missingResult?.length === 0
                     ? "Все необходимые результаты уже были добавлены!"
-                    : requireResults.indexOf(value) < 0
+                    : RESULT.indexOf(value) < 0
                          ? "Данный результат добавить нельзя!" : null),
           },
      });
@@ -45,7 +39,7 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const missingResult = useMemo(() => {
           if (data) {
                const existingResults = data.rows.map((item) => item.name)
-               const resultArray = requireResults.filter(item => {
+               const resultArray = RESULT.filter(item => {
                     return existingResults.indexOf(item) < 0
                })
                return resultArray

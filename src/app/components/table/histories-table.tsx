@@ -22,7 +22,7 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
           loading: name === "import" ? loadingImport : loadingDelete,
           title1: name === "import" ? "Дубли" : "Удалённые",
           title2: name === "import" ? "Уникальные" : "Не найденные"
-     }), [name])
+     }), [name, loadingImport, loadingDelete, dataImport, dataDelete])
 
      const { formatDate } = useCalendarInputDate();
      const total = useTotalPage(histories.data?.count, limit)

@@ -9,6 +9,25 @@
 }
 
 th,
-tr {
+tr,
+table,
+td {
      text-align: center !important;
+
+}
+
+.table-raport {
+     background: white;
+     color: black;
+     max-width: 100vw;
+
+     th,
+     tr,
+     table,
+     td {
+          text-align: center !important;
+          border: 1px solid black;
+          border-collapse: collapse;
+          font-size: 12px;
+     }
 }
