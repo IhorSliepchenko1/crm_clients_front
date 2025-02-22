@@ -49,8 +49,8 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({
           <Group justify="space-between" gap={0}>
 
             <Box style={{ display: "flex", alignItems: "center" }}>
-              <ThemeIcon variant="light" size={30}>
-                <Icon size={18} />
+              <ThemeIcon variant="light" size={25}>
+                <Icon size={15} />
               </ThemeIcon>
               <Box ml="md">{label}</Box>
             </Box>
@@ -58,7 +58,7 @@ export const LinksGroup: React.FC<LinksGroupProps> = ({
             {hasLinks && (
               <FaChevronRight
                 className={classes.chevron}
-                size={16}
+                size={13}
                 style={{ transform: opened ? "rotate(-90deg)" : "none" }}
               />
             )}

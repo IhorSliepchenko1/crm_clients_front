@@ -9,7 +9,7 @@ export const SwitchTheme = () => {
           <ActionIcon
                onClick={() => setColorScheme(computedColorScheme === "dark" ? "light" : "dark")}
                variant="default"
-               size="xl"
+               size="lg"
                aria-label="Toggle color scheme"
           >
                {computedColorScheme === "light" ? <IoSunny /> : <IoMoonSharp />}

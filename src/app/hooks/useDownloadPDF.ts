@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import { useCalendarInputDate } from "./useCalendarInputDate";
 
 type Props = {
-     pdfRef: React.RefObject<HTMLDivElement | null>,
+     pdfRef: React.RefObject<HTMLDivElement | HTMLTableElement | null>,
      width?: number,
      margin_x_y?: number
      orientation?: "landscape" | "portrait"
@@ -26,7 +26,7 @@ export const useDownloadPDF = (
           const { formatDate } = useCalendarInputDate();
           // передаём ref еллементов  и объект scale для улучшения качества
           const canvas = await html2canvas(pdfRef.current, { scale }); // Генерация canvas          
-          const imgData = canvas.toDataURL("image/png"); // Преобразование в PNG
+          const imgData = canvas.toDataURL("image/jpg"); // Преобразование в PNG
           console.log(canvas.height, canvas.width);
 
           const pdfWidth = width;
@@ -41,7 +41,7 @@ export const useDownloadPDF = (
           });
 
           // изображение, формат изо, 2 маржина (X, Y), ширина, высота изо
-          pdf.addImage(imgData, "PNG", margin, margin, pdfWidth, pdfHeight);
+          pdf.addImage(imgData, "JPG", margin, margin, pdfWidth, pdfHeight);
           pdf.save(`${fileName}_${formatDate(new Date())}.pdf`);
      }
 
