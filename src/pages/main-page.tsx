@@ -4,6 +4,7 @@ import { useGetRaportQuery } from "../app/services/numberApi"
 import { useMemo, useRef, useState } from "react"
 import { LoaderComponent } from "../app/components/layout/loader"
 import { useDownloadPDF } from "../app/hooks/useDownloadPDF"
+import { KeyMainRaport } from "../app/types"
 
 export const MainPage = () => {
   const [value, setValue] = useState<string | null>('Tashkent');
@@ -11,12 +12,25 @@ export const MainPage = () => {
   const { data: dataCity, isLoading: loadingCity } = useGetAllCityQuery()
   const { data: dataRaport, isLoading: loadingRaport } = useGetRaportQuery({ city: value as string })
 
+
+  const [sortKey, setSortKey] = useState<KeyMainRaport | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
   const pdfRef = useRef<HTMLTableElement>(null)
 
   const { downloadPDF } = useDownloadPDF({
     pdfRef,
     fileName: "raport"
   })
+
+  const sortData = (key: KeyMainRaport) => {
+    if (sortKey === key) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+  };
 
 
   const data = useMemo(() => {
@@ -40,7 +54,6 @@ export const MainPage = () => {
       return "#ff0000";
     }
   }
-
   const gradientRemainder = (num: number) => {
     if (num > 50) {
       return "#93c47d";
@@ -52,7 +65,6 @@ export const MainPage = () => {
       return "#e06666";
     }
   }
-
   const gradientNumbersOneConsent = (num: number) => {
     if (num < 4) {
       return "#38761d";
@@ -69,85 +81,46 @@ export const MainPage = () => {
 
 
   const rows = useMemo(() => {
-    if (!dataRaport) return null
-    return Object.entries(dataRaport).map(([item, details]) => {
+    if (!dataRaport) return [];
+    let sortedData = [...dataRaport]
 
-      const remainder =
-        details.all_numbers > 0
-          ? details.all_numbers -
-          details["Ошибка(возраст)"] -
-          details["Ошибка(км)"] -
-          details["Согласие"] -
-          details["Отказ"] -
-          details["Не уверенный"]
-          : 0;
+    if (sortKey) {
+      sortedData = sortedData.sort((a, b) => {
+        const valueA = a[sortKey]
+        const valueB = b[sortKey]
 
-      const procentRemainder =
-        details.all_numbers > 0 ? (remainder / details.all_numbers) * 100 : 0;
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+        } else {
+          return sortOrder === "asc"
+            ? String(valueA).localeCompare(String(valueB))
+            : String(valueB).localeCompare(String(valueA));
+        }
+      });
+    }
 
-
-
-      const procentGuests =
-        details["Согласие"] + details["Не уверенный"] > 0
-          ? (details.guests /
-            (details["Согласие"] + details["Не уверенный"])) *
-          100
-          : 0;
-
-
-      const procentConsent = details['Согласие'] > 0 || details['Не уверенный']
-        ? ((
-          details["Согласие"] +
-          details["Не уверенный"]
-        )
-          /
-          (
-            details["Ошибка(возраст)"] +
-            details["Ошибка(км)"] +
-            details["Согласие"] +
-            details["Отказ"] +
-            details["Не уверенный"]
-          )) *
-        100
-        : 0;
-
-
-      const numbersOneConsent = details["Согласие"] > 0 || details["Не уверенный"] > 0 ?
-        ((
-          details["Ошибка(возраст)"] +
-          details["Ошибка(км)"] +
-          details["Согласие"] +
-          details["Отказ"] +
-          details["Не уверенный"] +
-          details["Согласие"] +
-          details["Не уверенный"]
-        )) / (
-          details["Согласие"] +
-          details["Не уверенный"]
-        ) : 0
-
-
+    return sortedData.map((item) => {
       return (
-        <Table.Tr key={item}>
-          <Table.Td style={{ background: details.color, color: "white" }}>{item}</Table.Td>
-          <Table.Td className="limit-w" >{details.all_numbers}</Table.Td>
-          <Table.Td className="limit-w" >{remainder}</Table.Td>
-          <Table.Td className="limit-w" style={{ background: gradientRemainder(procentRemainder) }}>{procentRemainder.toFixed(2)} %</Table.Td>
-          <Table.Td className="limit-w" >{details["Согласие"]}</Table.Td>
-          <Table.Td className="limit-w" >{details["Не уверенный"]}</Table.Td>
-          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(procentConsent) }}>{procentConsent.toFixed(2)} %</Table.Td>
-          <Table.Td className="limit-w" style={{ background: gradientNumbersOneConsent(numbersOneConsent) }}>{numbersOneConsent.toFixed(2)}</Table.Td>
-          <Table.Td className="limit-w" >{details["Отказ"]}</Table.Td>
-          <Table.Td className="limit-w" >{details["Ошибка(возраст)"]}</Table.Td>
-          <Table.Td className="limit-w" >{details["Ошибка(км)"]}</Table.Td>
-          <Table.Td className="limit-w" >{details["Но"]}</Table.Td>
-          <Table.Td className="limit-w" >{details.guests}</Table.Td>
-          <Table.Td className="limit-w" >{details.pairs}</Table.Td>
-          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(procentGuests) }}>{procentGuests.toFixed(2)} %</Table.Td>
+        <Table.Tr key={item.name}>
+          <Table.Td style={{ background: item.color, color: "white" }}>{item.name}</Table.Td>
+          <Table.Td className="limit-w" >{item.all_numbers}</Table.Td>
+          <Table.Td className="limit-w" >{item.remainder}</Table.Td>
+          <Table.Td className="limit-w" style={{ background: gradientRemainder(item.procentRemainder) }}>{item.procentRemainder.toFixed(2)} %</Table.Td>
+          <Table.Td className="limit-w" >{item["Согласие"]}</Table.Td>
+          <Table.Td className="limit-w" >{item["Не уверенный"]}</Table.Td>
+          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentConsent) }}>{item.procentConsent.toFixed(2)} %</Table.Td>
+          <Table.Td className="limit-w" style={{ background: gradientNumbersOneConsent(item.numbersOneConsent) }}>{item.numbersOneConsent.toFixed(2)}</Table.Td>
+          <Table.Td className="limit-w" >{item["Отказ"]}</Table.Td>
+          <Table.Td className="limit-w" >{item["Ошибка(возраст)"]}</Table.Td>
+          <Table.Td className="limit-w" >{item["Ошибка(км)"]}</Table.Td>
+          <Table.Td className="limit-w" >{item["Но"]}</Table.Td>
+          <Table.Td className="limit-w" >{item.guests}</Table.Td>
+          <Table.Td className="limit-w" >{item.pairs}</Table.Td>
+          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentGuests) }}>{item.procentGuests.toFixed(2)} %</Table.Td>
         </Table.Tr>
       );
     });
-  }, [dataRaport]);
+  }, [dataRaport, sortKey, sortOrder]);
 
 
 
@@ -165,21 +138,21 @@ export const MainPage = () => {
         <Table className="table-raport" ref={pdfRef}>
           <Table.Thead >
             <Table.Tr style={{ color: "white" }}>
-              <Table.Th style={{ background: "black" }}>Название</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#5b5be3" }}>К-во номеров</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#47478c" }}>Остаток</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#3434a4" }}>% остатка</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#07934d" }}>Не уверенный</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#036936" }}>Согласие</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#014c26" }}>% согл</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "teal" }}>номера на 1 согл</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "red" }}>Отказ</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#e6572b" }}>Ошибка(возр)</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#a72b06" }}>Ошибка(км)</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "gray" }}>Но</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#4caf50" }}>Гости</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#3d8340" }}>Пары</Table.Th>
-              <Table.Th className="limit-w" style={{ background: "#147218" }}>% явки</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.name)} style={{ background: "black" }}>Название</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.all_numbers)} className="limit-w" style={{ background: "#5b5be3" }}>К-во номеров</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.remainder)} className="limit-w" style={{ background: "#47478c" }}>Остаток</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.procentRemainder)} className="limit-w" style={{ background: "#3434a4" }}>% остатка</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport["Не уверенный"])} className="limit-w" style={{ background: "#07934d" }}>Не уверенный</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.Согласие)} className="limit-w" style={{ background: "#036936" }}>Согласие</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.procentConsent)} className="limit-w" style={{ background: "#014c26" }}>% согл</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.numbersOneConsent)} className="limit-w" style={{ background: "teal" }}>номера на 1 согл</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.Отказ)} className="limit-w" style={{ background: "red" }}>Отказ</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport["Ошибка(возраст)"])} className="limit-w" style={{ background: "#e6572b" }}>Ошибка(возр)</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport["Ошибка(км)"])} className="limit-w" style={{ background: "#a72b06" }}>Ошибка(км)</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.Но)} className="limit-w" style={{ background: "gray" }}>Но</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.guests)} className="limit-w" style={{ background: "#4caf50" }}>Гости</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.pairs)} className="limit-w" style={{ background: "#3d8340" }}>Пары</Table.Th>
+              <Table.Th onClick={() => sortData(KeyMainRaport.procentGuests)} className="limit-w" style={{ background: "#147218" }}>% явки</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody >{rows}</Table.Tbody>

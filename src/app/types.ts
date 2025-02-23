@@ -110,7 +110,7 @@ export type Raport = {
 }
 
 
-export type RaportItem = {
+export type MainRaport = {
      all_numbers: number
      color: string
      guests: number
@@ -121,8 +121,29 @@ export type RaportItem = {
      'Ошибка(возраст)': number
      'Ошибка(км)': number
      Согласие: number
+     remainder: number
+     procentRemainder: number
+     procentGuests: number
+     procentConsent: number
+     numbersOneConsent: number
+     name: string
 }
 
-export type RaportData = {
-     [key: string]: RaportItem;
+export enum KeyMainRaport {
+     all_numbers = "all_numbers",
+     color = "color",
+     guests = "guests",
+     pairs = "pairs",
+     'Не уверенный' = 'Не уверенный',
+     Но = "Но",
+     Отказ = "Отказ",
+     'Ошибка(возраст)' = 'Ошибка(возраст)',
+     'Ошибка(км)' = 'Ошибка(км)',
+     Согласие = "Согласие",
+     remainder = "remainder",
+     procentRemainder = "procentRemainder",
+     procentGuests = "procentGuests",
+     procentConsent = "procentConsent",
+     numbersOneConsent = "numbersOneConsent",
+     name = "name"
 }
