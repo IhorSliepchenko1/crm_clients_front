@@ -115,11 +115,11 @@ export type MainRaport = {
      color: string
      guests: number
      pairs: number
-     'Не уверенный': number
+     "Не уверенный": number
      Но: number
      Отказ: number
-     'Ошибка(возраст)': number
-     'Ошибка(км)': number
+     "Ошибка(возраст)": number
+     "Ошибка(км)": number
      Согласие: number
      remainder: number
      procentRemainder: number
@@ -134,7 +134,7 @@ export enum KeyMainRaport {
      color = "color",
      guests = "guests",
      pairs = "pairs",
-     'Не уверенный' = 'Не уверенный',
+     "Не уверенный" = "Не уверенный",
      Но = "Но",
      Отказ = "Отказ",
      'Ошибка(возраст)' = 'Ошибка(возраст)',

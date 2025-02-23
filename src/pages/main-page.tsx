@@ -5,13 +5,14 @@ import { useMemo, useRef, useState } from "react"
 import { LoaderComponent } from "../app/components/layout/loader"
 import { useDownloadPDF } from "../app/hooks/useDownloadPDF"
 import { KeyMainRaport } from "../app/types"
+import { ThRaportTable } from "../app/components/ui/title-raport-table"
+import { HeaderRaport } from "../app/components/table/header-raport"
 
 export const MainPage = () => {
   const [value, setValue] = useState<string | null>('Tashkent');
 
   const { data: dataCity, isLoading: loadingCity } = useGetAllCityQuery()
   const { data: dataRaport, isLoading: loadingRaport } = useGetRaportQuery({ city: value as string })
-
 
   const [sortKey, setSortKey] = useState<KeyMainRaport | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -22,7 +23,7 @@ export const MainPage = () => {
     pdfRef,
     fileName: "raport"
   })
-
+  const handleDownload = () => downloadPDF();
   const sortData = (key: KeyMainRaport) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -31,8 +32,6 @@ export const MainPage = () => {
       setSortOrder("asc");
     }
   };
-
-
   const data = useMemo(() => {
     if (dataCity) {
       const data = dataCity.rows.map((item) => item.name)
@@ -40,7 +39,6 @@ export const MainPage = () => {
     }
 
   }, [loadingCity, dataCity])
-
   const gradientGuestsConsent = (num: number) => {
     if (num > 30) {
       return "#38761d";
@@ -66,7 +64,9 @@ export const MainPage = () => {
     }
   }
   const gradientNumbersOneConsent = (num: number) => {
-    if (num < 4) {
+    if (num === 0) {
+      return "#38761d";
+    } else if (num < 4) {
       return "#38761d";
     } else if (num < 6) {
       return "#93c47d";
@@ -79,7 +79,6 @@ export const MainPage = () => {
     }
   }
 
-
   const rows = useMemo(() => {
     if (!dataRaport) return [];
     let sortedData = [...dataRaport]
@@ -89,13 +88,11 @@ export const MainPage = () => {
         const valueA = a[sortKey]
         const valueB = b[sortKey]
 
-        if (typeof valueA === "number" && typeof valueB === "number") {
-          return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
-        } else {
-          return sortOrder === "asc"
-            ? String(valueA).localeCompare(String(valueB))
-            : String(valueB).localeCompare(String(valueA));
-        }
+        return typeof valueA === "number" && typeof valueB === "number"
+          ? sortOrder === "asc" ? valueA - valueB
+            : valueB - valueA
+          : sortOrder === "asc" ? String(valueA).localeCompare(String(valueB))
+            : String(valueB).localeCompare(String(valueA))
       });
     }
 
@@ -106,8 +103,8 @@ export const MainPage = () => {
           <Table.Td className="limit-w" >{item.all_numbers}</Table.Td>
           <Table.Td className="limit-w" >{item.remainder}</Table.Td>
           <Table.Td className="limit-w" style={{ background: gradientRemainder(item.procentRemainder) }}>{item.procentRemainder.toFixed(2)} %</Table.Td>
-          <Table.Td className="limit-w" >{item["Согласие"]}</Table.Td>
           <Table.Td className="limit-w" >{item["Не уверенный"]}</Table.Td>
+          <Table.Td className="limit-w" >{item["Согласие"]}</Table.Td>
           <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentConsent) }}>{item.procentConsent.toFixed(2)} %</Table.Td>
           <Table.Td className="limit-w" style={{ background: gradientNumbersOneConsent(item.numbersOneConsent) }}>{item.numbersOneConsent.toFixed(2)}</Table.Td>
           <Table.Td className="limit-w" >{item["Отказ"]}</Table.Td>
@@ -124,8 +121,6 @@ export const MainPage = () => {
 
 
 
-  const handleDownload = () => downloadPDF();
-
   return (
     loadingRaport ? <LoaderComponent /> :
       <div className="flex flex-col gap-10">
@@ -136,25 +131,7 @@ export const MainPage = () => {
           value={value}
           onChange={setValue} />
         <Table className="table-raport" ref={pdfRef}>
-          <Table.Thead >
-            <Table.Tr style={{ color: "white" }}>
-              <Table.Th onClick={() => sortData(KeyMainRaport.name)} style={{ background: "black" }}>Название</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.all_numbers)} className="limit-w" style={{ background: "#5b5be3" }}>К-во номеров</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.remainder)} className="limit-w" style={{ background: "#47478c" }}>Остаток</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.procentRemainder)} className="limit-w" style={{ background: "#3434a4" }}>% остатка</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport["Не уверенный"])} className="limit-w" style={{ background: "#07934d" }}>Не уверенный</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.Согласие)} className="limit-w" style={{ background: "#036936" }}>Согласие</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.procentConsent)} className="limit-w" style={{ background: "#014c26" }}>% согл</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.numbersOneConsent)} className="limit-w" style={{ background: "teal" }}>номера на 1 согл</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.Отказ)} className="limit-w" style={{ background: "red" }}>Отказ</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport["Ошибка(возраст)"])} className="limit-w" style={{ background: "#e6572b" }}>Ошибка(возр)</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport["Ошибка(км)"])} className="limit-w" style={{ background: "#a72b06" }}>Ошибка(км)</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.Но)} className="limit-w" style={{ background: "gray" }}>Но</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.guests)} className="limit-w" style={{ background: "#4caf50" }}>Гости</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.pairs)} className="limit-w" style={{ background: "#3d8340" }}>Пары</Table.Th>
-              <Table.Th onClick={() => sortData(KeyMainRaport.procentGuests)} className="limit-w" style={{ background: "#147218" }}>% явки</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
+          <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
           <Table.Tbody >{rows}</Table.Tbody>
         </Table>
 
