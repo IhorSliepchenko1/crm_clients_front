@@ -11,7 +11,7 @@ export const UserComponent = () => {
           <ScrolContainer>
                <p className="text-center text-xl sticky top-0">Список пользователей</p>
                {isLoading
-                    ? <LoaderComponent styles="h-[50vh]" />
+                    ? <LoaderComponent  />
                     : data?.map((item) => (
                          <User
                               key={item.id}

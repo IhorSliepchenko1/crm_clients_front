@@ -1,8 +1,8 @@
 import { Loader } from "@mantine/core"
 
-export const LoaderComponent: React.FC<{ styles?: string }> = ({ styles = "h-[100vh]" }) => {
+export const LoaderComponent = () => {
      return (
-          <span className={`flex justify-center items-center ${styles}`}>
+          <span className="flex justify-center items-center h-[90vh]">
                <Loader color="blue" size={50} />
           </span>
      )

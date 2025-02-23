@@ -154,16 +154,14 @@ export const MainPage = () => {
   const handleDownload = () => downloadPDF();
 
   return (
-    <div className="flex flex-col gap-10">
-      <Select
-        label="Города"
-        placeholder="Выберите город для показа рапорта"
-        data={data}
-        value={value}
-        onChange={setValue} />
-
-      {loadingRaport ? <LoaderComponent styles="h-[25vw]" /> :
-
+    loadingRaport ? <LoaderComponent /> :
+      <div className="flex flex-col gap-10">
+        <Select
+          label="Города"
+          placeholder="Выберите город для показа рапорта"
+          data={data}
+          value={value}
+          onChange={setValue} />
         <Table className="table-raport" ref={pdfRef}>
           <Table.Thead >
             <Table.Tr style={{ color: "white" }}>
@@ -186,15 +184,17 @@ export const MainPage = () => {
           </Table.Thead>
           <Table.Tbody >{rows}</Table.Tbody>
         </Table>
-      }
-      <Button
-        variant="outline"
-        color="green"
-        size="xs"
-        radius="xs"
-        onClick={handleDownload}>
-        скачать PDF
-      </Button>
-    </div>
+
+        <Button
+          variant="outline"
+          color="green"
+          size="xs"
+          radius="xs"
+          onClick={handleDownload}>
+          скачать PDF
+        </Button>
+
+      </div>
+
   )
 }

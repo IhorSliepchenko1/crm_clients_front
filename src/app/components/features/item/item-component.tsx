@@ -19,7 +19,7 @@ export const ItemComponent: React.FC<Props> = ({ isLoading, data, nameItem, text
           <ScrolContainer>
                <p className="text-center text-xl sticky top-0">{text}</p>
                {isLoading
-                    ? <LoaderComponent styles="h-[50vh]" />
+                    ? <LoaderComponent />
                     : data?.rows.map((item, index) => (
                          <Item
                               nameItem={nameItem}
