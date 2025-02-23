@@ -123,27 +123,30 @@ export const MainPage = () => {
 
   return (
     loadingRaport ? <LoaderComponent /> :
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-20">
+
         <Select
           label="Города"
           placeholder="Выберите город для показа рапорта"
           data={data}
           value={value}
-          onChange={setValue} />
-        <Table className="table-raport" ref={pdfRef}>
-          <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
-          <Table.Tbody >{rows}</Table.Tbody>
-        </Table>
+          onChange={setValue}
+        />
 
-        <Button
-          variant="outline"
-          color="green"
-          size="xs"
-          radius="xs"
-          onClick={handleDownload}>
-          скачать PDF
-        </Button>
-
+        <div className="flex flex-col w-fit m-auto gap-2">
+          <Button
+            variant="outline"
+            color="green"
+            size="xs"
+            radius="xs"
+            onClick={handleDownload}>
+            скачать PDF
+          </Button>
+          <Table className="table-raport" ref={pdfRef}>
+            <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
+            <Table.Tbody >{rows}</Table.Tbody>
+          </Table>
+        </div>
       </div>
 
   )

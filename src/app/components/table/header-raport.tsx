@@ -20,7 +20,7 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData }) 
           { item: KeyMainRaport["Не уверенный"], title: "Не уверенный", background: '#07934d' },
           { item: KeyMainRaport["Согласие"], title: "Согласие", background: '#036936' },
           { item: KeyMainRaport.procentConsent, title: "% согл", background: '#014c26' },
-          { item: KeyMainRaport.numbersOneConsent, title: "номера на 1 согл", background: '#008080' },
+          { item: KeyMainRaport.numbersOneConsent, title: "ном. на 1 согл", background: '#008080' },
           { item: KeyMainRaport["Отказ"], title: "Отказ", background: '#ff0000' },
           { item: KeyMainRaport["Ошибка(возраст)"], title: "Ошибка(возраст)", background: '#e6572b' },
           { item: KeyMainRaport["Ошибка(км)"], title: "Ошибка(км)", background: '#a72b06' },
