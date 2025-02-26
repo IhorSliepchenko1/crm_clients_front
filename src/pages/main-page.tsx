@@ -1,7 +1,7 @@
+import { useMemo, useRef, useState } from "react"
 import { Button, Select, Table } from "@mantine/core"
 import { useGetAllCityQuery } from "../app/services/cityApi"
 import { useGetRaportQuery } from "../app/services/numberApi"
-import { useMemo, useRef, useState } from "react"
 import { LoaderComponent } from "../app/components/layout/loader"
 import { useDownloadPDF } from "../app/hooks/useDownloadPDF"
 import { KeyMainRaport } from "../app/types"
@@ -33,7 +33,7 @@ export const MainPage = () => {
       setSortOrder("asc");
     }
   };
-  
+
   const data = useMemo(() => {
     if (dataCity) {
       const data = dataCity.rows.map((item) => item.name)
