@@ -53,11 +53,11 @@ export type ParamlList = {
      city?: string,
      result?: string,
      typeNumber?: string,
-     name?: string,
+     name?: boolean | null,
      dob?: string,
      blocking_period?: string,
      update_count?: string,
-     guest?: string,
+     guest?: boolean | null,
      first_call_date?: string,
      last_call_date?: string,
 }

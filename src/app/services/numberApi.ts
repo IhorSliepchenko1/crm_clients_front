@@ -18,10 +18,10 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          getExportFile: builder.query<{ fileName: string }, { params: ParamlList }>({
-               query: (params) => ({
-                    url: "number",
-                    method: "GET",
+          exportFile: builder.mutation<string, { params: ParamlList }>({
+               query: ({ params }) => ({
+                    url: "number/export-file",
+                    method: "POST",
                     params,
                }),
           }),
@@ -38,8 +38,7 @@ export const numberApi = api.injectEndpoints({
 export const {
      useAddNumberMutation,
      useDeleteNumberMutation,
-     useGetExportFileQuery,
      useGetRaportQuery,
-     useLazyGetExportFileQuery,
      useLazyGetRaportQuery,
+     useExportFileMutation
 } = numberApi

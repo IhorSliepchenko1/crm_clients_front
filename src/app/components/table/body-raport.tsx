@@ -70,7 +70,7 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
 
           return sortedData.map((item) => {
                return (
-                    <Table.Tr key={item.name}>
+                    <Table.Tr key={item.name} style={{ fontSize: 12 }}>
                          <Table.Td style={{ background: item.color, color: "white" }}>{item.name}</Table.Td>
                          <Table.Td className="limit-w" >{item.all_numbers}</Table.Td>
                          <Table.Td className="limit-w" >{item.remainder}</Table.Td>

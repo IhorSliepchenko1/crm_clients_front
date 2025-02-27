@@ -32,10 +32,11 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData }) 
 
      return (
           <Table.Thead >
-               <Table.Tr style={{ color: "white" }}>
+               <Table.Tr style={{ color: "white", fontSize: 12 }}>
                     {
-                         headerData.map((item) => (
+                         headerData.map((item, index) => (
                               <ThRaportTable
+                                   key={index}
                                    sortKey={sortKey}
                                    item={KeyMainRaport[item.item]}
                                    sortOrder={sortOrder}
