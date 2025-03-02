@@ -6,7 +6,7 @@ import { ParamlList } from "../app/types";
 import { useEffect, useMemo, useState } from "react";
 import { ButtonSubmit } from "../app/components/button/button-submit";
 import { BASE_URL } from "../constants";
-import { Button, Checkbox, Select, TextInput } from "@mantine/core";
+import { Button, Select, TextInput } from "@mantine/core";
 import { useGetAllCityQuery } from "../app/services/cityApi";
 import { useGetAllResultQuery } from "../app/services/resultApi";
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
@@ -14,19 +14,6 @@ import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
 export const FilterDatabase = () => {
   const form = useForm({
     mode: 'uncontrolled',
-    // initialValues: {
-    //   city: '',
-    //   result: '',
-    //   typeNumber: '',
-    //   name: false,
-    //   dob: '',
-    //   blocking_period: '',
-    //   update_count: '',
-    //   guest: false,
-    //   first_call_date: '',
-    //   last_call_date: '',
-    //   presentation_date: '',
-    // },
 
     validate: {
       dob: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
@@ -83,7 +70,6 @@ export const FilterDatabase = () => {
   const autoDownloadFile = () => {
     const link = document.createElement(`a`);
     link.setAttribute(`href`, `${BASE_URL}/${fileName}`);
-    link.setAttribute(`target`, `_blank`);
     link.setAttribute(`download`, `${fileName}`);
     document.body.appendChild(link);
     link.click();
@@ -100,6 +86,7 @@ export const FilterDatabase = () => {
   }, [fileName])
 
   const cleanForm = () => form.reset()
+  const yesOrNo = ["да", "нет"]
 
   return (
     <div>
@@ -167,24 +154,20 @@ export const FilterDatabase = () => {
             label="Дата презентации (для согласий)"
             placeholder="08.12.2001"
           />
-          <div className="flex gap-5 items-center">
-            <Checkbox
-              key={form.key("name")}
-              {...form.getInputProps("name")}
-              color="lime.4"
-              iconColor="dark.8"
-              size="md"
-              label="Наличие имени?"
-            />
-            <Checkbox
-              key={form.key("guest")}
-              {...form.getInputProps("guest")}
-              color="lime.4"
-              iconColor="dark.8"
-              size="md"
-              label="Был ли гостем?"
-            />
-          </div>
+          <Select
+            key={form.key("name")}
+            {...form.getInputProps("name")}
+            placeholder="да"
+            label="Наличие имени?"
+            data={yesOrNo}
+          />
+          <Select
+            key={form.key("guest")}
+            {...form.getInputProps("guest")}
+            placeholder="да"
+            label="Был ли гостем?"
+            data={yesOrNo}
+          />
         </div>
         <ButtonSubmit loading={isLoading} text="Скачать базу по фильтру" />
       </form>
@@ -192,16 +175,3 @@ export const FilterDatabase = () => {
 
   )
 }
-
-
-//   city => select с городами,
-//   result => select с резами,
-//   typeNumber => select с типами,
-//   name => checkbox,
-//   guest => checkbox,
-//   dob => text input 01.01.1980-01.01.1990,
-//   blocking_period => text input 01.01.1980-01.01.1990,
-//   update_count => text input 01.01.1980-01.01.1990,
-//   first_call_date => text input 01.01.1980-01.01.1990,
-//   last_call_date => text input 01.01.1980-01.01.1990,
-//   presentation_date => text input 01.01.1980-01.01.1990

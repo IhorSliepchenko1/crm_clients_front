@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useReadFile } from "./useReadFile";
 
 type Props = {
@@ -9,7 +8,7 @@ type Props = {
 const regex = /[а-яёА-ЯЁ ]/u
 
 export const useFileValidation = () => {
-     return useCallback(async ({ file, headerCheck, fileStatus = false }: Props) => {
+     return async ({ file, headerCheck, fileStatus = false }: Props) => {
           if (file.type !== "text/csv") {
                throw new Error("Данный формат не поддерживается!");
           }
@@ -31,5 +30,5 @@ export const useFileValidation = () => {
                }
           }
 
-     }, []);
+     }
 };
