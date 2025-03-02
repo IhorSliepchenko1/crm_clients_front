@@ -34,6 +34,7 @@
     "@types/react-csv": "^1.1.10",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
