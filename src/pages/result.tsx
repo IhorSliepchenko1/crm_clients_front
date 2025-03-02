@@ -1,5 +1,5 @@
 import { Divider } from "@mantine/core"
-import { AddResultForm } from "../app/components/add-form/add-result-form"
+import { AddResultForm } from "../app/components/form/add-result-form"
 import { ItemComponent } from "../app/components/features/item/item-component"
 import { useGetAllResultQuery } from "../app/services/resultApi"
 

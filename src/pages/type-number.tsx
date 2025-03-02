@@ -1,7 +1,7 @@
 import { Divider } from "@mantine/core"
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi"
 import { ItemComponent } from "../app/components/features/item/item-component"
-import { AddTypeNumberForm } from "../app/components/add-form/add-type-number"
+import { AddTypeNumberForm } from "../app/components/form/add-type-number"
 
 export const TypeNumber = () => {
   const { data, isLoading } = useGetAllTypeNumberQuery()
