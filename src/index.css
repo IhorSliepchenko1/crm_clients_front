@@ -16,6 +16,11 @@ td {
 
 }
 
+.container-table {
+     max-height: 550px !important;
+     overflow-y: auto;
+}
+
 .table-raport {
      background: white;
      color: black;

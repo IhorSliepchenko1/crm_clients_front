@@ -44,7 +44,7 @@ export const MainPage = () => {
 
   return (
     loadingRaport ? <LoaderComponent /> :
-      <div className="flex flex-col gap-20">
+      <div className="flex flex-col gap-5">
 
         <Select
           label="Города"
@@ -54,7 +54,7 @@ export const MainPage = () => {
           onChange={setValue}
         />
 
-        <div className="flex flex-col w-fit m-auto gap-2">
+        <div className="flex flex-col w-fit m-auto gap-2 pb-10">
           <Button
             variant="outline"
             color="green"
@@ -63,10 +63,12 @@ export const MainPage = () => {
             onClick={handleDownload}>
             скачать PDF
           </Button>
-          <Table className="table-raport" ref={pdfRef}>
-            <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
-            <BodyRaport dataRaport={dataRaport} sortKey={sortKey} sortOrder={sortOrder} />
-          </Table>
+          <div className="container-table">
+            <Table className="table-raport" ref={pdfRef}>
+              <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
+              <BodyRaport dataRaport={dataRaport} sortKey={sortKey} sortOrder={sortOrder} />
+            </Table>
+          </div>
         </div>
       </div>
 
