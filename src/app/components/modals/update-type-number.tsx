@@ -43,6 +43,10 @@ export const UpdateTypeNumberModal: React.FC<Props> = ({ id, opened, close, name
 
      const updateItem = async (data: SubmitData) => {
           try {
+               if (data.color === color) {
+                    data.color = ''
+               }
+
                await updateTypeNumber({ data, id }).unwrap();
                succeed(`Тип базы '${name}' обновлён!`)
                form.reset();

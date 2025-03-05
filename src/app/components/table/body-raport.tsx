@@ -75,8 +75,8 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
                          <Table.Td className="limit-w" >{item.all_numbers}</Table.Td>
                          <Table.Td className="limit-w" >{item.remainder}</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientRemainder(item.procentRemainder) }}>{item.procentRemainder.toFixed(2)} %</Table.Td>
-                         <Table.Td className="limit-w" >{item["Не уверенный"]}</Table.Td>
                          <Table.Td className="limit-w" >{item["Согласие"]}</Table.Td>
+                         <Table.Td className="limit-w" >{item["Не уверенный"]}</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentConsent) }}>{item.procentConsent.toFixed(2)} %</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientNumbersOneConsent(item.numbersOneConsent) }}>{item.numbersOneConsent.toFixed(2)}</Table.Td>
                          <Table.Td className="limit-w" >{item["Отказ"]}</Table.Td>

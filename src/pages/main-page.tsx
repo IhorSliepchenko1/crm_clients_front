@@ -52,6 +52,7 @@ export const MainPage = () => {
           data={data}
           value={value}
           onChange={setValue}
+          allowDeselect={false}
         />
 
         <div className="flex flex-col w-fit m-auto gap-2 pb-10">

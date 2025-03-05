@@ -1,4 +1,4 @@
-import { Select, TextInput } from "@mantine/core"
+import { Select, ComboboxItem, OptionsFilter, TextInput } from '@mantine/core';
 import { UseFormReturnType } from "@mantine/form"
 import { useGetAllCityQuery } from "../../services/cityApi"
 import { useGetAllResultQuery } from "../../services/resultApi"
@@ -40,6 +40,15 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
      }, [loadingTypeNumber, typeNumber])
 
 
+     const optionsFilter: OptionsFilter = ({ options, search }) => {
+          const splittedSearch = search.toLowerCase().trim().split(' ');
+          return (options as ComboboxItem[]).filter((option) => {
+               const words = option.label.toLowerCase().trim().split(' ');
+               return splittedSearch.every((searchWord) => words.some((word) => word.includes(searchWord)));
+          });
+     };
+
+
      const yesOrNo = ["да", "нет"]
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 my-10 px-5">
@@ -50,6 +59,8 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
                          placeholder="Tashkent"
                          label="Город"
                          data={dataCity}
+                         filter={optionsFilter}
+                         searchable
                     />
                     <Select
                          key={form.key("result")}
@@ -57,6 +68,8 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
                          placeholder="Согласие"
                          label="Результат"
                          data={dataResult}
+                         filter={optionsFilter}
+                         searchable
                     />
                     <Select
                          key={form.key("typeNumber")}
@@ -64,6 +77,8 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
                          placeholder="Жёлтая_1"
                          label="Тип базы"
                          data={dataTypeNumber}
+                         filter={optionsFilter}
+                         searchable
                     />
                     <TextInput
                          key={form.key("dob")}
