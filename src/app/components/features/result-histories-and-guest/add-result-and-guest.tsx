@@ -40,8 +40,8 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
 
      const headerCheck = useMemo(() =>
           type === "result"
-               ? ["number", "result", "presentation_date", "presentation_time", "call_date", "operator"]
-               : ["number", "date", "time", "full_name", "guests", "pairs"]
+               ? ["number", "full_name", "result", "dob", "call_date", "presentation_date", "presentation_time", "operator", "note"]
+               : ["number", "date", "time", "full_name", "guests", "pairs", "dob"]
           , [type])
 
      const validateFile = useFileValidation();

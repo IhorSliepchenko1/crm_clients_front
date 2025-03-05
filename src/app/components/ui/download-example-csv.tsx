@@ -4,10 +4,12 @@ import { FaFileDownload } from "react-icons/fa"
 export const DownloadExampleCSV: React.FC<{ array: string[] }> = ({ array }) => {
      return (
           <div className='flex items-center gap-1 my-2'>
-               <CSVLink data={[array]} filename="example.csv">
-                    Скачать пример файла
+               <CSVLink data={[array]} filename="example.csv" className="flex items-center gap-1 hover:bg-cyan-900 transition-all">
+                    <span>
+                         Скачать пример файла
+                    </span>
+                    <span><FaFileDownload /></span>
                </CSVLink>
-               <span><FaFileDownload /></span>
           </div>
      )
 }
