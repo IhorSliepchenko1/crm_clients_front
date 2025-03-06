@@ -29,7 +29,7 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
           } else if (num > 40) {
                return "#f1c232";
           } else if (num >= 35) {
-               return "#ffe599";
+               return "#f6b26b";
           } else {
                return "#e06666";
           }
@@ -41,7 +41,7 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
                return "#38761d";
           } else if (num < 6) {
                return "#93c47d";
-          } else if (num > 9) {
+          } else if (num < 9) {
                return "#f1c232";
           } else if (num <= 15) {
                return "#e06666";
