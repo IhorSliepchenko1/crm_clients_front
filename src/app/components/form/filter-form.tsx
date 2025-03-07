@@ -1,9 +1,5 @@
 import { Select, ComboboxItem, OptionsFilter, TextInput } from '@mantine/core';
 import { UseFormReturnType } from "@mantine/form"
-import { useGetAllCityQuery } from "../../services/cityApi"
-import { useGetAllResultQuery } from "../../services/resultApi"
-import { useGetAllTypeNumberQuery } from "../../services/typeNumberApi"
-import { useMemo } from "react"
 import { ButtonSubmit } from "../button/button-submit"
 import { ParamlList } from "../../types"
 
@@ -11,33 +7,12 @@ type Props = {
      form: UseFormReturnType<any>
      onSubmit: (params: ParamlList) => Promise<void>
      isLoading: boolean
+     dataCity: string[] | undefined
+     dataResult: string[] | undefined,
+     dataTypeNumber: string[] | undefined
 }
 
-export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
-     const { data: city, isLoading: loadingCity } = useGetAllCityQuery()
-     const { data: result, isLoading: loadingResult } = useGetAllResultQuery()
-     const { data: typeNumber, isLoading: loadingTypeNumber } = useGetAllTypeNumberQuery()
-
-     const dataCity = useMemo(() => {
-          if (city) {
-               const data = city.rows.map((item) => item.name)
-               return data
-          }
-     }, [loadingCity, city])
-
-     const dataResult = useMemo(() => {
-          if (result) {
-               const data = result.rows.map((item) => item.name)
-               return data
-          }
-     }, [loadingResult, result])
-
-     const dataTypeNumber = useMemo(() => {
-          if (typeNumber) {
-               const data = typeNumber.rows.map((item) => item.name)
-               return data
-          }
-     }, [loadingTypeNumber, typeNumber])
+export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCity, dataResult, dataTypeNumber }) => {
 
 
      const optionsFilter: OptionsFilter = ({ options, search }) => {
@@ -51,7 +26,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
 
      const yesOrNo = ["да", "нет"]
      return (
-          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 my-10 px-5">
+          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 px-5">
                <div className="flex justify-between items-center">
                     <Select
                          key={form.key("city")}
@@ -86,11 +61,13 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading }) => {
                          label="Возраст"
                          placeholder="01.01.1980-01.01.1990"
                     />
-                    <TextInput
-                         key={form.key("blocking_period")}
-                         {...form.getInputProps("blocking_period")}
-                         label="Период блокирования"
-                         placeholder="01.01.1980-01.01.1990"
+
+                    <Select
+                         key={form.key("blocking_status")}
+                         {...form.getInputProps("blocking_status")}
+                         placeholder="да"
+                         label="Заблокирован?"
+                         data={yesOrNo}
                     />
                </div>
                <div className="flex justify-between items-center">

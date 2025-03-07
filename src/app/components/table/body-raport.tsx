@@ -1,6 +1,6 @@
 import { Table } from '@mantine/core';
 import { useMemo } from 'react'
-import { KeyMainRaport, MainRaport } from '../../types';
+import { GetInfoNumber, KeyMainRaport, MainRaport } from '../../types';
 
 type Props = {
      dataRaport: MainRaport[] | undefined
@@ -67,6 +67,7 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
                               : String(valueB).localeCompare(String(valueA))
                });
           }
+
 
           return sortedData.map((item) => {
                return (

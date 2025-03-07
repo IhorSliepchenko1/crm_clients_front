@@ -1,5 +1,6 @@
-import { NumberAdd, NumberDelete, ParamlList, MainRaport } from "../types";
+import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber } from "../types";
 import { api } from "./api"
+
 
 
 export const numberApi = api.injectEndpoints({
@@ -32,6 +33,20 @@ export const numberApi = api.injectEndpoints({
                     params: { city }
                }),
           }),
+          findNumber: builder.mutation<FindInfoNumber, TFindNumber>({
+               query: ({ number }) => ({
+                    url: "number/find-info",
+                    method: "POST",
+                    body: { number }
+               }),
+          }),
+          updateNumber: builder.mutation<string, { data: UpdateNumber, id: number }>({
+               query: ({ data, id }) => ({
+                    url: `number/update/${id}`,
+                    method: "PUT",
+                    body: data,
+               }),
+          }),
      }),
 })
 
@@ -40,5 +55,7 @@ export const {
      useDeleteNumberMutation,
      useGetRaportQuery,
      useLazyGetRaportQuery,
-     useExportFileMutation
+     useExportFileMutation,
+     useUpdateNumberMutation,
+     useFindNumberMutation
 } = numberApi

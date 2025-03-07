@@ -3,10 +3,14 @@ import { useForm } from "@mantine/form";
 import { errorMessages } from "../utils/has-error-field";
 import { useNotification } from "../app/hooks/useNotification/useNotification";
 import { ParamlList } from "../app/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BASE_URL } from "../constants";
-import { Button, } from "@mantine/core";
+import { Button, Divider, } from "@mantine/core";
 import { FilterForm } from "../app/components/form/filter-form";
+import { FindNumber } from "../app/components/features/numbers/find-number";
+import { useGetAllCityQuery } from "../app/services/cityApi";
+import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
+import { useGetAllResultQuery } from "../app/services/resultApi";
 
 export const FilterDatabase = () => {
   const form = useForm({
@@ -14,7 +18,6 @@ export const FilterDatabase = () => {
 
     validate: {
       dob: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
-      blocking_period: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       update_count: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       first_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       last_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
@@ -25,6 +28,32 @@ export const FilterDatabase = () => {
   const [exportFile, { isLoading }] = useExportFileMutation()
   const { succeed, error } = useNotification()
   const [fileName, setFileName] = useState('')
+
+  const { data: city, isLoading: loadingCity } = useGetAllCityQuery()
+  const { data: typeNumber, isLoading: loadingTypeNumber } = useGetAllTypeNumberQuery()
+  const { data: result, isLoading: loadingResult } = useGetAllResultQuery()
+
+  const dataCity = useMemo(() => {
+    if (city) {
+      const data = city.rows.map((item) => item.name)
+      return data
+    }
+  }, [loadingCity, city])
+
+
+  const dataTypeNumber = useMemo(() => {
+    if (typeNumber) {
+      const data = typeNumber.rows.map((item) => item.name)
+      return data
+    }
+  }, [loadingTypeNumber, typeNumber])
+
+  const dataResult = useMemo(() => {
+    if (result) {
+      const data = result.rows.map((item) => item.name)
+      return data
+    }
+  }, [loadingResult, result])
 
   const onSubmit = async (params: ParamlList) => {
     try {
@@ -61,11 +90,30 @@ export const FilterDatabase = () => {
 
 
   return (
-    <div>
-      <div className="flex justify-end">
-        <Button variant="filled" color="gray" size="xs" radius="md" onClick={cleanForm}>очистить</Button>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between">
+          <p>Скачать базу</p>
+          <Button variant="filled" color="gray" size="xs" radius="md" onClick={cleanForm}>очистить</Button>
+        </div>
+        <FilterForm
+          form={form}
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          dataCity={dataCity}
+          dataResult={dataResult}
+          dataTypeNumber={dataTypeNumber}
+        />
+        <Divider my="md" />
       </div>
-      <FilterForm form={form} onSubmit={onSubmit} isLoading={isLoading} />
+      <div>
+        <p>Найти по номеру</p>
+        <FindNumber
+          dataCity={dataCity}
+          dataResult={dataResult}
+          dataTypeNumber={dataTypeNumber}
+        />
+      </div>
     </div>
   )
 }

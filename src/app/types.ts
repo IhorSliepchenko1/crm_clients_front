@@ -53,11 +53,11 @@ export type ParamlList = {
      city?: string,
      result?: string,
      typeNumber?: string,
-     name?: boolean | null,
+     name?: string,
      dob?: string,
-     blocking_period?: string,
+     blocking_status?: string,
      update_count?: string,
-     guest?: boolean | null,
+     guest?: string,
      first_call_date?: string,
      last_call_date?: string,
 }
@@ -146,4 +146,57 @@ export enum KeyMainRaport {
      procentConsent = "procentConsent",
      numbersOneConsent = "numbersOneConsent",
      name = "name"
+}
+
+type FindInfoNumberHistories = {
+     operator: string,
+     presentation_date: string,
+     presentation_time: string,
+     note: string,
+     call_date: string,
+     result: {
+          name: string
+     }
+}
+
+export type FindInfoNumberGuests = {
+     guests: number,
+     pairs: number,
+     date: string,
+     time: string
+}
+
+export type FindInfoNumber = {
+     id: number,
+     number: string,
+     full_name: string,
+     dob: string,
+     blocking_status: false,
+     createdAt: string,
+     updatedAt: string,
+     city_id: number,
+     type_number_id: number,
+
+     city: {
+          name: string
+     },
+
+     typeNumber: {
+          name: string
+     },
+
+     histories: FindInfoNumberHistories[]
+     guests: FindInfoNumberGuests[]
+}
+
+export type TFindNumber = {
+     number: string
+}
+
+export type UpdateNumber = {
+     full_name?: string,
+     dob?: string,
+     blocking_status?: string,
+     city?: string,
+     typeNumber?: string
 }
