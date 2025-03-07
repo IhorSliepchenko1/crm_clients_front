@@ -90,7 +90,7 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
                               key={form.key("dob")}
                               {...form.getInputProps("dob")}
                               label="Год рождения"
-                              placeholder="1980"
+                              placeholder="гггг"
                          />
                          <ButtonSubmit loading={isLoading} text="Изменить" disabled={!form.isDirty()} />
                     </div>

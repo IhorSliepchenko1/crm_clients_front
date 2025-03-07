@@ -5,12 +5,13 @@ import { useNotification } from "../app/hooks/useNotification/useNotification";
 import { ParamlList } from "../app/types";
 import { useEffect, useMemo, useState } from "react";
 import { BASE_URL } from "../constants";
-import { Button, Divider, } from "@mantine/core";
+import { Button, Divider, Tabs, } from "@mantine/core";
 import { FilterForm } from "../app/components/form/filter-form";
 import { FindNumber } from "../app/components/features/numbers/find-number";
 import { useGetAllCityQuery } from "../app/services/cityApi";
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
 import { useGetAllResultQuery } from "../app/services/resultApi";
+import { UpdateNumberFile } from "../app/components/features/numbers/update-number-file";
 
 export const FilterDatabase = () => {
   const form = useForm({
@@ -90,30 +91,45 @@ export const FilterDatabase = () => {
 
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between">
-          <p>Скачать базу</p>
-          <Button variant="filled" color="gray" size="xs" radius="md" onClick={cleanForm}>очистить</Button>
+
+    <Tabs defaultValue="main" variant="pills" radius="xs" >
+      <Tabs.List>
+        <Tabs.Tab value="main" color="green" >
+          Поиск базы/номера
+        </Tabs.Tab>
+        <Tabs.Tab value="changes">
+          блок/разблок через файл
+        </Tabs.Tab>
+      </Tabs.List>
+
+      <Tabs.Panel value="main" className='p-5'>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
+            <div className="flex justify-end">
+              <Button variant="filled" color="gray" size="xs" radius="md" onClick={cleanForm}>очистить</Button>
+            </div>
+            <FilterForm
+              form={form}
+              onSubmit={onSubmit}
+              isLoading={isLoading}
+              dataCity={dataCity}
+              dataResult={dataResult}
+              dataTypeNumber={dataTypeNumber}
+            />
+          </div>
+          <div>
+            <FindNumber
+              dataCity={dataCity}
+              dataResult={dataResult}
+              dataTypeNumber={dataTypeNumber}
+            />
+          </div>
         </div>
-        <FilterForm
-          form={form}
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          dataCity={dataCity}
-          dataResult={dataResult}
-          dataTypeNumber={dataTypeNumber}
-        />
-        <Divider my="md" />
-      </div>
-      <div>
-        <p>Найти по номеру</p>
-        <FindNumber
-          dataCity={dataCity}
-          dataResult={dataResult}
-          dataTypeNumber={dataTypeNumber}
-        />
-      </div>
-    </div>
+      </Tabs.Panel>
+
+      <Tabs.Panel value="changes" className='p-5'>
+        <UpdateNumberFile />
+      </Tabs.Panel>
+    </Tabs>
   )
 }

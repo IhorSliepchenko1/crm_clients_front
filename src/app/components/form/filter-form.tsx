@@ -26,7 +26,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
 
      const yesOrNo = ["да", "нет"]
      return (
-          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 px-5">
+          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5">
                <div className="flex justify-between items-center">
                     <Select
                          key={form.key("city")}
@@ -110,7 +110,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          data={yesOrNo}
                     />
                </div>
-               <ButtonSubmit loading={isLoading} text="Скачать базу по фильтру" />
+               <ButtonSubmit loading={isLoading} text="Скачать базу по фильтру" color='green' />
           </form>
      )
 }

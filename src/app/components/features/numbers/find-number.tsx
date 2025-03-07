@@ -46,7 +46,7 @@ export const FindNumber: React.FC<Props> = ({ dataCity, dataTypeNumber }) => {
 
      return (
           <>
-               <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 my-10 px-5">
+               <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5 my-10">
                     <TextInput
                          key={form.key("number")}
                          {...form.getInputProps("number")}

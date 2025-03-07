@@ -67,6 +67,8 @@ export type RaportImport = {
      incorrect: number;
 }
 
+export type TRaportUpdateNumberFile = { changes: number, notFoundNumber: number }
+
 export type ImportHistory = {
      id: number
      dublicate: number

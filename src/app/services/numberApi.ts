@@ -1,4 +1,4 @@
-import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber } from "../types";
+import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile } from "../types";
 import { api } from "./api"
 
 
@@ -47,6 +47,13 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
+          updateNumberFile: builder.mutation<TRaportUpdateNumberFile, { data: FormData }>({
+               query: ({ data }) => ({
+                    url: "number/update-file",
+                    method: "PUT",
+                    body: data,
+               }),
+          }),
      }),
 })
 
@@ -57,5 +64,6 @@ export const {
      useLazyGetRaportQuery,
      useExportFileMutation,
      useUpdateNumberMutation,
-     useFindNumberMutation
+     useFindNumberMutation,
+     useUpdateNumberFileMutation
 } = numberApi
