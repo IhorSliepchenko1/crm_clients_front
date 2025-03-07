@@ -15,7 +15,7 @@ type Props = {
      dataTypeNumber: string[] | undefined
 }
 
-export const FindNumber: React.FC<Props> = ({ dataCity, dataResult, dataTypeNumber }) => {
+export const FindNumber: React.FC<Props> = ({ dataCity, dataTypeNumber }) => {
      const regex = /[a-zA-Zа-яА-ЯёЁ]/;
      const form = useForm<{ number: string }>({
           mode: 'uncontrolled',
