@@ -25,7 +25,7 @@ export const AddNumbers = () => {
 
   const [addFile, { isLoading }] = useAddNumberMutation()
   const { succeed, error } = useNotification()
-  const headerCheck = ["number", "typeNumber", "city", "full_name"]
+  const headerCheck = ["number", "typeNumber", "city", "full_name", "dob"]
 
   const validateFile = useFileValidation();
 

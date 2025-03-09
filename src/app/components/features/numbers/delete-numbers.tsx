@@ -45,7 +45,7 @@ export const DeleteNumbers = () => {
   return (
     <div>
       <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
-        <p>Загрузите файл с номера для удаления</p>
+        <p>Загрузите файл с номерами для удаления</p>
         <FileInput
           placeholder="Загрузите файл формата .csv"
           key={form.key("data")}

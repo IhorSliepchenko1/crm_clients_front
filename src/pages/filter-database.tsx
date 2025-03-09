@@ -5,7 +5,7 @@ import { useNotification } from "../app/hooks/useNotification/useNotification";
 import { ParamlList } from "../app/types";
 import { useEffect, useMemo, useState } from "react";
 import { BASE_URL } from "../constants";
-import { Button, Divider, Tabs, } from "@mantine/core";
+import { Button, Tabs } from "@mantine/core";
 import { FilterForm } from "../app/components/form/filter-form";
 import { FindNumber } from "../app/components/features/numbers/find-number";
 import { useGetAllCityQuery } from "../app/services/cityApi";

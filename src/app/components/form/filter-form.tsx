@@ -59,7 +59,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          key={form.key("dob")}
                          {...form.getInputProps("dob")}
                          label="Возраст"
-                         placeholder="01.01.1980-01.01.1990"
+                         placeholder="1980-1990"
                     />
 
                     <Select
