@@ -13,8 +13,6 @@ type Props = {
 }
 
 export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCity, dataResult, dataTypeNumber }) => {
-
-
      const optionsFilter: OptionsFilter = ({ options, search }) => {
           const splittedSearch = search.toLowerCase().trim().split(' ');
           return (options as ComboboxItem[]).filter((option) => {
@@ -22,7 +20,6 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                return splittedSearch.every((searchWord) => words.some((word) => word.includes(searchWord)));
           });
      };
-
 
      const yesOrNo = ["да", "нет"]
      return (
@@ -58,7 +55,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                     <TextInput
                          key={form.key("dob")}
                          {...form.getInputProps("dob")}
-                         label="Возраст"
+                         label="Год рождения"
                          placeholder="1980-1990"
                     />
 

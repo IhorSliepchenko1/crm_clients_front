@@ -52,7 +52,9 @@ export const FilterDatabase = () => {
   const dataResult = useMemo(() => {
     if (result) {
       const data = result.rows.map((item) => item.name)
-      return data
+      const dataCopy = JSON.parse(JSON.stringify(data))
+      dataCopy.push('Не звонили')
+      return dataCopy
     }
   }, [loadingResult, result])
 
