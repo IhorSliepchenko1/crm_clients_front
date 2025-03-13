@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { Button, Select, Table } from "@mantine/core"
 import { useGetAllCityQuery } from "../app/services/cityApi"
 import { useGetRaportQuery } from "../app/services/numberApi"
@@ -76,7 +76,7 @@ export const MainPage = () => {
             onClick={handleDownload}>
             скачать PDF
           </Button>
-          <div className="max-h-[650px] overflow-y-auto scroll-w">
+          <div className="max-h-[550px] overflow-y-auto scroll-w">
             <Table className="bg-white text-black" ref={pdfRef}>
               <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
               <BodyRaport dataRaport={dataRaport} sortKey={sortKey} sortOrder={sortOrder} />

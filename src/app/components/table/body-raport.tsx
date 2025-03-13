@@ -1,6 +1,6 @@
 import { Table } from '@mantine/core';
 import { useMemo } from 'react'
-import { GetInfoNumber, KeyMainRaport, MainRaport } from '../../types';
+import {  KeyMainRaport, MainRaport } from '../../types';
 
 type Props = {
      dataRaport: MainRaport[] | undefined

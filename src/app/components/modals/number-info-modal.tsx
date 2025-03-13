@@ -5,6 +5,7 @@ import { ButtonSubmit } from "../button/button-submit"
 import { useUpdateNumberMutation } from "../../services/numberApi"
 import { useNotification } from "../../hooks/useNotification/useNotification"
 import { errorMessages } from "../../../utils/has-error-field"
+import { useCalendarInputDate } from "../../hooks/useCalendarInputDate"
 
 type Props = {
      opened: boolean
@@ -15,7 +16,7 @@ type Props = {
 }
 
 export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, dataCity, dataTypeNumber }) => {
-     const { full_name, dob, blocking_status, city, typeNumber, createdAt, guests, histories, id } = numberInfo
+     const { full_name, dob, blocking_status, city, typeNumber, createdAt, guests, histories, id, number } = numberInfo
 
      const form = useForm({
           mode: "uncontrolled",
@@ -34,14 +35,14 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
 
      const [updateNumber, { isLoading }] = useUpdateNumberMutation()
      const { succeed, error } = useNotification()
-
+     const { formatDate } = useCalendarInputDate()
 
      const hiatoriesGuest = guests.map((item) => {
           return `Дата: ${item.date}\nВремя: ${item.time}\nГости/пары: ${item.guests}/${item.pairs}\n\n`
      })
 
      const hiatoriesCall = histories.map((item) => {
-          return `Дата звонка: ${item.call_date}\nОператор: ${item.operator}\nРезультат: ${item.result.name}\nДата время встречи: ${item.presentation_date && item.presentation_time ? item.presentation_date + " " + item.presentation_time : "-"}\nЗаметка: ${item.note ? item.note : '-'}\n\n`
+          return `Дата звонка: ${formatDate(item.call_date).split(' ')[0]}\nОператор: ${item.operator}\nРезультат: ${item.result.name}\nДата время встречи: ${formatDate(item.presentation_date).split(' ')[0] && item.presentation_time ? formatDate(item.presentation_date).split(' ')[0] + " " + item.presentation_time : "-"}\nЗаметка: ${item.note ? item.note : '-'}\n\n`
      })
 
 
@@ -58,7 +59,7 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
      }
 
      return (
-          <Modal opened={opened} onClose={close} title="Информация о номере" size="100%">
+          <Modal opened={opened} onClose={close} title={`Информация о номере: ${number}`} size="100%">
 
                <form onSubmit={form.onSubmit(onSubmit)} className="flex justify-between gap-3">
                     <div className="flex flex-col w-[50%] gap-2">
