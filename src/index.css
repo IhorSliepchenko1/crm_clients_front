@@ -17,28 +17,27 @@ tr,
 table,
 td {
      text-align: center !important;
+     border: 1px solid black;
+     border-collapse: collapse;
 
-}
+     @media screen and (max-width: 1500px) {
+          font-size: 10px !important;
+     }
 
-.container-table {
-     max-height: 550px !important;
-     overflow-y: auto;
-}
+     @media screen and (max-width: 1350px) {
+          padding-right: 1px !important;
+          padding-left: 1px !important;
+     }
 
-.table-raport {
-     background: white;
-     color: black;
-
-     th,
-     tr,
-     table,
-     td {
-          text-align: center !important;
-          border: 1px solid black;
-          border-collapse: collapse;
+     @media screen and (max-width: 1100px) {
+          font-size: 8px !important;
      }
 }
 
-.limit-w {
-     text-wrap: wrap;
-}
+/* .scroll-w {
+     @media screen and (max-width: 1100px) {
+          max-width: 800px;
+          overflow-x: scroll;
+     }
+
+} */

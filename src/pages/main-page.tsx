@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Button, Select, Table } from "@mantine/core"
 import { useGetAllCityQuery } from "../app/services/cityApi"
 import { useGetRaportQuery } from "../app/services/numberApi"
@@ -16,8 +16,20 @@ export const MainPage = () => {
 
   const [sortKey, setSortKey] = useState<KeyMainRaport | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
   const pdfRef = useRef<HTMLTableElement>(null)
+
+  // const [sizeW, setSizeW] = useState(window.innerWidth);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setSizeW(window.innerWidth);
+  //   };
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const { downloadPDF } = useDownloadPDF({
     pdfRef,
@@ -64,8 +76,8 @@ export const MainPage = () => {
             onClick={handleDownload}>
             скачать PDF
           </Button>
-          <div className="container-table">
-            <Table className="table-raport" ref={pdfRef}>
+          <div className="max-h-[650px] overflow-y-auto scroll-w">
+            <Table className="bg-white text-black" ref={pdfRef}>
               <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
               <BodyRaport dataRaport={dataRaport} sortKey={sortKey} sortOrder={sortOrder} />
             </Table>

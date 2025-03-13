@@ -23,8 +23,8 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
 
      const yesOrNo = ["да", "нет"]
      return (
-          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-5">
-               <div className="flex justify-between items-center">
+          <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col 2xl:gap-5">
+               <div className="2xl:flex justify-between items-center ">
                     <Select
                          key={form.key("city")}
                          {...form.getInputProps("city")}
@@ -67,7 +67,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          data={yesOrNo}
                     />
                </div>
-               <div className="flex justify-between items-center">
+               <div className="2xl:flex justify-between items-center">
                     <TextInput
                          key={form.key("update_count")}
                          {...form.getInputProps("update_count")}

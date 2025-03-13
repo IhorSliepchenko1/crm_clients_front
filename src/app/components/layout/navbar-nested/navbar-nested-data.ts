@@ -31,7 +31,7 @@ export const data = (logoutSession: () => void) => {
                access: [ROLES.ADMIN, ROLES.USER]
           },
           {
-               label: "Импорт базы",
+               label: "Импорт",
                icon: BsDatabaseAdd,
                links: [
                     { label: "Номера", link: "/numbers" },
