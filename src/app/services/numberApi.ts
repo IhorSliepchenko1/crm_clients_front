@@ -19,6 +19,12 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
+          createRaport: builder.mutation({
+               query: () => ({
+                    url: "number/create-raport",
+                    method: "POST",
+               }),
+          }),
           exportFile: builder.mutation<string, { params: ParamlList }>({
                query: ({ params }) => ({
                     url: "number/export-file",
@@ -65,5 +71,6 @@ export const {
      useExportFileMutation,
      useUpdateNumberMutation,
      useFindNumberMutation,
-     useUpdateNumberFileMutation
+     useUpdateNumberFileMutation,
+     useCreateRaportMutation
 } = numberApi
