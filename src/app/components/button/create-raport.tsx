@@ -11,8 +11,8 @@ export const CreateRaport = () => {
 
      const onSubmit = async () => {
           try {
-               await createRaport({}).unwrap();
-               succeed(`Рапорт обновлён!`)
+               const response = await createRaport({}).unwrap();
+               succeed(response)
           } catch (err) {
                error(errorMessages(err));
           }
