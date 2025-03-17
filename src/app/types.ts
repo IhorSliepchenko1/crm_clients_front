@@ -131,6 +131,12 @@ export type MainRaport = {
      name: string
 }
 
+
+export type TDataRaport = {
+     raport: MainRaport[]
+     lastUpdateRaport: string
+}
+
 export enum KeyMainRaport {
      all_numbers = "all_numbers",
      color = "color",
@@ -164,8 +170,8 @@ type FindInfoNumberHistories = {
 export type FindInfoNumberGuests = {
      guests: number,
      pairs: number,
-     date: string,
-     time: string
+     presentation_date: string,
+     presentation_time: string
 }
 
 export type FindInfoNumber = {

@@ -7,6 +7,8 @@ import { useDownloadPDF } from "../app/hooks/useDownloadPDF"
 import { KeyMainRaport } from "../app/types"
 import { HeaderRaport } from "../app/components/table/header-raport"
 import { BodyRaport } from "../app/components/table/body-raport"
+import { useCalendarInputDate } from "../app/hooks/useCalendarInputDate"
+import { CreateRaport } from "../app/components/button/create-raport"
 
 export const MainPage = () => {
   const [value, setValue] = useState<string | null>('Tashkent');
@@ -17,23 +19,11 @@ export const MainPage = () => {
   const [sortKey, setSortKey] = useState<KeyMainRaport | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const pdfRef = useRef<HTMLTableElement>(null)
-
-  // const [sizeW, setSizeW] = useState(window.innerWidth);
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setSizeW(window.innerWidth);
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  const { formatDate } = useCalendarInputDate()
 
   const { downloadPDF } = useDownloadPDF({
     pdfRef,
-    fileName: "raport"
+    fileName: value ? value : 'raport'
   })
   const handleDownload = () => downloadPDF();
 
@@ -57,17 +47,8 @@ export const MainPage = () => {
   return (
     loadingRaport ? <LoaderComponent /> :
       <div className="flex flex-col gap-5">
+        <div className="flex justify-between items-center">
 
-        <Select
-          label="Города"
-          placeholder="Выберите город для показа рапорта"
-          data={data}
-          value={value}
-          onChange={setValue}
-          allowDeselect={false}
-        />
-
-        <div className="flex flex-col w-fit m-auto gap-2 pb-10">
           <Button
             variant="outline"
             color="green"
@@ -76,13 +57,28 @@ export const MainPage = () => {
             onClick={handleDownload}>
             скачать PDF
           </Button>
-          <div className="max-h-[550px] overflow-y-auto scroll-w">
-            <Table className="bg-white text-black" ref={pdfRef}>
-              <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
-              <BodyRaport dataRaport={dataRaport} sortKey={sortKey} sortOrder={sortOrder} />
-            </Table>
-          </div>
+          <CreateRaport city={value as string} />
         </div>
+        {
+          dataRaport ? <div className="flex flex-col w-fit m-auto gap-2 pb-10">
+            <Select
+              label="Города"
+              placeholder="Выберите город для показа рапорта"
+              data={data}
+              value={value}
+              onChange={setValue}
+              allowDeselect={false}
+            />
+            <p>Рапорт был обновлён: {<b>{formatDate(dataRaport.lastUpdateRaport)}</b>} (Europe/Kiev)</p>
+            <div className="max-h-[550px] overflow-y-auto scroll-w">
+              <Table className="bg-white text-black" ref={pdfRef}>
+                <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
+                <BodyRaport dataRaport={dataRaport.raport} sortKey={sortKey} sortOrder={sortOrder} />
+              </Table>
+            </div>
+          </div> : <p>Данных на сервере не обнаружено, задействуйте принудительное создание рапорта</p>
+        }
+
       </div>
 
   )

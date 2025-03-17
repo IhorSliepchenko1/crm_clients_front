@@ -29,7 +29,7 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
           },
 
           validate: {
-               dob: (value) => (value && (value.length > 4 || value.length < 4) ? "Вы должны ввести только год рождения!" : null),
+               dob: (value: string | any[]) => (value && (value.length > 4 || value.length < 4) ? "Вы должны ввести только год рождения!" : null),
           },
      });
 
@@ -38,7 +38,7 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
      const { formatDate } = useCalendarInputDate()
 
      const hiatoriesGuest = guests.map((item) => {
-          return `Дата: ${item.date}\nВремя: ${item.time}\nГости/пары: ${item.guests}/${item.pairs}\n\n`
+          return `Дата: ${formatDate(item.presentation_date).split(' ')[0]}\nВремя: ${item.presentation_time}\nГости/пары: ${item.guests}/${item.pairs}\n\n`
      })
 
      const hiatoriesCall = histories.map((item) => {

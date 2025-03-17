@@ -1,6 +1,5 @@
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { useCalendarInputDate } from "./useCalendarInputDate";
 
 type Props = {
      pdfRef: React.RefObject<HTMLDivElement | HTMLTableElement | null>,
@@ -23,7 +22,6 @@ export const useDownloadPDF = (
 
      const downloadPDF = async () => {
           if (!pdfRef.current) return;
-          const { formatDate } = useCalendarInputDate();
           // передаём ref еллементов  и объект scale для улучшения качества
           const canvas = await html2canvas(pdfRef.current, { scale }); // Генерация canvas          
           const imgData = canvas.toDataURL("image/jpg"); // Преобразование в PNG
@@ -42,7 +40,7 @@ export const useDownloadPDF = (
 
           // изображение, формат изо, 2 маржина (X, Y), ширина, высота изо
           pdf.addImage(imgData, "JPG", margin, margin, pdfWidth, pdfHeight);
-          pdf.save(`${fileName}_${formatDate(new Date())}.pdf`);
+          pdf.save(`${fileName}.pdf`);
      }
 
 

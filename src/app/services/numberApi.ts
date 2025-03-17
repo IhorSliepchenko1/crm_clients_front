@@ -1,4 +1,4 @@
-import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile } from "../types";
+import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile, TDataRaport } from "../types";
 import { api } from "./api"
 
 
@@ -32,7 +32,7 @@ export const numberApi = api.injectEndpoints({
                     params,
                }),
           }),
-          getRaport: builder.query<MainRaport[], { city: string }>({
+          getRaport: builder.query<TDataRaport, { city: string }>({
                query: ({ city }) => ({
                     url: "number/raport",
                     method: "GET",

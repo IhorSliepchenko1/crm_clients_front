@@ -13,7 +13,7 @@ type Props = {
 
 export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortData, title, background }) => {
      return (
-          <Table.Th onClick={() => sortData(item)} style={{ background: background}}>
+          <Table.Th onClick={() => sortData(item)} style={{ background: background }}>
                <div className="flex items-center justify-center gap-1">
                     <span className="text-wrap">{title}</span>
                     <span>{sortKey === item ? sortOrder === "asc" ? <FaLongArrowAltUp /> : <FaLongArrowAltDown /> : ''}
