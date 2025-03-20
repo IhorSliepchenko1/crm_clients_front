@@ -1,6 +1,7 @@
 import { Table } from '@mantine/core';
 import { useMemo } from 'react'
-import {  KeyMainRaport, MainRaport } from '../../types';
+import { KeyMainRaport, MainRaport } from '../../types';
+import { RESULT } from '../../../utils/result';
 
 type Props = {
      dataRaport: MainRaport[] | undefined
@@ -49,8 +50,6 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
                return "#ff0000";
           }
      }
-
-
      const rows = useMemo(() => {
           if (!dataRaport) return [];
           let sortedData = [...dataRaport]
@@ -76,14 +75,14 @@ export const BodyRaport: React.FC<Props> = ({ dataRaport, sortKey, sortOrder }) 
                          <Table.Td className="limit-w" >{item.all_numbers}</Table.Td>
                          <Table.Td className="limit-w" >{item.remainder}</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientRemainder(item.procentRemainder) }}>{item.procentRemainder.toFixed(2)} %</Table.Td>
-                         <Table.Td className="limit-w" >{item["Согласие"]}</Table.Td>
-                         <Table.Td className="limit-w" >{item["Не уверенный"]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.AGREEMENT]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.NOT_SURE]}</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentConsent) }}>{item.procentConsent.toFixed(2)} %</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientNumbersOneConsent(item.numbersOneConsent) }}>{item.numbersOneConsent.toFixed(2)}</Table.Td>
-                         <Table.Td className="limit-w" >{item["Отказ"]}</Table.Td>
-                         <Table.Td className="limit-w" >{item["Ошибка(возраст)"]}</Table.Td>
-                         <Table.Td className="limit-w" >{item["Ошибка(км)"]}</Table.Td>
-                         <Table.Td className="limit-w" >{item["Но"]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.REFUSAL]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.ERROR_AGE]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.ERROR_KM]}</Table.Td>
+                         <Table.Td className="limit-w" >{item[RESULT.NOT_ANSWER]}</Table.Td>
                          <Table.Td className="limit-w" >{item.guests}</Table.Td>
                          <Table.Td className="limit-w" >{item.pairs}</Table.Td>
                          <Table.Td className="limit-w" style={{ background: gradientGuestsConsent(item.procentGuests) }}>{item.procentGuests.toFixed(2)} %</Table.Td>

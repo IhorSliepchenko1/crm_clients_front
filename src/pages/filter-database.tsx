@@ -12,6 +12,7 @@ import { useGetAllCityQuery } from "../app/services/cityApi";
 import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
 import { useGetAllResultQuery } from "../app/services/resultApi";
 import { UpdateNumberFile } from "../app/components/features/numbers/update-number-file";
+import { useAutoDownloadFile } from "../app/hooks/useAutoDownloadFile";
 
 export const FilterDatabase = () => {
   const form = useForm({
@@ -71,20 +72,11 @@ export const FilterDatabase = () => {
     }
   }
 
-  const autoDownloadFile = () => {
-    const link = document.createElement(`a`);
-    link.setAttribute(`href`, `${BASE_URL}/${fileName}`);
-    link.setAttribute(`download`, `${fileName}`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    return
-  }
+  const { autoDownloadFile } = useAutoDownloadFile()
 
   useEffect(() => {
     if (fileName) {
-      autoDownloadFile()
+      autoDownloadFile(BASE_URL, fileName)
     }
     setFileName('')
   }, [fileName])

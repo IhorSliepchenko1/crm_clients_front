@@ -6,6 +6,7 @@ import { useUpdateNumberMutation } from "../../services/numberApi"
 import { useNotification } from "../../hooks/useNotification/useNotification"
 import { errorMessages } from "../../../utils/has-error-field"
 import { useCalendarInputDate } from "../../hooks/useCalendarInputDate"
+import { useMemo } from "react"
 
 type Props = {
      opened: boolean
@@ -37,13 +38,41 @@ export const NumberInfoModal: React.FC<Props> = ({ opened, close, numberInfo, da
      const { succeed, error } = useNotification()
      const { formatDate } = useCalendarInputDate()
 
-     const hiatoriesGuest = guests.map((item) => {
-          return `Дата: ${formatDate(item.presentation_date).split(' ')[0]}\nВремя: ${item.presentation_time}\nГости/пары: ${item.guests}/${item.pairs}\n\n`
-     })
+     const hiatoriesGuest = useMemo(() => {
+          const array: string[] = []
+          guests.forEach((item) => {
 
-     const hiatoriesCall = histories.map((item) => {
-          return `Дата звонка: ${formatDate(item.call_date).split(' ')[0]}\nОператор: ${item.operator}\nРезультат: ${item.result.name}\nДата время встречи: ${formatDate(item.presentation_date).split(' ')[0] && item.presentation_time ? formatDate(item.presentation_date).split(' ')[0] + " " + item.presentation_time : "-"}\nЗаметка: ${item.note ? item.note : '-'}\n\n`
-     })
+               const itemArray = [
+                    `Дата: ${formatDate(item.presentation_date, false)}`,
+                    `Время: ${item.presentation_time}`,
+                    `Гости/пары: ${item.guests}/${item.pairs}`,
+               ].join('\n')
+
+               array.push(itemArray)
+          })
+          return array.join(`\n\n`)
+     }, [guests])
+
+     const hiatoriesCall = useMemo(() => {
+          const array: string[] = []
+
+          histories.forEach((item) => {
+               const dateEvent = `Дата время встречи: ${item.presentation_date && item.presentation_time
+                    ? formatDate(item.presentation_date, false) + " " + item.presentation_time : "-"}`
+
+               const itemArray = [
+                    `Дата звонка: ${item.call_date ? formatDate(item.call_date, false) : '-'}`,
+                    `Оператор: ${item.operator ?? '-'}`,
+                    `Результат: ${item.result.name ?? '-'}`,
+                    dateEvent,
+                    `Заметка: ${item.note ?? '-'}`
+               ].join('\n')
+
+               array.push(itemArray)
+          })
+
+          return array.join(`\n\n`)
+     }, [histories])
 
 
      const onSubmit = async (data: UpdateNumber) => {

@@ -14,7 +14,7 @@ export const useFileValidation = () => {
           }
 
           if (file.size > 20_000_000) {
-               throw new Error("Максимальный объём файла 5мб");
+               throw new Error("Максимальный объём файла 20мб");
           }
 
           if (regex.test(file.name)) {

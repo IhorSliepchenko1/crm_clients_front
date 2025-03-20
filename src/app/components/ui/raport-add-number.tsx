@@ -1,14 +1,13 @@
 import { Button, Divider, NumberFormatter } from "@mantine/core"
-import { Raport } from "../../types"
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useDownloadPDF } from "../../hooks/useDownloadPDF";
 import { ContainerPDFimportNumbers } from "../layout/container-pdf-import-numbers";
+import { NumberAdd } from "../../types";
 
 type Props = {
-     setRaport: React.Dispatch<React.SetStateAction<Raport | null>>
-     raport: Raport
+     setRaport: React.Dispatch<React.SetStateAction<NumberAdd | null>>
+     raport: NumberAdd
 };
-
 export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
      const pdfRef = useRef<HTMLDivElement>(null)
 
@@ -18,7 +17,7 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
      })
 
      const handleDownload = () => downloadPDF();
-     const handleClose = () => setRaport(null);
+     const handleClose = () => setRaport(null)
 
      const buttons = [
           { color: "green", text: "скачать PDF", onClick: handleDownload },
@@ -26,10 +25,19 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
      ]
 
      const totalInfo = [
-          { text: "К-во некорректных номеров", value: raport.incorrect },
-          { text: "К-во уникальных номеров", value: raport.unique },
-          { text: "К-во дублей", value: raport.totalDublicate },
+          { text: "К-во дублей в базе", value: raport.importHistory.duplicates_in_base },
+          { text: "К-во дублей в файле", value: raport.importHistory.duplicates_in_file },
+          { text: "К-во некорректных номеров", value: raport.importHistory.incorrect_numbers },
+          { text: "К-во импортированных", value: raport.importHistory.unique_numbers },
      ]
+
+     const filterNull = useMemo(() => {
+          const filterData = raport.duplicatesByTypes.filter((item) => {
+               return item.count > 0
+          })
+
+          return filterData
+     }, [])
 
      return (
           <div>
@@ -54,7 +62,7 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                          </div>
                          <Divider my="xs" />
                          <div >
-                              {raport.dublicate.map(item => (
+                              {filterNull.map(item => (
                                    <div key={item.name + item.count} className="flex justify-between pb-0.5">
                                         <p className="pr-7">{item.name}</p>
 

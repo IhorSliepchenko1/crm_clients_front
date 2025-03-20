@@ -1,40 +1,49 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Table } from "@mantine/core";
 import { LoaderComponent } from "../layout/loader";
 import { useCalendarInputDate } from "../../hooks/useCalendarInputDate";
 import { useAllImportHistoriesQuery } from "../../services/importHistoriesApi";
-import { useAllDeleteHistoriesQuery } from "../../services/deleteHistoriesApi";
 import { Pagination } from "../ui/pagination";
 import { useTotalPage } from "../../hooks/useTotalPage";
+import { IMPORT_STATUS } from "../../../utils/import";
+import { Statuses } from "../../types";
 
-type Props = {
-     name: "delete" | "import";
-};
-
-export const HistoriesTable: React.FC<Props> = ({ name }) => {
+export const HistoriesTable = () => {
      const [page, setPage] = useState(1);
      const limit = 20;
-     const { data: dataImport, isLoading: loadingImport } = useAllImportHistoriesQuery({ limit, page });
-     const { data: dataDelete, isLoading: loadingDelete } = useAllDeleteHistoriesQuery({ limit, page });
-
-     const histories = useMemo(() => ({
-          data: name === "import" ? dataImport : dataDelete,
-          loading: name === "import" ? loadingImport : loadingDelete,
-          title1: name === "import" ? "Дубли" : "Удалённые",
-          title2: name === "import" ? "Уникальные" : "Не найденные"
-     }), [name, loadingImport, loadingDelete, dataImport, dataDelete])
+     const { data, isLoading } = useAllImportHistoriesQuery({ limit, page });
 
      const { formatDate } = useCalendarInputDate();
-     const total = useTotalPage(histories.data?.count, limit)
+     const total = useTotalPage(data?.count, limit)
 
-     const rows = histories.data?.rows?.length
-          ? histories.data.rows.map((item, index) => (
+     const importStatusGradiens = (status: Statuses) => {
+          switch (status) {
+               case IMPORT_STATUS.SUCCESS:
+                    return "#2f9e44";
+               case IMPORT_STATUS.IN_PROGRESS:
+                    return "#f08c00";
+               case IMPORT_STATUS.ERROR:
+                    return "#e03131";
+               default:
+                    return "";
+          }
+     };
+
+
+     const rows = data?.rows?.length
+          ? data.rows.map((item, index) => (
                <Table.Tr key={item.id ?? item.login ?? index} className="text-xs">
-                    <Table.Td>{'deleteNumber' in item ? item.deleteNumber : item.dublicate}</Table.Td>
-                    <Table.Td>{'notFoundNumber' in item ? item.notFoundNumber : item.unique}</Table.Td>
-                    <Table.Td>{item.incorrect}</Table.Td>
+                    <Table.Td>{item.duplicates_in_base}</Table.Td>
+                    <Table.Td>{item.duplicates_in_file}</Table.Td>
+                    <Table.Td>{item.unique_numbers}</Table.Td>
+                    <Table.Td>{item.incorrect_numbers}</Table.Td>
+                    <Table.Td>{item.delete_numbers}</Table.Td>
+                    <Table.Td>{item.not_found_numbers}</Table.Td>
                     <Table.Td>{item.login}</Table.Td>
-                    <Table.Td>{formatDate(item.createdAt)}</Table.Td>
+                    <Table.Td>{item.import_time}</Table.Td>
+                    <Table.Td style={{ background: importStatusGradiens(item.import_status) }}>{item.import_status}</Table.Td>
+                    <Table.Td style={{ background: item.import_type ? item.import_type.includes("ADD") ? "#2f9e44" : "#e03131" : '' }}>{item.import_type}</Table.Td>
+                    <Table.Td>{formatDate(item.updatedAt)}</Table.Td>
                </Table.Tr>
           ))
           : (
@@ -45,15 +54,21 @@ export const HistoriesTable: React.FC<Props> = ({ name }) => {
 
      return (
           <div className="flex flex-col justify-between items-center min-h-[750px] w-full">
-               {histories.loading ? (
+               {isLoading ? (
                     <LoaderComponent />
                ) : (<Table>
                     <Table.Thead>
                          <Table.Tr>
-                              <Table.Th>{histories.title1}</Table.Th>
-                              <Table.Th>{histories.title2}</Table.Th>
+                              <Table.Th>Дубли в базе</Table.Th>
+                              <Table.Th>Дубли в файле</Table.Th>
+                              <Table.Th>Импортировано</Table.Th>
                               <Table.Th>Некорректные</Table.Th>
+                              <Table.Th>Удалено</Table.Th>
+                              <Table.Th>Не обнаружен</Table.Th>
                               <Table.Th>Инициатор</Table.Th>
+                              <Table.Th>Завершено за (сек)</Table.Th>
+                              <Table.Th>Статус</Table.Th>
+                              <Table.Th>Тип</Table.Th>
                               <Table.Th>Дата</Table.Th>
                          </Table.Tr>
                     </Table.Thead>

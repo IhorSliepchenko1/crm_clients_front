@@ -1,27 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileInput } from '@mantine/core';
 import { useAddNumberMutation } from '../../../services/numberApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { errorMessages } from '../../../../utils/has-error-field';
 import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
-import { Raport } from '../../../types';
+import { NumberAdd } from '../../../types';
 import { RaportAddNumber } from '../../ui/raport-add-number';
 import { DontLeave } from '../../ui/dont-leave';
 import { useFileValidation } from '../../../hooks/useFileValidation';
 import { DownloadExampleCSV } from '../../ui/download-example-csv';
+import { useAutoDownloadFile } from '../../../hooks/useAutoDownloadFile';
+import { BASE_URL } from '../../../../constants';
 
 export const AddNumbers = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { data: null as File | null },
     validate: {
-      data: (value) => (!value ? "Обязательное поле!" : null),
+      data: (value: any) => (!value ? "Обязательное поле!" : null),
     },
   })
 
   const [value, setValue] = useState<File | null>(null);
-  const [raport, setRaport] = useState<Raport | null>(null)
+  const [raport, setRaport] = useState<NumberAdd | null>(null)
+  const [fileName, setFileName] = useState('')
 
   const [addFile, { isLoading }] = useAddNumberMutation()
   const { succeed, error } = useNotification()
@@ -44,6 +47,7 @@ export const AddNumbers = () => {
         const response = await addFile({ data }).unwrap();
         succeed("Файл успешно импортирован");
         setRaport(response)
+        setFileName(response.fileNameErrorNumbers)
         setValue(null)
         form.reset()
       }
@@ -56,6 +60,15 @@ export const AddNumbers = () => {
       error(errorMessages(err));
     }
   }
+
+  const { autoDownloadFile } = useAutoDownloadFile()
+
+  useEffect(() => {
+    if (fileName) {
+      autoDownloadFile(BASE_URL, fileName)
+    }
+    setFileName('')
+  }, [fileName])
 
   return (
     <div >
@@ -77,7 +90,10 @@ export const AddNumbers = () => {
       </form>
 
       <div className='flex justify-center'>
-        {raport && <RaportAddNumber raport={raport} setRaport={setRaport} />}
+        {raport && <RaportAddNumber
+          raport={raport}
+          setRaport={setRaport}
+        />}
       </div>
     </div>
   )

@@ -23,7 +23,7 @@ export const CreateRaport: React.FC<Props> = ({ city }) => {
      }
      return (
           <form onSubmit={form.onSubmit(onSubmit)}>
-               {<ButtonSubmit loading={isLoading} text={"Принудительно обновить рапорт"} color={"green"} />}
+               {<ButtonSubmit loading={isLoading} text={"Принудительно обновить рапорт"} />}
           </form>
      )
 }

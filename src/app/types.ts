@@ -32,14 +32,22 @@ export type UpdateTItem = {
 
 export type Register = { login: string, password: string, role: "ADMIN" | "USER" }
 
+export type DublicateItem = {
+     name: string;
+     count: number;
+}
+
+export type ImportHistoryNumberAdd = {
+     duplicates_in_base: number;
+     duplicates_in_file: number;
+     incorrect_numbers: number;
+     unique_numbers: number;
+     login: string;
+}
 export type NumberAdd = {
-     dublicate: {
-          name: any;
-          count: number;
-     }[];
-     unique: number;
-     incorrect: number;
-     totalDublicate: number
+     duplicatesByTypes: DublicateItem[]
+     importHistory: ImportHistoryNumberAdd
+     fileNameErrorNumbers: string
 }
 
 export type NumberDelete = {
@@ -69,11 +77,32 @@ export type RaportImport = {
 
 export type TRaportUpdateNumberFile = { changes: number, notFoundNumber: number }
 
+export enum Statuses {
+     IN_PROGRESS = "IN_PROGRESS",
+     ERROR = "ERROR",
+     SUCCESS = "SUCCESS",
+}
+
+enum ImportType {
+     ADD_NUMBERS = "ADD_NUMBERS",
+     DELETE_NUMBERS = "DELETE_NUMBERS",
+     ADD_RESULTS = "ADD_RESULTS",
+     DELETE_RESULTS = "DELETE_RESULTS",
+     ADD_GUESTS = "ADD_GUESTS",
+     DELETE_GUESTS = "DELETE_GUESTS",
+};
+
 export type ImportHistory = {
      id: number
-     dublicate: number
-     unique: number
-     incorrect: number
+     duplicates_in_base: number
+     duplicates_in_file: number
+     unique_numbers: number
+     incorrect_numbers: number
+     delete_numbers: number
+     not_found_numbers: number
+     import_time: string
+     import_status: Statuses
+     import_type: ImportType
      login: string
      createdAt: Date
      updatedAt: Date
@@ -97,18 +126,6 @@ export enum ROLES {
      ADMIN = "ADMIN",
      USER = "USER",
      VIEWER = "VIEWER"
-}
-
-export type DublicateItem = {
-     name: string;
-     count: number;
-}
-
-export type Raport = {
-     dublicate: DublicateItem[]
-     incorrect: number,
-     unique: number
-     totalDublicate: number
 }
 
 
@@ -156,7 +173,7 @@ export enum KeyMainRaport {
      name = "name"
 }
 
-type FindInfoNumberHistories = {
+export type FindInfoNumberHistories = {
      operator: string,
      presentation_date: string,
      presentation_time: string,

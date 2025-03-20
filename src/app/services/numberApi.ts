@@ -1,4 +1,4 @@
-import { NumberAdd, NumberDelete, ParamlList, MainRaport, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile, TDataRaport } from "../types";
+import { NumberAdd, NumberDelete, ParamlList, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile, TDataRaport } from "../types";
 import { api } from "./api"
 
 

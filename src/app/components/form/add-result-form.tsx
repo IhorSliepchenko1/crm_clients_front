@@ -17,17 +17,12 @@ type Props = {
 
 type Data = { name: string }
 
-
-
 export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const form = useForm<Data>({
           mode: "uncontrolled",
           initialValues: { name: "-" },
           validate: {
-               name: (value) => (missingResult?.length === 0
-                    ? "Все необходимые результаты уже были добавлены!"
-                    : RESULT.indexOf(value) < 0
-                         ? "Данный результат добавить нельзя!" : null),
+               name: (value) => (value && missingResult?.length === 0 ? "Все необходимые результаты уже были добавлены!" : null),
           },
      });
 
@@ -39,7 +34,8 @@ export const AddResultForm: React.FC<Props> = ({ data, dataLoading }) => {
      const missingResult = useMemo(() => {
           if (data) {
                const existingResults = data.rows.map((item) => item.name)
-               const resultArray = RESULT.filter(item => {
+
+               const resultArray = Object.values(RESULT).filter(item => {
                     return existingResults.indexOf(item) < 0
                })
                return resultArray

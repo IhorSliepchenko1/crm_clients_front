@@ -43,10 +43,7 @@ export const data = (logoutSession: () => void) => {
           {
                label: "История",
                icon: TbHistory,
-               links: [
-                    { label: "Импорты", link: "/histories-import" },
-                    { label: "Удаления", link: "/histories-delete" },
-               ],
+               link: "/histories-import",
                access: [ROLES.ADMIN, ROLES.USER]
           },
 

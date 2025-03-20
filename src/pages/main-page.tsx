@@ -69,9 +69,9 @@ export const MainPage = () => {
               onChange={setValue}
               allowDeselect={false}
             />
-            <p>Рапорт был обновлён: {<b>{formatDate(dataRaport.lastUpdateRaport)}</b>} (Europe/Kiev)</p>
+            <p>Рапорт был обновлён: {<b>{formatDate(dataRaport.lastUpdateRaport)}</b>}</p>
             <div className="max-h-[550px] overflow-y-auto scroll-w">
-              <Table className="bg-white text-black" ref={pdfRef}>
+              <Table className="bg-white text-black border-style" ref={pdfRef}>
                 <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
                 <BodyRaport dataRaport={dataRaport.raport} sortKey={sortKey} sortOrder={sortOrder} />
               </Table>

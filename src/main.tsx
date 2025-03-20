@@ -13,7 +13,6 @@ import { Auth } from "./pages/auth";
 import { Users } from "./pages/users";
 import { City } from "./pages/city";
 import { TypeNumber } from "./pages/type-number";
-import { HistoriesDelete } from "./pages/histories-delete";
 import { HistoriesImport } from "./pages/histories-import";
 import { FilterDatabase } from "./pages/filter-database";
 import { MainPage } from "./pages/main-page";
@@ -67,10 +66,6 @@ const router = createBrowserRouter([
       {
         path: "/result-history",
         element: <ResultHistory />
-      },
-      {
-        path: "/histories-delete",
-        element: <HistoriesDelete />
       },
       {
         path: "/histories-import",
