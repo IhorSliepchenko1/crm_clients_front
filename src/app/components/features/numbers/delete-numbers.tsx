@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileInput } from '@mantine/core';
 import { useDeleteNumberMutation } from '../../../services/numberApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
@@ -7,16 +7,19 @@ import { ButtonSubmit } from '../../button/button-submit';
 import { useForm } from '@mantine/form';
 import { DontLeave } from '../../ui/dont-leave';
 import { useFileValidation } from '../../../hooks/useFileValidation';
+import { useAutoDownloadFile } from '../../../hooks/useAutoDownloadFile';
+import { BASE_URL } from '../../../../constants';
 
 export const DeleteNumbers = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { data: null as File | null },
     validate: {
-      data: (value) => (!value ? "Обязательное поле!" : null),
+      data: (value: any) => (!value ? "Обязательное поле!" : null),
     },
   })
   const [value, setValue] = useState<File | null>(null);
+  const [fileName, setFileName] = useState('')
   const [deleteFile, { isLoading }] = useDeleteNumberMutation()
   const { succeed, error } = useNotification()
 
@@ -28,8 +31,11 @@ export const DeleteNumbers = () => {
         await validateFile({ file: value, });
         const data = new FormData();
         data.append("data", value);
-        await deleteFile({ data }).unwrap();
+        const response = await deleteFile({ data }).unwrap();
+        console.log(response);
+
         succeed("Файл успешно импортирован");
+        setFileName(response)
         setValue(null)
         form.reset()
       }
@@ -41,6 +47,15 @@ export const DeleteNumbers = () => {
       error(errorMessages(err));
     }
   }
+
+  const { autoDownloadFile } = useAutoDownloadFile()
+
+  useEffect(() => {
+    if (fileName) {
+      autoDownloadFile(BASE_URL, fileName)
+    }
+    setFileName('')
+  }, [fileName])
 
   return (
     <div>

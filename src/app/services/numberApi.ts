@@ -1,4 +1,4 @@
-import { NumberAdd, NumberDelete, ParamlList, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile, TDataRaport } from "../types";
+import { NumberAdd, ParamlList, FindInfoNumber, TFindNumber, UpdateNumber, TRaportUpdateNumberFile, TDataRaport } from "../types";
 import { api } from "./api"
 
 
@@ -12,7 +12,7 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          deleteNumber: builder.mutation<NumberDelete, { data: FormData }>({
+          deleteNumber: builder.mutation<string, { data: FormData }>({
                query: ({ data }) => ({
                     url: "number/delete",
                     method: "POST",
