@@ -1,5 +1,5 @@
 import { useForm } from '@mantine/form';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAddResultHistoriesMutation } from '../../../services/resultHistoriesApi';
 import { useNotification } from '../../../hooks/useNotification/useNotification';
 import { useFileValidation } from '../../../hooks/useFileValidation';
@@ -7,10 +7,10 @@ import { errorMessages } from '../../../../utils/has-error-field';
 import { FileInput } from '@mantine/core';
 import { DontLeave } from '../../ui/dont-leave';
 import { ButtonSubmit } from '../../button/button-submit';
-import { RaportAddResultHistories } from '../../ui/raport-add-result-histories';
-import { RaportImport } from '../../../types';
 import { DownloadExampleCSV } from '../../ui/download-example-csv';
 import { useAddGuestMutation } from '../../../services/guestApi';
+import { useAutoDownloadFile } from '../../../hooks/useAutoDownloadFile';
+import { BASE_URL } from '../../../../constants';
 
 type Props = {
      type: "result" | "guest"
@@ -20,12 +20,11 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
      const form = useForm({
           mode: "uncontrolled",
           initialValues: { data: null as File | null },
-          validate: { data: (value) => (!value ? "Обязательное поле!" : null) },
+          validate: { data: (value: any) => (!value ? "Обязательное поле!" : null) },
      })
 
      const [value, setValue] = useState<File | null>(null);
-     const [raport, setRaport] = useState<RaportImport | null>(null)
-
+     const [fileName, setFileName] = useState('')
      const [addFileResult, { isLoading: isLoadingResult }] = useAddResultHistoriesMutation()
      const [addFileGuest, { isLoading: isLoadingGuest }] = useAddGuestMutation()
 
@@ -56,11 +55,10 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                     const data = new FormData();
                     data.append("data", value);
                     const response = await actions.add({ data }).unwrap();
-
-                    succeed("Файл успешно импортирован");
+                    succeed(response.message);
                     setValue(null)
+                    setFileName(response.fileNameErrorNumbers)
                     form.reset()
-                    setRaport(response)
                }
 
           } catch (err) {
@@ -69,6 +67,15 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                error(errorMessages(err));
           }
      }
+
+     const { autoDownloadFile } = useAutoDownloadFile()
+
+     useEffect(() => {
+          if (fileName) {
+               autoDownloadFile(BASE_URL, fileName)
+          }
+          setFileName('')
+     }, [fileName])
 
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -86,7 +93,7 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                <DontLeave />
                <ButtonSubmit loading={actions.loading} text="Добавить" />
 
-               {raport && <RaportAddResultHistories raport={raport} setRaport={setRaport} />}
+               {/* {raport && <RaportAddResultHistories raport={raport} setRaport={setRaport} />} */}
           </form>
      )
 }

@@ -71,8 +71,8 @@ export type ParamlList = {
 }
 
 export type RaportImport = {
-     import: number;
-     incorrect: number;
+     message: string;
+     fileNameErrorNumbers: string;
 }
 
 export type TRaportUpdateNumberFile = { changes: number, notFoundNumber: number }
@@ -104,6 +104,7 @@ export type ImportHistory = {
      import_status: Statuses
      import_type: ImportType
      login: string
+     file_name: string
      createdAt: Date
      updatedAt: Date
 }

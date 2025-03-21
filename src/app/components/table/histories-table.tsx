@@ -43,6 +43,7 @@ export const HistoriesTable = () => {
                     <Table.Td>{item.import_time}</Table.Td>
                     <Table.Td style={{ background: importStatusGradiens(item.import_status) }}>{item.import_status}</Table.Td>
                     <Table.Td style={{ background: item.import_type ? item.import_type.includes("ADD") ? "#2f9e44" : "#e03131" : '' }}>{item.import_type}</Table.Td>
+                    <Table.Td>{item.file_name}</Table.Td>
                     <Table.Td>{formatDate(item.updatedAt)}</Table.Td>
                </Table.Tr>
           ))
@@ -69,6 +70,7 @@ export const HistoriesTable = () => {
                               <Table.Th>Завершено за (сек)</Table.Th>
                               <Table.Th>Статус</Table.Th>
                               <Table.Th>Тип</Table.Th>
+                              <Table.Th>Имя файла</Table.Th>
                               <Table.Th>Дата</Table.Th>
                          </Table.Tr>
                     </Table.Thead>
