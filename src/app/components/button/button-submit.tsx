@@ -5,9 +5,10 @@ type Props = {
      disabled?: boolean
      text: string
      color?: string
+     size?: string
 }
 
-export const ButtonSubmit: React.FC<Props> = ({ loading, disabled = false, text, color }) => {
+export const ButtonSubmit: React.FC<Props> = ({ loading, disabled = false, text, color, size }) => {
      return (
           <Button
                type="submit"
@@ -15,6 +16,7 @@ export const ButtonSubmit: React.FC<Props> = ({ loading, disabled = false, text,
                loaderProps={{ type: "dots" }}
                disabled={disabled}
                color={color}
+               size={size}
           >
                {text}
           </Button>

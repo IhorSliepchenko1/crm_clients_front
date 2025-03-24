@@ -13,7 +13,7 @@ export const useFileValidation = () => {
                throw new Error("Данный формат не поддерживается!");
           }
 
-          if (file.size > 20_000_000) {
+          if (file.size > 25_000_000) {
                throw new Error("Максимальный объём файла 20мб");
           }
 

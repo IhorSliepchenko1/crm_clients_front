@@ -47,10 +47,9 @@ export const MainPage = () => {
   return (
     loadingRaport ? <LoaderComponent /> :
       <div className="flex flex-col gap-5">
-        <div className="flex justify-between items-center">
+        <div className="flex gap-2 items-center">
 
           <Button
-            variant="outline"
             color="green"
             size="xs"
             radius="xs"

@@ -16,7 +16,7 @@ export const UpdateNumberFile = () => {
           mode: "uncontrolled",
           initialValues: { data: null as File | null },
           validate: {
-               data: (value) => (!value ? "Обязательное поле!" : null),
+               data: (value: any) => (!value ? "Обязательное поле!" : null),
           },
      })
 
@@ -25,7 +25,7 @@ export const UpdateNumberFile = () => {
 
      const [update, { isLoading }] = useUpdateNumberFileMutation()
      const { succeed, error } = useNotification()
-     const headerCheck = ["number", "blocking_status"]
+     const headerCheck = ["number", "blocking_status", "full_name"]
 
      const validateFile = useFileValidation();
 

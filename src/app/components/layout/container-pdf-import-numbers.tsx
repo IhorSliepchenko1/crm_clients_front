@@ -9,7 +9,7 @@ export const ContainerPDFimportNumbers = forwardRef<HTMLDivElement, Props>(
           return (
                <div
                     ref={ref}
-                    className="flex flex-col justify-between min-w-[40vw] border-2 border-dashed p-4 bg-white text-black h-[65vh]"
+                    className="flex flex-col justify-between min-w-[40vw] border-2 border-dashed p-4 bg-white text-black"
                >
                     {children}
                </div>
