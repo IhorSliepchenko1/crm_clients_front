@@ -9,8 +9,12 @@ import { HeaderRaport } from "../app/components/table/header-raport"
 import { BodyRaport } from "../app/components/table/body-raport"
 import { useCalendarInputDate } from "../app/hooks/useCalendarInputDate"
 import { CreateRaport } from "../app/components/button/create-raport"
+import { useCheckValidToken } from "../app/hooks/useCheckValidToken"
+import { ROLES } from "../utils/role-list"
 
 export const MainPage = () => {
+  const { decoded } = useCheckValidToken()
+
   const [value, setValue] = useState<string | null>('Tashkent');
 
   const { data: dataCity, isLoading: loadingCity } = useGetAllCityQuery()
@@ -56,7 +60,7 @@ export const MainPage = () => {
             onClick={handleDownload}>
             скачать PDF
           </Button>
-          <CreateRaport city={value as string} />
+          {[ROLES.ADMIN, ROLES.USER].includes(decoded.role) && < CreateRaport city={value as string} />}
         </div>
         {
           dataRaport ? <div className="flex flex-col w-fit m-auto gap-2 pb-10">

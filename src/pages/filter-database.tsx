@@ -19,6 +19,7 @@ export const FilterDatabase = () => {
     mode: 'uncontrolled',
 
     validate: {
+      city: (value) => (!value ? "Обязательное поле!" : null),
       dob: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       update_count: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       first_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
