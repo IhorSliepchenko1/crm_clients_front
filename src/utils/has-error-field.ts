@@ -1,6 +1,9 @@
-function hasErrorField(err: unknown): err is {
+type TError = {
      data: { message: string }
-} {
+}
+
+const hasErrorField = (err: TError) => {
+
      return (
           typeof err === `object` &&
           err !== null &&
@@ -12,7 +15,11 @@ function hasErrorField(err: unknown): err is {
 }
 
 export const errorMessages = (err: any) => {
+     console.log(err);
+
      return hasErrorField(err)
           ? err?.data?.message
           : err?.message ?? "Что-то пошло не так. Попробуйте снова.";
 }
+
+
