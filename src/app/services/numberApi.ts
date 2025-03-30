@@ -19,13 +19,13 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          createRaport: builder.mutation({
+          createRaport: builder.mutation<{ message: string }, {}>({
                query: () => ({
                     url: "number/create-raport",
                     method: "POST",
                }),
           }),
-          exportFile: builder.mutation<string, { params: ParamlList }>({
+          exportFile: builder.mutation<{ fileName: string }, { params: ParamlList }>({
                query: ({ params }) => ({
                     url: "number/export-file",
                     method: "POST",

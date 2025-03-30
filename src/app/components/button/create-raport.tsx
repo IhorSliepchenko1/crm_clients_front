@@ -16,7 +16,7 @@ export const CreateRaport: React.FC<Props> = ({ city }) => {
           try {
                const response = await createRaport({}).unwrap();
                await triggerUpdateRaportHistories({ city }).unwrap();
-               succeed(response)
+               succeed(response.message)
           } catch (err) {
                error(errorMessages(err));
           }
