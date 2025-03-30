@@ -37,8 +37,9 @@ export const DeleteResultAndGuest: React.FC<Props> = ({ type }) => {
 
      const onSubmit = async (data: Data) => {
           try {
-               const response = await actions.delete(data).unwrap();
-               succeed(response)
+               const response = await actions.delete(data).unwrap() as { message: string }
+               succeed(response?.message)
+
                form.reset()
 
           } catch (err) {

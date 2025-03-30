@@ -50,7 +50,8 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                if (value) {
                     await validateFile({
                          file: value,
-                         headerCheck
+                         headerCheck,
+                         fileStatus: true
                     });
                     const data = new FormData();
                     data.append("data", value);

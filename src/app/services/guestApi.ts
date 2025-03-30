@@ -11,7 +11,7 @@ export const guestApi = api.injectEndpoints({
                }),
           }),
 
-          deleteGuest: builder.mutation<string, { fileName: string }>({
+          deleteGuest: builder.mutation<{ message: string }, { fileName: string }>({
                query: (fileName) => ({
                     url: "guest",
                     method: "DELETE",
