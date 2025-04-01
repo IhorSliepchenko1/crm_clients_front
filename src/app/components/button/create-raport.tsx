@@ -14,9 +14,9 @@ export const CreateRaport: React.FC<Props> = ({ city }) => {
 
      const onSubmit = async () => {
           try {
-               const response = await createRaport({}).unwrap();
+               const { message } = await createRaport({}).unwrap();
                await triggerUpdateRaportHistories({ city }).unwrap();
-               succeed(response.message)
+               succeed(message)
           } catch (err) {
                error(errorMessages(err));
           }

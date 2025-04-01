@@ -62,8 +62,8 @@ export const FilterDatabase = () => {
 
   const onSubmit = async (params: ParamlList) => {
     try {
-      const response = await exportFile({ params }).unwrap();
-      setFileName(response.fileName)
+      const { fileName } = await exportFile({ params }).unwrap();
+      setFileName(fileName)
       succeed("Файл успешно импортирован");
       form.reset()
 
@@ -83,7 +83,7 @@ export const FilterDatabase = () => {
   }, [fileName])
 
   const cleanForm = () => form.reset()
-  
+
   return (
 
     <Tabs defaultValue="main" variant="pills" radius="xs" >

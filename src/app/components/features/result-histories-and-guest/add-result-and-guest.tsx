@@ -55,10 +55,10 @@ export const AddResultAndGuest: React.FC<Props> = ({ type }) => {
                     });
                     const data = new FormData();
                     data.append("data", value);
-                    const response = await actions.add({ data }).unwrap();
-                    succeed(response.message);
+                    const { message, fileNameErrorNumbers } = await actions.add({ data }).unwrap();
+                    succeed(message);
                     setValue(null)
-                    setFileName(response.fileNameErrorNumbers)
+                    setFileName(fileNameErrorNumbers)
                     form.reset()
                }
 

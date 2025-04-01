@@ -31,11 +31,9 @@ export const DeleteNumbers = () => {
         await validateFile({ file: value, });
         const data = new FormData();
         data.append("data", value);
-        const response = await deleteFile({ data }).unwrap();
-        console.log(response);
-
+        const { message } = await deleteFile({ data }).unwrap();
         succeed("Файл успешно импортирован");
-        setFileName(response)
+        setFileName(message)
         setValue(null)
         form.reset()
       }

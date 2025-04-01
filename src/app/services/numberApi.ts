@@ -12,7 +12,7 @@ export const numberApi = api.injectEndpoints({
                     body: data,
                }),
           }),
-          deleteNumber: builder.mutation<string, { data: FormData }>({
+          deleteNumber: builder.mutation<{ message: string }, { data: FormData }>({
                query: ({ data }) => ({
                     url: "number/delete",
                     method: "POST",
