@@ -1,4 +1,4 @@
-import { Select, ComboboxItem, OptionsFilter, TextInput } from '@mantine/core';
+import { Select, ComboboxItem, OptionsFilter, TextInput, MultiSelect } from '@mantine/core';
 import { UseFormReturnType } from "@mantine/form"
 import { ButtonSubmit } from "../button/button-submit"
 import { ParamlList } from "../../types"
@@ -25,7 +25,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col 2xl:gap-5">
                <div className="2xl:flex justify-between items-center ">
-                    <Select
+                    <MultiSelect
                          key={form.key("city")}
                          {...form.getInputProps("city")}
                          placeholder="Tashkent"
@@ -34,7 +34,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          filter={optionsFilter}
                          searchable
                     />
-                    <Select
+                    <MultiSelect
                          key={form.key("result")}
                          {...form.getInputProps("result")}
                          placeholder="Согласие"
@@ -43,7 +43,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          filter={optionsFilter}
                          searchable
                     />
-                    <Select
+                    <MultiSelect
                          key={form.key("typeNumber")}
                          {...form.getInputProps("typeNumber")}
                          placeholder="Жёлтая_1"

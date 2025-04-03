@@ -58,9 +58,9 @@ export type NumberDelete = {
 }
 
 export type ParamlList = {
-     city?: string,
-     result?: string,
-     typeNumber?: string,
+     city?: string[],
+     result?: string[],
+     typeNumber?: string[],
      name?: string,
      dob?: string,
      blocking_status?: string,
