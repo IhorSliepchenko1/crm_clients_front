@@ -25,7 +25,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
      return (
           <form onSubmit={form.onSubmit(onSubmit)} className="flex flex-col 2xl:gap-5">
                <div className="2xl:flex justify-between items-center ">
-                    <MultiSelect
+                    <Select
                          key={form.key("city")}
                          {...form.getInputProps("city")}
                          placeholder="Tashkent"
@@ -37,7 +37,6 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                     <MultiSelect
                          key={form.key("result")}
                          {...form.getInputProps("result")}
-                         placeholder="Согласие"
                          label="Результат"
                          data={dataResult}
                          filter={optionsFilter}
@@ -46,7 +45,6 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                     <MultiSelect
                          key={form.key("typeNumber")}
                          {...form.getInputProps("typeNumber")}
-                         placeholder="Жёлтая_1"
                          label="Тип базы"
                          data={dataTypeNumber}
                          filter={optionsFilter}
