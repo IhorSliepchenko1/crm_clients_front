@@ -11,6 +11,7 @@ import { useCalendarInputDate } from "../app/hooks/useCalendarInputDate"
 import { CreateRaport } from "../app/components/button/create-raport"
 import { useCheckValidToken } from "../app/hooks/useCheckValidToken"
 import { ROLES } from "../utils/role-list"
+import { RESULT } from "../utils/result"
 
 export const MainPage = () => {
   const { decoded } = useCheckValidToken()
@@ -48,6 +49,32 @@ export const MainPage = () => {
 
   }, [loadingCity, dataCity])
 
+  const headerTotal = useMemo(() => {
+    if (dataRaport) {
+      return dataRaport.headerTotal
+    } else {
+      return {
+        all_numbers: 0,
+        remainder: 0,
+        [RESULT.AGREEMENT]: 0,
+        [RESULT.NOT_SURE]: 0,
+        [RESULT.REFUSAL]: 0,
+        [RESULT.ERROR_AGE]: 0,
+        [RESULT.ERROR_KM]: 0,
+        [RESULT.NOT_ANSWER]: 0,
+        guests: 0,
+        pairs: 0,
+        procentConsent: 0,
+        procentRemainder: 0,
+        numbersOneConsent: 0,
+        procentGuests: 0
+      }
+    }
+
+  }, [loadingRaport, dataRaport])
+
+
+
   return (
     loadingRaport ? <LoaderComponent /> :
       <div className="flex flex-col gap-5">
@@ -75,7 +102,7 @@ export const MainPage = () => {
             <p>Рапорт был обновлён: {<b>{formatDate(dataRaport.lastUpdateRaport)}</b>}</p>
             <div className="max-h-[550px] overflow-y-auto scroll-w">
               <Table className="bg-white text-black border-style" ref={pdfRef}>
-                <HeaderRaport sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
+                <HeaderRaport headerTotal={headerTotal} sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
                 <BodyRaport dataRaport={dataRaport.raport} sortKey={sortKey} sortOrder={sortOrder} />
               </Table>
             </div>

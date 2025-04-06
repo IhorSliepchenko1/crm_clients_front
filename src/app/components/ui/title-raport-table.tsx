@@ -9,13 +9,17 @@ type Props = {
      sortData: (key: KeyMainRaport) => void
      title: string
      background: string
+     numberTitle?: number | string
 }
 
-export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortData, title, background }) => {
+export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortData, title, background, numberTitle }) => {
      return (
           <Table.Th onClick={() => sortData(item)} style={{ background: background }}>
                <div className="flex items-center justify-center gap-1">
-                    <span className="text-wrap">{title}</span>
+                    <div className="grid justify-center items-center">
+                         <span className="text-wrap">{title}</span>
+                         <span className="text-wrap">{numberTitle}</span>
+                    </div>
                     <span>{sortKey === item ? sortOrder === "asc" ? <FaLongArrowAltUp /> : <FaLongArrowAltDown /> : ''}
                     </span>
                </div>

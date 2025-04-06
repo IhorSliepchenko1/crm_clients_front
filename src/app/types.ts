@@ -129,10 +129,8 @@ export enum ROLES {
      VIEWER = "VIEWER"
 }
 
-
-export type MainRaport = {
+export type ExampleRaport = {
      all_numbers: number
-     color: string
      guests: number
      pairs: number
      "Не уверенный": number
@@ -146,13 +144,18 @@ export type MainRaport = {
      procentGuests: number
      procentConsent: number
      numbersOneConsent: number
-     name: string
 }
 
+export type MainRaport = {
+     color: string
+     name: string
+} & ExampleRaport
 
 export type TDataRaport = {
      raport: MainRaport[]
      lastUpdateRaport: string
+     headerTotal: ExampleRaport
+
 }
 
 export enum KeyMainRaport {
