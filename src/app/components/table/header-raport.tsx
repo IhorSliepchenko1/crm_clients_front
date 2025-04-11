@@ -17,6 +17,7 @@ type HeaderData = {
      title: string,
      background: string
      numberTitle?: number | string
+     procent?: boolean
 }
 
 export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, headerTotal }) => {
@@ -25,10 +26,10 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, he
           { item: KeyMainRaport.name, title: "Название", background: '#000000' },
           { item: KeyMainRaport.all_numbers, title: `Всего`, background: '#5b5be3', numberTitle: headerTotal.all_numbers },
           { item: KeyMainRaport.remainder, title: `Остаток`, background: '#47478c', numberTitle: headerTotal.remainder },
-          { item: KeyMainRaport.procentRemainder, title: `% ост`, background: '#3434a4', numberTitle: ` ${headerTotal.procentRemainder.toFixed(2)} %` },
+          { item: KeyMainRaport.procentRemainder, title: `% ост`, background: '#3434a4', numberTitle: ` ${headerTotal.procentRemainder.toFixed(2)} %`, procent: true },
           { item: KeyMainRaport[RESULT.AGREEMENT], title: `Согласие`, background: '#036936', numberTitle: headerTotal[RESULT.AGREEMENT] },
           { item: KeyMainRaport[RESULT.NOT_SURE], title: `Не увере`, background: '#07934d', numberTitle: headerTotal[RESULT.NOT_SURE] },
-          { item: KeyMainRaport.procentConsent, title: `% согл`, background: '#014c26', numberTitle: `${headerTotal.procentConsent.toFixed(2)} %` },
+          { item: KeyMainRaport.procentConsent, title: `% согл`, background: '#014c26', numberTitle: `${headerTotal.procentConsent.toFixed(2)} %`, procent: true },
           { item: KeyMainRaport.numbersOneConsent, title: `номер/согл`, background: '#008080', numberTitle: headerTotal.numbersOneConsent.toFixed(2) },
           { item: KeyMainRaport[RESULT.REFUSAL], title: `Отказ`, background: '#ff0000', numberTitle: headerTotal[RESULT.REFUSAL] },
           { item: KeyMainRaport[RESULT.ERROR_AGE], title: `Ошибка(возр)`, background: '#e6572b', numberTitle: headerTotal[RESULT.ERROR_AGE] },
@@ -36,7 +37,7 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, he
           { item: KeyMainRaport[RESULT.NOT_ANSWER], title: `Но`, background: '#808080', numberTitle: headerTotal[RESULT.NOT_ANSWER] },
           { item: KeyMainRaport.guests, title: `Гости`, background: '#4caf50', numberTitle: headerTotal.guests },
           { item: KeyMainRaport.pairs, title: `Пары`, background: '#3d8340', numberTitle: headerTotal.pairs },
-          { item: KeyMainRaport.procentGuests, title: `% явки`, background: '#147218', numberTitle: `${headerTotal.procentGuests.toFixed(2)} %` },
+          { item: KeyMainRaport.procentGuests, title: `% явки`, background: '#147218', numberTitle: `${headerTotal.procentGuests.toFixed(2)} %`, procent: true },
      ]
 
      return (
@@ -53,6 +54,7 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, he
                                    title={item.title}
                                    background={item.background}
                                    numberTitle={item.numberTitle}
+                                   procent={item?.procent}
                               />
                          ))
                     }

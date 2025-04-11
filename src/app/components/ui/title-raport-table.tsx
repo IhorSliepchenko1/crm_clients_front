@@ -10,18 +10,19 @@ type Props = {
      title: string
      background: string
      numberTitle?: number | string
+     procent?: boolean
 }
 
-export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortData, title, background, numberTitle }) => {
+export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortData, title, background, numberTitle, procent = false }) => {
      return (
           <Table.Th onClick={() => sortData(item)} style={{ background: background }}>
                <div className="flex items-center justify-center gap-1">
                     <div className="grid justify-center items-center">
                          <span className="text-wrap">{title}</span>
                          <span className="text-wrap">
-                              <NumberFormatter value={numberTitle}
+                              {procent ? numberTitle : <NumberFormatter value={numberTitle}
                                    thousandSeparator=" "
-                                   decimalSeparator="," />
+                                   decimalSeparator="," />}
                          </span>
                     </div>
                     <span>{sortKey === item ? sortOrder === "asc" ? <FaLongArrowAltUp /> : <FaLongArrowAltDown /> : ''}
