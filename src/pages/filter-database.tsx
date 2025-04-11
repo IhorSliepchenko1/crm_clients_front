@@ -19,11 +19,11 @@ export const FilterDatabase = () => {
     mode: 'uncontrolled',
 
     validate: {
-      city: (value) => (!value ? "Обязательное поле!" : null),
+      // city: (value) => (!value ? "Обязательное поле!" : null),
       dob: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       update_count: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
-      typeNumber: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
-      result: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
+      // typeNumber: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
+      // result: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
       first_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       last_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
       presentation_date: (value) => (value && (value.split(".").length > 3 || value.split(".").length < 3) ? "Заполните как указано в примере!" : null),

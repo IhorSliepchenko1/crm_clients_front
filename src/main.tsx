@@ -87,7 +87,7 @@ if (container) {
           <RouterProvider router={router} />
         </AuthGuard>
       </MantineProvider>
-    </Provider>,
+    </Provider>
   )
 } else {
   throw new Error(

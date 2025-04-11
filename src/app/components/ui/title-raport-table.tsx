@@ -1,6 +1,6 @@
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa"
 import { KeyMainRaport } from "../../types"
-import { Table } from "@mantine/core"
+import { NumberFormatter, Table } from "@mantine/core"
 
 type Props = {
      sortKey: KeyMainRaport | null
@@ -18,7 +18,11 @@ export const ThRaportTable: React.FC<Props> = ({ sortKey, item, sortOrder, sortD
                <div className="flex items-center justify-center gap-1">
                     <div className="grid justify-center items-center">
                          <span className="text-wrap">{title}</span>
-                         <span className="text-wrap">{numberTitle}</span>
+                         <span className="text-wrap">
+                              <NumberFormatter value={numberTitle}
+                                   thousandSeparator=" "
+                                   decimalSeparator="," />
+                         </span>
                     </div>
                     <span>{sortKey === item ? sortOrder === "asc" ? <FaLongArrowAltUp /> : <FaLongArrowAltDown /> : ''}
                     </span>
