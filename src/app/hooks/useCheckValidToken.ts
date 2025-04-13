@@ -9,6 +9,7 @@ type DecodedToken = {
      id: number;
      login: string;
      role: ROLES;
+     key: "2429197680" | null
 }
 
 export const useCheckValidToken = () => {
@@ -24,6 +25,7 @@ export const useCheckValidToken = () => {
                     id: 0,
                     login: "",
                     role: ROLES.VIEWER,
+                    key: null
                }
           }
      }, [token])
