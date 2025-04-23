@@ -3,46 +3,59 @@ import html2canvas from "html2canvas";
 
 type Props = {
      pdfRef: React.RefObject<HTMLDivElement | HTMLTableElement | null>,
-     width?: number,
-     margin_x_y?: number
-     orientation?: "landscape" | "portrait"
-     fileName: string
+     margin_x_y?: number, // отступы в мм
+     orientation?: "landscape" | "portrait" | 'l',
+     fileName: string,
      scale?: number
 }
 
-export const useDownloadPDF = (
-     {
-          pdfRef,
-          width = 200,
-          margin_x_y = 0.25,
-          orientation = "landscape",
-          fileName,
-          scale = 1.5
-     }: Props) => {
+export const useDownloadPDF = ({
+     pdfRef,
+     margin_x_y = 10,
+     orientation = "portrait",
+     fileName,
+     scale = 2
+}: Props) => {
 
      const downloadPDF = async () => {
           if (!pdfRef.current) return;
-          // передаём ref еллементов  и объект scale для улучшения качества
-          const canvas = await html2canvas(pdfRef.current, { scale }); // Генерация canvas          
-          const imgData = canvas.toDataURL("image/jpg"); // Преобразование в PNG
-          console.log(canvas.height, canvas.width);
 
-          const pdfWidth = width;
-          const maxHeight = 297; // A4 высота
-          const pdfHeight = Math.min((canvas.height * pdfWidth) / canvas.width, maxHeight);
-          const margin = margin_x_y
+          // Рендер с масштабом
+          const canvas = await html2canvas(pdfRef.current, {
+               scale,
+               scrollY: -window.scrollY,
+               windowWidth: document.documentElement.scrollWidth,
+               windowHeight: document.documentElement.scrollHeight,
+          });
 
+          // Возвращаем позицию
+          const imgData = canvas.toDataURL("image/jpeg");
           const pdf = new jsPDF({
                orientation,
                unit: "mm",
-               format: [pdfWidth + margin * 2, pdfHeight + margin * 2]
+               format: "a4"
           });
 
-          // изображение, формат изо, 2 маржина (X, Y), ширина, высота изо
-          pdf.addImage(imgData, "JPG", margin, margin, pdfWidth, pdfHeight);
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+
+          const availableWidth = pageWidth - margin_x_y * 2;
+          const availableHeight = pageHeight - margin_x_y * 2;
+
+          const ratio = Math.min(
+               availableWidth / canvas.width,
+               availableHeight / canvas.height
+          );
+
+          const imgWidth = canvas.width * ratio;
+          const imgHeight = canvas.height * ratio;
+
+          const x = (pageWidth - imgWidth) / 2;
+          const y = (pageHeight - imgHeight) / 2;
+
+          pdf.addImage(imgData, "JPEG", x, y, imgWidth, imgHeight);
           pdf.save(`${fileName}.pdf`);
-     }
+     };
 
-
-     return { downloadPDF }
+     return { downloadPDF };
 };

@@ -1,5 +1,5 @@
 import { Button, Divider, NumberFormatter } from "@mantine/core"
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDownloadPDF } from "../../hooks/useDownloadPDF";
 import { ContainerPDFimportNumbers } from "../layout/container-pdf-import-numbers";
 import { NumberAdd } from "../../types";
@@ -13,11 +13,12 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
 
      const { downloadPDF } = useDownloadPDF({
           pdfRef,
-          fileName: "raport"
+          fileName: "raport",
+          orientation: 'landscape'
      })
-
      const handleDownload = () => downloadPDF();
-     const handleClose = () => setRaport(null)
+     ;
+     const handleClose = () => setRaport(null);
 
      const buttons = [
           { color: "green", text: "скачать PDF", onClick: handleDownload },
@@ -54,7 +55,8 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                          </Button>
                     ))}
                </div>
-               <ContainerPDFimportNumbers ref={pdfRef}>
+               <ContainerPDFimportNumbers ref={pdfRef} >
+
                     <div>
                          <div className="flex justify-between font-bold">
                               <p>Категория</p>
