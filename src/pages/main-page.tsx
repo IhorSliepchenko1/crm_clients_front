@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Button, Select, Table } from "@mantine/core"
 import { useGetAllCityQuery } from "../app/services/cityApi"
 import { useGetRaportQuery } from "../app/services/numberApi"
@@ -23,14 +23,22 @@ export const MainPage = () => {
 
   const [sortKey, setSortKey] = useState<KeyMainRaport | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sticky, setSticky] = useState(true)
   const pdfRef = useRef<HTMLTableElement>(null)
   const { formatDate } = useCalendarInputDate()
+  const wait = (ms: number) => new Promise(res => setTimeout(res, ms));
 
   const { downloadPDF } = useDownloadPDF({
     pdfRef,
     fileName: value ? value : 'raport'
   })
-  const handleDownload = () => downloadPDF();
+  const handleDownload = async () => {
+    setSticky(false)
+    await wait(100)
+    downloadPDF();
+    setSticky(true)
+
+  }
 
   const sortData = (key: KeyMainRaport) => {
     if (sortKey === key) {
@@ -74,7 +82,6 @@ export const MainPage = () => {
   }, [loadingRaport, dataRaport])
 
 
-
   return (
     loadingRaport ? <LoaderComponent /> :
       <div className="flex flex-col gap-5">
@@ -102,7 +109,7 @@ export const MainPage = () => {
             <p>Рапорт был обновлён: {<b>{formatDate(dataRaport.lastUpdateRaport)}</b>}</p>
             <div className="max-h-[550px] overflow-y-auto scroll-w">
               <Table className="bg-white text-black border-style" ref={pdfRef}>
-                <HeaderRaport headerTotal={headerTotal} sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} />
+                <HeaderRaport headerTotal={headerTotal} sortKey={sortKey} sortOrder={sortOrder} sortData={sortData} sticky={sticky} />
                 <BodyRaport dataRaport={dataRaport.raport} sortKey={sortKey} sortOrder={sortOrder} />
               </Table>
             </div>

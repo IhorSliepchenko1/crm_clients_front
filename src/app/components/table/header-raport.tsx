@@ -10,6 +10,7 @@ type Props = {
      sortOrder: "asc" | "desc"
      sortData: (key: KeyMainRaport) => void
      headerTotal: ExampleRaport
+     sticky: boolean
 }
 
 type HeaderData = {
@@ -20,7 +21,7 @@ type HeaderData = {
      procent?: boolean
 }
 
-export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, headerTotal }) => {
+export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, headerTotal, sticky }) => {
 
      const headerData: HeaderData[] = [
           { item: KeyMainRaport.name, title: "Название", background: '#000000' },
@@ -42,7 +43,7 @@ export const HeaderRaport: React.FC<Props> = ({ sortKey, sortOrder, sortData, he
 
      return (
           <Table.Thead >
-               <Table.Tr className="text-white text-[12px] sticky -top-1">
+               <Table.Tr className={`text-white text-[12px] ${sticky ? "sticky -top-1" : ""}`}>
                     {
                          headerData.map((item, index) => (
                               <ThRaportTable

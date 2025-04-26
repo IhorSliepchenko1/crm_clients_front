@@ -1,7 +1,5 @@
 import { Button, Divider, NumberFormatter } from "@mantine/core"
-import { useEffect, useMemo, useRef } from "react";
-import { useDownloadPDF } from "../../hooks/useDownloadPDF";
-import { ContainerPDFimportNumbers } from "../layout/container-pdf-import-numbers";
+import { useMemo, } from "react";
 import { NumberAdd } from "../../types";
 
 type Props = {
@@ -9,21 +7,9 @@ type Props = {
      raport: NumberAdd
 };
 export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
-     const pdfRef = useRef<HTMLDivElement>(null)
 
-     const { downloadPDF } = useDownloadPDF({
-          pdfRef,
-          fileName: "raport",
-          orientation: 'landscape'
-     })
-     const handleDownload = () => downloadPDF();
-     ;
      const handleClose = () => setRaport(null);
 
-     const buttons = [
-          { color: "green", text: "скачать PDF", onClick: handleDownload },
-          { color: "red", text: "закрыть", onClick: handleClose },
-     ]
 
      const totalInfo = [
           { text: "К-во дублей в базе", value: raport.importHistory.duplicates_in_base },
@@ -42,20 +28,17 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
 
      return (
           <div>
-               <div className="flex justify-between my-5">
-                    {buttons.map((item, index) => (
-                         <Button
-                              key={index}
-                              variant="outline"
-                              color={item.color}
-                              size="xs"
-                              radius="xs"
-                              onClick={item.onClick}>
-                              {item.text}
-                         </Button>
-                    ))}
+               <div className="flex justify-end my-5">
+                    <Button
+                         variant="outline"
+                         color="red"
+                         size="xs"
+                         radius="xs"
+                         onClick={handleClose}>
+                         закрыть
+                    </Button>
                </div>
-               <ContainerPDFimportNumbers ref={pdfRef} >
+               <div className="flex flex-col justify-between min-w-[40vw] border-2 p-4 bg-white text-black"  >
 
                     <div>
                          <div className="flex justify-between font-bold">
@@ -63,7 +46,7 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                               <p>К-во дублей</p>
                          </div>
                          <Divider my="xs" />
-                         <div >
+                         <div className="max-h-[30vh] overflow-auto p-3">
                               {filterNull.map(item => (
                                    <div key={item.name + item.count} className="flex justify-between pb-0.5">
                                         <p className="pr-7">{item.name}</p>
@@ -77,7 +60,7 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                               ))}
                          </div>
                     </div>
-
+                    <Divider my="xs" />
                     <div className="flex flex-col gap-2 font-bold">
                          {totalInfo.map((item, index) => (
                               <div key={index} className="flex justify-between">
@@ -91,7 +74,7 @@ export const RaportAddNumber: React.FC<Props> = ({ raport, setRaport }) => {
                               </div>
                          ))}
                     </div>
-               </ContainerPDFimportNumbers>
+               </div>
           </div>
      )
 }

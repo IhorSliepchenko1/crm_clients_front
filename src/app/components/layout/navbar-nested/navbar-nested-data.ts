@@ -46,7 +46,6 @@ export const data = (logoutSession: () => void) => {
                link: "/histories-import",
                access: [ROLES.ADMIN, ROLES.USER]
           },
-
           {
                label: "Выйти",
                icon: CiLogout,
