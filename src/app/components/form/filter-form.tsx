@@ -41,7 +41,9 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          data={dataResult}
                          filter={optionsFilter}
                          searchable
+                         className='max-w-[300px]'
                     />
+
                     <MultiSelect
                          key={form.key("typeNumber")}
                          {...form.getInputProps("typeNumber")}
@@ -49,6 +51,7 @@ export const FilterForm: React.FC<Props> = ({ form, onSubmit, isLoading, dataCit
                          data={dataTypeNumber}
                          filter={optionsFilter}
                          searchable
+                         className='max-w-[500px]'
                     />
                     <TextInput
                          key={form.key("dob")}
