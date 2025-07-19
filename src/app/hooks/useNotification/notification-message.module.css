@@ -1,0 +1,15 @@
+.root {
+  background-color: var(--notification-color, var(--mantine-primary-color-filled));
+}
+.root::before {
+  background-color: var(--mantine-color-white);
+}
+
+.description,
+.title {
+  color: var(--mantine-color-white);
+}
+
+.closeButton {
+  color: var(--mantine-color-white);
+}/*# sourceMappingURL=notification-message.module.css.map */

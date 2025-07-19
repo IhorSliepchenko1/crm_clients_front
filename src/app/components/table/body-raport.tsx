@@ -1,4 +1,4 @@
-import { NumberFormatter, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
 import { useMemo } from 'react'
 import { KeyMainRaport, MainRaport } from '../../types';
 import { RESULT } from '../../../utils/result';

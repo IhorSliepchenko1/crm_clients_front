@@ -10,7 +10,7 @@ import { Statuses } from "../../types";
 
 export const HistoriesTable = () => {
      const [page, setPage] = useState(1);
-     const limit = 20;
+     const limit = 30;
      const { data, isLoading } = useAllImportHistoriesQuery({ limit, page });
 
      const { formatDate } = useCalendarInputDate();
@@ -43,7 +43,7 @@ export const HistoriesTable = () => {
                     <Table.Td>{item.import_time}</Table.Td>
                     <Table.Td style={{ background: importStatusGradiens(item.import_status) }}>{item.import_status}</Table.Td>
                     <Table.Td style={{ background: item.import_type ? item.import_type.includes("ADD") ? "#006013" : "#ab0000" : '' }}>{item.import_type}</Table.Td>
-                    <Table.Td>{item.file_name}</Table.Td>
+                    <Table.Td className="text-wrap max-w-[165px]">{item.file_name}</Table.Td>
                     <Table.Td>{formatDate(item.updatedAt)}</Table.Td>
                </Table.Tr>
           ))
