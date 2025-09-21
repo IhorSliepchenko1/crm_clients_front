@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button, Select, Table } from "@mantine/core";
 import { useGetAllCityQuery } from "../app/services/cityApi";
 import { useGetRaportQuery } from "../app/services/numberApi";

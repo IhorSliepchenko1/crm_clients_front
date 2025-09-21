@@ -4,32 +4,31 @@ import { useMemo } from "react";
 import { ROLES } from "../types";
 
 type DecodedToken = {
-     exp: number;
-     iat: number;
-     id: number;
-     login: string;
-     role: ROLES;
-     key: "2429197680" | null
-}
+  exp: number;
+  iat: number;
+  id: number;
+  login: string;
+  role: ROLES;
+  key: "2429197680" | null;
+};
 
 export const useCheckValidToken = () => {
-     const { token } = useAppSelector((state) => state.auth)
+  const { token } = useAppSelector((state) => state.auth);
 
-     const decoded: DecodedToken = useMemo(() => {
-          if (typeof token === `string`) {
-               return jwtDecode(token);
-          } else {
-               return {
-                    exp: 0,
-                    iat: 0,
-                    id: 0,
-                    login: "",
-                    role: ROLES.VIEWER,
-                    key: null
-               }
-          }
-     }, [token])
+  const decoded: DecodedToken = useMemo(() => {
+    if (typeof token === `string`) {
+      return jwtDecode(token);
+    } else {
+      return {
+        exp: 0,
+        iat: 0,
+        id: 0,
+        login: "",
+        role: ROLES.VIEWER,
+        key: null,
+      };
+    }
+  }, [token]);
 
-     return { decoded }
-
-}
+  return { decoded };
+};

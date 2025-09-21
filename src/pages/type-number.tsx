@@ -1,10 +1,10 @@
-import { Divider } from "@mantine/core"
-import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi"
-import { ItemComponent } from "../app/components/features/item/item-component"
-import { AddTypeNumberForm } from "../app/components/form/add-type-number"
+import { Divider } from "@mantine/core";
+import { useGetAllTypeNumberQuery } from "../app/services/typeNumberApi";
+import { ItemComponent } from "../app/components/features/item/item-component";
+import { AddTypeNumberForm } from "../app/components/form/add-type-number";
 
 export const TypeNumber = () => {
-  const { data, isLoading } = useGetAllTypeNumberQuery()
+  const { data, isLoading } = useGetAllTypeNumberQuery();
 
   return (
     <>
@@ -17,5 +17,5 @@ export const TypeNumber = () => {
         isLoading={isLoading}
       />
     </>
-  )
-}
+  );
+};

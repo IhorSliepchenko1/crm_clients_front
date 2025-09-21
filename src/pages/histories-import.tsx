@@ -1,5 +1,5 @@
-import { HistoriesTable } from "../app/components/table/histories-table"
+import { HistoriesTable } from "../app/components/table/histories-table";
 
 export const HistoriesImport = () => {
-  return (<HistoriesTable />)
-}
+  return <HistoriesTable />;
+};

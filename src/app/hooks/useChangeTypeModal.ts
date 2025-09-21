@@ -1,21 +1,21 @@
-import { useState } from "react"
+import { useState } from "react";
 
 type Props = {
-     open: () => void
-}
+  open: () => void;
+};
 
 export const useChangeTypeModal = ({ open }: Props) => {
-     const [typeModal, setTypeModal] = useState<"delete" | "update">("update")
+  const [typeModal, setTypeModal] = useState<"delete" | "update">("update");
 
-     const openUpdateModal = () => {
-          setTypeModal("update")
-          open()
-     }
+  const openUpdateModal = () => {
+    setTypeModal("update");
+    open();
+  };
 
-     const openDeleteModal = () => {
-          setTypeModal("delete")
-          open()
-     }
+  const openDeleteModal = () => {
+    setTypeModal("delete");
+    open();
+  };
 
-     return { typeModal, openUpdateModal, openDeleteModal }
-}
+  return { typeModal, openUpdateModal, openDeleteModal };
+};

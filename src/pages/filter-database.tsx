@@ -1,4 +1,4 @@
-import { useExportFileMutation } from "../app/services/numberApi"
+import { useExportFileMutation } from "../app/services/numberApi";
 import { useForm } from "@mantine/form";
 import { errorMessages } from "../utils/has-error-field";
 import { useNotification } from "../app/hooks/useNotification/useNotification";
@@ -16,93 +16,112 @@ import { useAutoDownloadFile } from "../app/hooks/useAutoDownloadFile";
 
 export const FilterDatabase = () => {
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
 
     validate: {
       // city: (value) => (!value ? "Обязательное поле!" : null),
-      dob: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
-      update_count: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
+      dob: (value) =>
+        value && (value.split("-").length > 2 || value.split("-").length < 2)
+          ? "Заполните как указано в примере!"
+          : null,
+      update_count: (value) =>
+        value && (value.split("-").length > 2 || value.split("-").length < 2)
+          ? "Заполните как указано в примере!"
+          : null,
       // typeNumber: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
       // result: (value) => (value && (value.length > 3) ? "Нельзя передать более 3 агументов!" : null),
-      first_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
-      last_call_date: (value) => (value && (value.split("-").length > 2 || value.split("-").length < 2) ? "Заполните как указано в примере!" : null),
-      presentation_date: (value) => (value && (value.split(".").length > 3 || value.split(".").length < 3) ? "Заполните как указано в примере!" : null),
+      first_call_date: (value) =>
+        value && (value.split("-").length > 2 || value.split("-").length < 2)
+          ? "Заполните как указано в примере!"
+          : null,
+      last_call_date: (value) =>
+        value && (value.split("-").length > 2 || value.split("-").length < 2)
+          ? "Заполните как указано в примере!"
+          : null,
+      presentation_date: (value) =>
+        value && (value.split(".").length > 3 || value.split(".").length < 3)
+          ? "Заполните как указано в примере!"
+          : null,
     },
   });
 
-  const [exportFile, { isLoading }] = useExportFileMutation()
-  const { succeed, error } = useNotification()
-  const [fileName, setFileName] = useState('')
+  const [exportFile, { isLoading }] = useExportFileMutation();
+  const { succeed, error } = useNotification();
+  const [fileName, setFileName] = useState("");
 
-  const { data: city, isLoading: loadingCity } = useGetAllCityQuery()
-  const { data: typeNumber, isLoading: loadingTypeNumber } = useGetAllTypeNumberQuery()
-  const { data: result, isLoading: loadingResult } = useGetAllResultQuery()
+  const { data: city, isLoading: loadingCity } = useGetAllCityQuery();
+  const { data: typeNumber, isLoading: loadingTypeNumber } =
+    useGetAllTypeNumberQuery();
+  const { data: result, isLoading: loadingResult } = useGetAllResultQuery();
 
   const dataCity = useMemo(() => {
     if (city) {
-      const data = city.rows.map((item) => item.name)
-      return data
+      const data = city.rows.map((item) => item.name);
+      return data;
     }
-  }, [loadingCity, city])
-
+  }, [loadingCity, city]);
 
   const dataTypeNumber = useMemo(() => {
     if (typeNumber) {
-      const data = typeNumber.rows.map((item) => item.name)
-      return data
+      const data = typeNumber.rows.map((item) => item.name);
+      return data;
     }
-  }, [loadingTypeNumber, typeNumber])
+  }, [loadingTypeNumber, typeNumber]);
 
   const dataResult = useMemo(() => {
     if (result) {
-      const data = result.rows.map((item) => item.name)
-      const dataCopy = JSON.parse(JSON.stringify(data))
-      dataCopy.push('Не звонили')
-      return dataCopy
+      const data = result.rows.map((item) => item.name);
+      const dataCopy = JSON.parse(JSON.stringify(data));
+      dataCopy.push("Не звонили");
+      return dataCopy;
     }
-  }, [loadingResult, result])
+  }, [loadingResult, result]);
 
   const onSubmit = async (params: ParamlList) => {
     try {
       const { fileName } = await exportFile({ params }).unwrap();
-      setFileName(fileName)
+      setFileName(fileName);
       succeed("Файл успешно импортирован");
-      form.reset()
-
+      form.reset();
     } catch (err) {
-      form.reset()
+      form.reset();
       error(errorMessages(err));
     }
-  }
+  };
 
-  const { autoDownloadFile } = useAutoDownloadFile()
+  const { autoDownloadFile } = useAutoDownloadFile();
 
   useEffect(() => {
     if (fileName) {
-      autoDownloadFile(BASE_URL, fileName)
+      autoDownloadFile(BASE_URL, fileName);
     }
-    setFileName('')
-  }, [fileName])
+    setFileName("");
+  }, [fileName]);
 
-  const cleanForm = () => form.reset()
+  const cleanForm = () => form.reset();
 
   return (
-
-    <Tabs defaultValue="main" variant="pills" radius="xs" >
+    <Tabs defaultValue="main" variant="pills" radius="xs">
       <Tabs.List>
-        <Tabs.Tab value="main" color="green" >
+        <Tabs.Tab value="main" color="green">
           Поиск базы/номера
         </Tabs.Tab>
-        <Tabs.Tab value="changes">
-          блок/разблок через файл
-        </Tabs.Tab>
+        <Tabs.Tab value="changes">блок/разблок через файл</Tabs.Tab>
       </Tabs.List>
 
-      <Tabs.Panel value="main" className='p-5'>
+      <Tabs.Panel value="main" className="p-5">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col">
             <div className="flex justify-end">
-              <Button variant="filled" color="gray" size="xs" radius="md" onClick={cleanForm}>очистить</Button>
+              <Button
+                variant="filled"
+                color="gray"
+                size="xs"
+                radius="md"
+                onClick={cleanForm}
+              >
+                очистить
+              </Button>
             </div>
             <FilterForm
               form={form}
@@ -123,11 +142,9 @@ export const FilterDatabase = () => {
         </div>
       </Tabs.Panel>
 
-      <Tabs.Panel value="changes" className='p-5'>
+      <Tabs.Panel value="changes" className="p-5">
         <UpdateNumberFile />
       </Tabs.Panel>
     </Tabs>
-  )
-}
-
-
+  );
+};
